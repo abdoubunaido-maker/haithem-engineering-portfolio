@@ -9,7 +9,7 @@ The GitHub repository was created at: https://github.com/abdoubunaido-maker/hait
 3. Upload the *contents* of the extracted `haithem-engineering-portfolio` folder (including `index.html`, `README.md`, and the project folders) to the repository root.
 4. Commit the changes to the `main` branch.
 
-Keep the `projects/`, `assets/`, `project-template/`, and `website/` directories at the repository root. Do not upload the ZIP itself as a substitute for its extracted contents.
+Keep the `projects/`, `assets/`, and `project-template/` directories at the repository root. The primary Pages homepage is `index.html` at the repository root; the separate `website/` folder is not needed for publishing. Do not upload the ZIP itself as a substitute for its extracted contents.
 
 ## 2. Personalize it
 

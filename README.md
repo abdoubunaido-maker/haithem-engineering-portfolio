@@ -32,7 +32,17 @@ This repository is a curated record of selected projects, methods, and technical
 
 **Project notes:** [Open the project page](projects/riyah-hawt-design/README.md)
 
-### 3. CFD and fluid-mechanics studies
+
+### 3. Rocketry — Two separate rocket simulation studies
+Two distinct rocket models, each documented separately for CAD preparation, compressible external-flow CFD, and composite-fin structural analysis. Their material layups and results are not combined.
+
+- **Study 1:** 3 mm wood core with glass-fibre layers listed at 500 and 240 g/m²; its report discusses a peak fin stress of about 9.99 MPa against an estimated 13.4 MPa allowable stress.
+- **Study 2:** 2 mm wood core with 240 g/m² glass-fibre layers; its stress plot displays 875.42 MPa and its deformation plot displays 9.5887 mm, without a documented allowable-stress comparison in the report text.
+- Both reports describe SolidWorks geometry preparation, quarter-domain CFD in ANSYS Fluent, and composite-fin structural simulation in ANSYS Workbench / ACP Mechanical.
+
+**Project notes:** [Rocketry overview](projects/rocketry-cad-cfd-structural/README.md) · [Study 1](projects/rocketry-study-01/README.md) · [Study 2](projects/rocketry-study-02/README.md)
+
+### 4. CFD and fluid-mechanics studies
 A growing collection of technical studies, numerical setups, and explanations related to fluid mechanics, turbulence modelling, boundary layers, and engineering simulation.
 
 **Project notes:** [Open the studies page](projects/cfd-studies/README.md)
@@ -48,7 +58,7 @@ A growing collection of technical studies, numerical setups, and explanations re
 
 ## Tools and methods
 
-`Python` · `Streamlit` · `ANSYS Fluent` · `SimScale` · `XFOIL` · `XFLR5` · `SolidWorks` · `BEM` · `Differential evolution`
+`Python` · `Streamlit` · `ANSYS Fluent` · `ANSYS Mechanical` · `ACP Mechanical` · `SimScale` · `XFOIL` · `XFLR5` · `SolidWorks` · `BEM` · `Differential evolution`
 
 Tools are listed in relation to projects documented here; this is not a claim of equal proficiency in every tool.
 
@@ -61,10 +71,15 @@ Tools are listed in relation to projects documented here; this is not a claim of
 ├── projects/
 │   ├── formula-student-aerodynamics/
 │   ├── riyah-hawt-design/
+│   ├── rocketry-cad-cfd-structural/
+│   ├── rocketry-study-01/
+│   ├── rocketry-study-02/
 │   └── cfd-studies/
 ├── project-template/
-├── website/
 └── assets/
+    └── rocketry/
+        ├── study-1/
+        └── study-2/
 ```
 
 ## Contact and links
