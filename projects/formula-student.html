@@ -1,0 +1,904 @@
+<!doctype html>
+<html lang="en" data-theme="dark">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Formula Student Aerodynamics — Haithem Benaida</title>
+<meta name="description" content="Design and CFD evaluation of a downforce-driven aero package for a Formula Student car: drag-power budget, XFOIL screening, 27 parametric 2D CFD runs, PSO custom airfoils, 3D and full-vehicle CFD, underbody devices and lap-time simulation.">
+<meta name="author" content="Haithem Abd Allah Benaida">
+<meta property="og:title" content="Formula Student Aerodynamics — ENP Racing Team">
+<meta property="og:description" content="A downforce package derived from a drag-power budget: 460 N downforce for 296 N drag, C_L 3.35 with underbody devices, and a 2.4% simulated lap-time gain.">
+<meta property="og:image" content="../assets/formula-student/car-wings-pressure-3d.png">
+<link rel="stylesheet" href="../assets/css/site.css">
+<link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'><rect width='32' height='32' rx='8' fill='%235eead4'/><text x='16' y='22' font-family='monospace' font-size='16' font-weight='bold' text-anchor='middle' fill='%2304211d'>HB</text></svg>">
+</head>
+<body>
+<a class="skip" href="#main">Skip to content</a>
+
+<nav class="nav">
+  <div class="wrap nav-in">
+    <a class="brand" href="../index.html"><span class="brand-mark">HB</span> Haithem Benaida</a>
+    <div class="nav-links" id="navLinks">
+      <a href="../index.html#work">Work</a>
+      <a href="formula-student.html" aria-current="page">Formula Student</a>
+      <a href="riyah.html">Riyah</a>
+      <a href="rocketry.html">Rocketry</a>
+      <a href="../cv.html">CV</a>
+      <a href="../index.html#contact">Contact</a>
+    </div>
+    <button class="icon-btn nav-toggle" id="navToggle" aria-label="Toggle navigation" aria-expanded="false">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M3 6h18M3 12h18M3 18h18"/></svg>
+    </button>
+    <button class="icon-btn" id="themeBtn" aria-label="Switch theme"></button>
+  </div>
+</nav>
+
+<header class="hero">
+  <div class="wrap">
+    <div class="eyebrow">Case study · Vehicle aerodynamics</div>
+    <h1 style="max-width:20ch">Formula Student<br><span class="grad">aero package.</span></h1>
+    <p class="lede">
+      Design and CFD evaluation of a downforce-driven aerodynamic package for a low-speed,
+      corner-dominated race car — developed from the rulebook and a power budget upwards,
+      then tested against lap time rather than against a force number.
+    </p>
+    <div class="chips">
+      <span class="chip chip-accent">Role: Head of Aerodynamics</span>
+      <span class="chip">ENP Racing Team</span>
+      <span class="chip">École Nationale Polytechnique, Algiers</span>
+      <span class="chip">October 2026</span>
+      <span class="badge sim">Simulation study</span>
+    </div>
+  </div>
+</header>
+
+<main id="main" class="wrap">
+  <div class="report">
+    <div class="report-main">
+
+      <!-- ============ 1. Overview ============ -->
+      <section id="overview">
+        <div class="eyebrow">01 · Overview</div>
+        <h2 style="margin-top:.55rem">The argument in one paragraph</h2>
+        <p>
+          Formula Student circuits are slow and corner-dominated, so the car is
+          <strong>traction-limited, not power-limited</strong>: the engine sits at wide-open throttle
+          only 15–20% of a lap. That single observation sets the whole design direction — buy tyre
+          grip with downforce and pay for it in drag, because drag is cheap at these speeds. The
+          study derives how much drag is affordable, designs the rear wing first as the stable
+          primary device, then sizes the front wing to place the centre of pressure where the
+          chassis wants it.
+        </p>
+
+        <figure class="figure">
+          <div class="figure-media">
+            <img src="../assets/formula-student/underbody-devices.png" alt="Side view of the Formula Student car CAD with the complete aerodynamic package: front wing, rear wing on swan-neck mounts, side diffusers and underbody walls.">
+          </div>
+          <figcaption><span class="fig-num">Fig 1</span>The complete package on the vehicle geometry — front wing with footplate, three-element rear wing on swan-neck mounts, lateral side diffusers and vertical underbody walls.</figcaption>
+        </figure>
+
+        <div class="metrics" style="margin:1.8rem 0">
+          <div class="metric">
+            <span class="metric-val">460<span class="unit">N</span></span>
+            <span class="metric-label">Downforce, wings</span>
+            <span class="metric-note">against 296 N drag</span>
+          </div>
+          <div class="metric">
+            <span class="metric-val">2.69</span>
+            <span class="metric-label">C<sub>L</sub> with wings</span>
+            <span class="metric-note">C<sub>D</sub> = 1.73</span>
+          </div>
+          <div class="metric">
+            <span class="metric-val">3.35</span>
+            <span class="metric-label">C<sub>L</sub> full package</span>
+            <span class="metric-note">C<sub>D</sub> ≈ 1.70 — drag unchanged</span>
+          </div>
+          <div class="metric">
+            <span class="metric-val">1.97</span>
+            <span class="metric-label">Final C<sub>L</sub>/C<sub>D</sub></span>
+            <span class="metric-note">up from 1.56, wings only</span>
+          </div>
+          <div class="metric">
+            <span class="metric-val">−2.12<span class="unit">s</span></span>
+            <span class="metric-label">Lap-time gain</span>
+            <span class="metric-note">86.71 → 84.59 s (−2.4%)</span>
+          </div>
+        </div>
+
+        <div class="callout warn">
+          <span class="callout-title">Read this first</span>
+          <p class="mb-0">
+            This is a <strong>theoretical study of the design process</strong>. Every value on this page
+            comes from simulation. There is no wind-tunnel or on-track validation, and the full-car
+            geometry used components that were not yet in their final form. The results are meaningful
+            as <em>relative comparisons between configurations run under identical assumptions</em> —
+            not as predictions of competition performance.
+          </p>
+        </div>
+      </section>
+
+      <!-- ============ 2. Constraints ============ -->
+      <section id="constraints">
+        <div class="eyebrow">02 · Constraints</div>
+        <h2 style="margin-top:.55rem">The rules decide the shape before physics does</h2>
+        <p>
+          Aerodynamic devices are bounded by a technical envelope, a dimensional envelope and a
+          structural test. Working inside them from the start avoids designing a wing that cannot
+          be raced.
+        </p>
+        <div class="table-wrap">
+          <table>
+            <caption><span class="fig-num">Table 1</span>Constraint envelope used to bound the design.</caption>
+            <thead><tr><th>Constraint</th><th>Requirement</th><th>Design consequence</th></tr></thead>
+            <tbody>
+              <tr><td>Powered devices</td><td>No powered aerodynamic device (e.g. suction fan)</td><td>All downforce must be passive</td></tr>
+              <tr><td>Front device height</td><td>&lt; 500 mm above ground; &lt; 250 mm if outboard ahead of the front axle</td><td>Low, wide front wing with footplate</td></tr>
+              <tr><td>Rear device height</td><td>&lt; 1.1 m</td><td>Sets rear-wing mounting height</td></tr>
+              <tr><td>Width</td><td>Above 500 mm: within the inner edge of the rear tyres</td><td>Rear track 1350 mm − 2×190 mm tyre ⇒ <strong>≈1160 mm usable span</strong></td></tr>
+              <tr><td>Longitudinal</td><td>≤ 700 mm ahead of front tyres; ≤ 250 mm behind rear tyres</td><td>Bounds wing overhang and moment arm</td></tr>
+              <tr><td>Edge radii</td><td>≥ 5 mm horizontal, ≥ 3 mm vertical on forward-facing edges</td><td>Leading edges cannot be arbitrarily sharp</td></tr>
+              <tr><td>Main load test</td><td>200 N over ≥ 225 cm², deflection ≤ 10 mm</td><td>Drives rib and mount stiffness</td></tr>
+              <tr><td>Point load test</td><td>50 N anywhere, deflection ≤ 25 mm</td><td>Local skin and rib sizing</td></tr>
+            </tbody>
+          </table>
+          <div class="table-note">Deflection limits scale proportionally if a lower test force is applied. Suspension travel is excluded from the measurement.</div>
+        </div>
+        <p>
+          The span limit matters more than it looks. Lift coefficient scales roughly with
+          <span class="v">1/(1 + 2/AR)</span>, so using the whole permitted width is the cheapest
+          efficiency gain available — it reduces induced drag without touching the section design.
+        </p>
+      </section>
+
+      <!-- ============ 3. Strategy ============ -->
+      <section id="strategy">
+        <div class="eyebrow">03 · Strategy</div>
+        <h2 style="margin-top:.55rem">Step 1 — how much drag can we afford?</h2>
+        <p>
+          Power absorbed by drag grows with the cube of speed. With air density
+          ρ = 1.225 kg/m³ and <span class="v">P</span> in kW:
+        </p>
+        <div class="eq">
+          <span class="eq-body"><i>P</i> = ½ ρ <i>C<sub>D</sub> A v</i><sup>3</sup> ≈ <span class="frac"><span><i>C<sub>D</sub> A v</i><sup>3</sup></span><span>1633</span></span></span>
+          <span class="eq-num">Eq. 1</span>
+        </div>
+        <p>
+          The car is assumed to run a CBR600RR engine developing <strong>51.5 kW at 8000 rpm</strong>.
+          With about 12% drivetrain loss, <strong>45.32 kW</strong> reaches the wheels. Taking a baseline
+          drag area from comparable cars (C<sub>D</sub> = 0.83, A = 0.9 m², 2003 Monash FS) at the
+          track's typical maximum of 120 km/h (33.3 m/s), the power left over for drag-inducing devices is:
+        </p>
+        <div class="eq">
+          <span class="eq-body"><i>P<sub>s</sub></i> = <i>P<sub>E</sub></i> − <span class="frac"><span><i>C<sub>D</sub> A v</i><sup>3</sup></span><span>1633</span></span> = <strong>28.382 kW</strong></span>
+          <span class="eq-num">Eq. 2</span>
+        </div>
+        <p>
+          Inverting Eq. 1 for that budget gives the rear-wing drag area the design is allowed to spend —
+          the number that sizes the whole rear wing:
+        </p>
+        <div class="eq">
+          <span class="eq-body"><i>C</i><sub>D,R</sub><i>A</i><sub>R</sub> = <span class="frac"><span>1633 <i>P<sub>s</sub></i></span><span><i>v</i><sup>3</sup></span></span> = <strong>1.25 m²</strong></span>
+          <span class="eq-num">Eq. 3</span>
+        </div>
+
+        <div class="callout result">
+          <span class="callout-title">Why this is the right way round</span>
+          <p class="mb-0">
+            Roughly <strong>28.4 of the 45.3 kW</strong> at the wheels can be spent on wing drag without
+            hurting top speed or acceleration. That is a very large allowance, and it is what justifies
+            an aggressive multi-element package instead of a low-drag one. The budget is set
+            <em>before</em> any geometry exists.
+          </p>
+        </div>
+
+        <h3>Checking the trade-off analytically</h3>
+        <p>
+          Two closed-form studies test the premise before any CFD. Integrating the constant-power
+          acceleration equation gives the time to reach a speed as a function of drag area; balancing
+          tyre friction against centripetal demand gives the cornering speed as a function of downforce:
+        </p>
+        <div class="eq">
+          <span class="eq-body"><i>v</i><sub>max</sub> = √<span class="sqrt"><span class="frac"><span>μ<sub>f</sub> <i>m g</i></span><span><span class="frac"><span><i>m</i></span><span><i>r</i></span></span> − ½ μ<sub>f</sub> ρ <i>C<sub>L</sub> A</i></span></span></span></span>
+          <span class="eq-num">Eq. 4</span>
+        </div>
+        <div class="fig-pair">
+          <figure class="figure">
+            <div class="figure-media dark-bg"><img src="../assets/formula-student/acceleration-vs-drag.png" alt="Velocity against time curves for several drag areas, showing that extra drag barely changes acceleration in the Formula Student speed range."></div>
+            <figcaption><span class="fig-num">Fig 2</span>Acceleration is almost insensitive to drag across the FSAE speed range. Only an extreme C<sub>D</sub>A = 2.5 m² meaningfully caps top speed.</figcaption>
+          </figure>
+          <figure class="figure">
+            <div class="figure-media dark-bg"><img src="../assets/formula-student/cornering-speed.png" alt="Maximum cornering speed against corner radius for a range of downforce coefficients, showing higher downforce raises corner speed."></div>
+            <figcaption><span class="fig-num">Fig 3</span>Cornering speed rises steadily with downforce coefficient across typical FSAE corner radii — the benefit the package is buying.</figcaption>
+          </figure>
+        </div>
+
+        <h3>Rear wing first, front wing to balance</h3>
+        <p>
+          The rear wing operates in a steadier environment and is insensitive to steering, so it is
+          fixed first at the maximum usable downforce. The front wing then supplies whatever is needed
+          to place the centre of pressure — around <strong>40% of total downforce at the front</strong> —
+          rather than maximising its own force. Balance is a prescribed input, not an outcome:
+        </p>
+        <div class="eq">
+          <span class="eq-body"><i>X</i><sub>CoP</sub> = <span class="frac"><span><i>F<sub>f</sub> x<sub>f</sub></i> + <i>F<sub>r</sub> x<sub>r</sub></i></span><span><i>F<sub>f</sub></i> + <i>F<sub>r</sub></i></span></span></span>
+          <span class="eq-num">Eq. 5</span>
+        </div>
+        <figure class="figure">
+          <div class="figure-media"><img src="../assets/formula-student/design-workflow.png" alt="Flowchart of the aerodynamic design workflow, from targets and constraints through rear wing design, front wing balancing and validation." style="max-height:560px;width:auto;margin-inline:auto"></div>
+          <figcaption><span class="fig-num">Fig 4</span>The top-down workflow: define targets and constraints → size the rear wing → balance with the front wing → validate in 3D and against lap time.</figcaption>
+        </figure>
+      </section>
+
+      <!-- ============ 4. Airfoil screening ============ -->
+      <section id="screening">
+        <div class="eyebrow">04 · Step 2a</div>
+        <h2 style="margin-top:.55rem">Screening 24 airfoils with automated XFOIL</h2>
+        <p>
+          Candidate sections were filtered from the Airfoil Tools database using established
+          low-Reynolds-number wing design rules, then pulled down by a Python script. A batch
+          framework ran every candidate through XFOIL under identical conditions so the comparison
+          would be fair:
+        </p>
+        <ul>
+          <li><strong>Re = 300,000</strong>, transition forced at 50% chord on both surfaces</li>
+          <li>Angle-of-attack sweep from <strong>−4° to 20°</strong></li>
+          <li>Repeated at panel counts <strong>N = 160 → 300</strong> to check panel dependence</li>
+          <li>Polars post-processed in MATLAB for direct comparison</li>
+        </ul>
+        <p>
+          The chord choice itself is Reynolds-driven: at a typical cornering speed of 16 m/s with
+          c = 0.4 m and ν = 1.4207×10⁻⁵ m²/s, <span class="v">Re = Uc/ν ≈ 4.5×10⁵</span>. A longer chord
+          raises Re, delays separation and softens stall — which is why the larger chords were
+          carried forward later.
+        </p>
+
+        <div class="table-wrap">
+          <table>
+            <caption><span class="fig-num">Table 2</span>Best XFOIL candidates at Re = 300,000.</caption>
+            <thead><tr><th>Airfoil</th><th class="num">C<sub>L,max</sub></th><th>Stall behaviour</th><th>Outcome</th></tr></thead>
+            <tbody>
+              <tr><td>FX74CL5140-IL</td><td class="num">2.29</td><td>Gradual</td><td>Highest peak lift</td></tr>
+              <tr class="best"><td>S1223</td><td class="num">2.23</td><td>Gradual</td><td><strong>Selected as starting point</strong></td></tr>
+              <tr><td>FX74MODSM-IL</td><td class="num">2.12</td><td>Moderate</td><td>Reserve</td></tr>
+              <tr><td>E420-IL</td><td class="num">2.10</td><td>More abrupt</td><td>Used as the fixed flap section in 2D</td></tr>
+              <tr><td>S1210 12%</td><td class="num">2.05</td><td>Moderate</td><td>Not carried forward</td></tr>
+            </tbody>
+          </table>
+          <div class="table-note">Most candidates peaked between 12° and 14° incidence.</div>
+        </div>
+
+        <div class="fig-pair">
+          <figure class="figure">
+            <div class="figure-media"><img src="../assets/formula-student/xfoil-s1223-cl.png" alt="Lift coefficient against angle of attack for the S1223 airfoil at five panel counts from 160 to 300, curves closely overlapping."></div>
+            <figcaption><span class="fig-num">Fig 5</span>S1223 lift curve. The five panel-count runs collapse onto one another — the result is panel-independent.</figcaption>
+          </figure>
+          <figure class="figure">
+            <div class="figure-media"><img src="../assets/formula-student/xfoil-s1223-ld.png" alt="Lift-to-drag ratio against angle of attack for the S1223 airfoil at five panel counts."></div>
+            <figcaption><span class="fig-num">Fig 6</span>S1223 efficiency curve, peaking near 5° before falling away towards stall.</figcaption>
+          </figure>
+        </div>
+        <div class="fig-pair">
+          <figure class="figure">
+            <div class="figure-media"><img src="../assets/formula-student/xfoil-fx74-cl.png" alt="Lift coefficient against angle of attack for the FX74CL5140-IL airfoil at five panel counts."></div>
+            <figcaption><span class="fig-num">Fig 7</span>FX74CL5140-IL reaches the highest peak lift of the set (C<sub>L,max</sub> = 2.29).</figcaption>
+          </figure>
+          <figure class="figure">
+            <div class="figure-media dark-bg"><img src="../assets/formula-student/s1223-profile.png" alt="The S1223 airfoil profile plotted in XFOIL, showing strong rearward camber and a thin trailing edge."></div>
+            <figcaption><span class="fig-num">Fig 8</span>The S1223 section: heavily cambered, with the very thin trailing edge that later caused trouble.</figcaption>
+          </figure>
+        </div>
+
+        <div class="callout">
+          <span class="callout-title">Engineering judgement</span>
+          <p class="mb-0">
+            S1223 looked best in XFOIL, but it was <strong>not</strong> adopted directly. XFOIL tends to
+            over-predict lift and delay separation, and its thin trailing edge is both a manufacturing
+            risk and a poor partner for a slotted multi-element assembly. It was kept as a
+            <em>starting point</em> for 2D CFD and later customisation — a good example of not letting a
+            cheap tool make the final decision.
+          </p>
+        </div>
+      </section>
+
+      <!-- ============ 5. 2D CFD ============ -->
+      <section id="cfd2d">
+        <div class="eyebrow">05 · Step 2b</div>
+        <h2 style="margin-top:.55rem">27 parametric 2D CFD runs in ANSYS Fluent</h2>
+        <p>
+          The three-element assembly was studied in 2D to isolate how geometry and incidence drive
+          loading, without the cost and interference of a full 3D model. A fully structured mesh was
+          used with a refined near-field and a coarsened far-field, and inflation layers on every
+          element held <strong>y⁺ &lt; 3</strong>.
+        </p>
+        <div class="fig-pair">
+          <figure class="figure">
+            <div class="figure-media"><img src="../assets/formula-student/mesh-2d-domain.png" alt="Structured C-type two-dimensional mesh around the three-element wing, refined near the elements and coarsened towards the far field."></div>
+            <figcaption><span class="fig-num">Fig 9</span>Structured 2D domain: near-field refinement around the elements, coarse far-field for efficiency.</figcaption>
+          </figure>
+          <figure class="figure">
+            <div class="figure-media"><img src="../assets/formula-student/mesh-inflation.png" alt="Close-up of inflation layers resolving the boundary layer at the rounded trailing edge of a wing element."></div>
+            <figcaption><span class="fig-num">Fig 10</span>Inflation layers at the rounded trailing edge, resolving the boundary layer to y⁺ &lt; 3.</figcaption>
+          </figure>
+        </div>
+
+        <h3>Design variables</h3>
+        <p>
+          To keep the comparison clean, <strong>E420-IL was fixed for all flap elements</strong>, so
+          airfoil-to-airfoil variation could not skew the trends. The sweep then varied:
+        </p>
+        <ul>
+          <li><strong>Mainplane chord:</strong> 350, 400 and 450 mm</li>
+          <li><strong>Flap incidences:</strong> α<sub>F1</sub> = 25/30/35°, α<sub>F2</sub> = 55/60/65°</li>
+          <li><strong>Slot gap and overlap</strong> in a follow-up sweep on the best configuration</li>
+        </ul>
+        <figure class="figure">
+          <div class="figure-media"><img src="../assets/formula-student/slot-gap-sketch.png" alt="CAD sketch defining the slot gap and overlap between adjacent wing elements." style="max-height:340px;width:auto;margin-inline:auto"></div>
+          <figcaption><span class="fig-num">Fig 11</span>Slot gap and overlap definition. Rotating a flap changes the slot shape and convergence ratio as a side effect — an intrinsic coupling that had to be accounted for.</figcaption>
+        </figure>
+
+        <div class="panel">
+          <div class="panel-head">
+            <div>
+              <h4>Explore the 2D design space</h4>
+              <p>All 27 Fluent runs from Tables 4–6 of the report. Hover or focus a point for its full setup.</p>
+            </div>
+            <div class="toggle-group" role="group" aria-label="Filter by mainplane chord">
+              <button data-chord="all" aria-pressed="true">All</button>
+              <button data-chord="350" aria-pressed="false">350 mm</button>
+              <button data-chord="400" aria-pressed="false">400 mm</button>
+              <button data-chord="450" aria-pressed="false">450 mm</button>
+            </div>
+          </div>
+          <svg id="designScatter" class="chart" role="img" aria-label="Scatter plot of downforce against lift-to-drag ratio for 27 two-dimensional CFD configurations, grouped by mainplane chord."></svg>
+          <div class="legend">
+            <span><i style="background:var(--danger)"></i>c = 350 mm</span>
+            <span><i style="background:var(--accent-2)"></i>c = 400 mm</span>
+            <span><i style="background:var(--accent)"></i>c = 450 mm</span>
+            <span><i style="background:transparent;border:1.5px dashed var(--accent)"></i>carried forward to 3D</span>
+          </div>
+          <p id="scatterTip" class="muted" style="font-size:.84rem;margin:12px 0 0;min-height:2.6em">
+            The 450 mm chord dominates the upper-right region: more downforce <em>and</em> better efficiency.
+          </p>
+        </div>
+
+        <h3>What the sweep showed</h3>
+        <ol>
+          <li><strong>Downforce scales with mainplane chord</strong> — 450 mm was best on both force and efficiency.</li>
+          <li><strong>The mainplane carries 75–80% of the load.</strong> The first flap contributes little and the second almost nothing at small chords; the flaps only develop real suction peaks at c = 450 mm.</li>
+          <li><strong>α<sub>F1</sub> = 25° is the limit.</strong> Beyond it the first flap separates early: downforce falls and drag rises.</li>
+          <li><strong>Weak flap suction peaks indicated a choked slot jet</strong> — the slot was not feeding enough high-energy flow to the downstream element.</li>
+        </ol>
+
+        <div class="fig-pair">
+          <figure class="figure">
+            <div class="figure-media"><img src="../assets/formula-student/cfd2d-velocity-c3.png" alt="Velocity magnitude contours around the three-element wing at 450 mm mainplane chord, showing accelerated flow through the slots."></div>
+            <figcaption><span class="fig-num">Fig 12</span>Velocity magnitude, c = 450 mm. The slot jets re-energise the downstream boundary layers.</figcaption>
+          </figure>
+          <figure class="figure">
+            <div class="figure-media"><img src="../assets/formula-student/cfd2d-pressure-c3.png" alt="Static pressure contours around the three-element wing at 450 mm mainplane chord, showing strong suction beneath the mainplane."></div>
+            <figcaption><span class="fig-num">Fig 13</span>Static pressure for the same run — the mainplane's suction surface dominates the loading.</figcaption>
+          </figure>
+        </div>
+        <figure class="figure">
+          <div class="figure-media dark-bg"><img src="../assets/formula-student/cp-three-elements.png" alt="Pressure coefficient distribution over the main element and two flaps, showing the main element carrying most of the load."></div>
+          <figcaption><span class="fig-num">Fig 14</span>C<sub>p</sub> across the three elements (c = 450 mm). The area under the main-element curve dwarfs the flaps — the quantitative basis for the 75–80% finding.</figcaption>
+        </figure>
+
+        <h3>Fixing the choked slot</h3>
+        <p>
+          Because the second flap showed the weakest suction, its slot gap and overlap were opened up
+          first. The CFD confirmed the mechanism: more high-energy air reaches the second element,
+          the boundary layer stays attached longer, and pressure recovery becomes gentler. The force
+          change in 2D was small — but the flow quality gain was expected to matter more in 3D.
+        </p>
+        <div class="table-wrap">
+          <table>
+            <caption><span class="fig-num">Table 3</span>Second-flap slot sweep and final pitch-stability check (c = 450 mm). Magnitudes.</caption>
+            <thead><tr><th>Config</th><th class="num">α<sub>ME</sub></th><th class="num">OL2 [mm]</th><th class="num">SG2 [mm]</th><th class="num">Downforce [N]</th><th class="num">Drag [N]</th><th class="num">C<sub>L</sub></th><th class="num">C<sub>L</sub>/C<sub>D</sub></th></tr></thead>
+            <tbody>
+              <tr><td>10</td><td class="num">0°</td><td class="num">12</td><td class="num">6</td><td class="num">369.9</td><td class="num">10.85</td><td class="num">5.242</td><td class="num">34.1</td></tr>
+              <tr><td>12</td><td class="num">0°</td><td class="num">12</td><td class="num">4</td><td class="num">369.4</td><td class="num">10.70</td><td class="num">5.235</td><td class="num">34.5</td></tr>
+              <tr class="best"><td>14</td><td class="num">0°</td><td class="num">14</td><td class="num">4</td><td class="num">371.9</td><td class="num">10.53</td><td class="num">5.271</td><td class="num">35.3</td></tr>
+              <tr><td>15</td><td class="num">0°</td><td class="num">12</td><td class="num">6</td><td class="num">375.0</td><td class="num">10.79</td><td class="num">5.315</td><td class="num">34.8</td></tr>
+              <tr><td>16</td><td class="num">+2°</td><td class="num">8</td><td class="num">4</td><td class="num">380.9</td><td class="num">11.23</td><td class="num">5.398</td><td class="num">33.9</td></tr>
+              <tr><td>17</td><td class="num">−2°</td><td class="num">8</td><td class="num">4</td><td class="num">355.4</td><td class="num">9.57</td><td class="num">5.037</td><td class="num">37.2</td></tr>
+            </tbody>
+          </table>
+          <div class="table-note">
+            Configs 15–17 are a pitch-stability check: ±2° on the main element brackets the ride-height
+            variation the car will see. Peak downforce (16) and peak efficiency (17) are different
+            configurations — the choice between them is a vehicle-level decision, not a wing-level one.
+            2D values are per-unit-span section results and are not directly comparable to 3D forces.
+          </div>
+        </div>
+
+        <div class="callout warn">
+          <span class="callout-title">Data integrity note</span>
+          <p class="mb-0">
+            In the source report, Table 6 configuration 9 repeats the values of Table 5 configuration 9
+            (297.3 N, C<sub>L</sub> = 4.740, C<sub>L</sub>/C<sub>D</sub> = 21.1). It is shown outlined in
+            amber in the chart above rather than silently corrected. That row should be re-checked
+            against the original Fluent case before being relied on.
+          </p>
+        </div>
+      </section>
+
+      <!-- ============ 6. Custom airfoils ============ -->
+      <section id="custom">
+        <div class="eyebrow">06 · Step 2c</div>
+        <h2 style="margin-top:.55rem">Designing sections instead of choosing them</h2>
+        <p>
+          Catalogue airfoils are optimised for someone else's Reynolds number and duty. With the 2D
+          trends understood, a Python-based airfoil editor was used to design purpose-built sections —
+          first with <strong>particle swarm optimisation</strong> targeting downforce at low incidence
+          and gentler post-stall behaviour, then with <strong>manual Bézier refinement</strong> to
+          enforce trailing-edge thickness and geometric safety limits.
+        </p>
+        <figure class="figure">
+          <div class="figure-media dark-bg"><img src="../assets/formula-student/airfoil-editor-pso.png" alt="Screenshot of the custom airfoil editing tool showing particle swarm optimisation of an airfoil shape with operating points and geometry targets."></div>
+          <figcaption><span class="fig-num">Fig 15</span>The airfoil editor running PSO: shape parameters, operating points and geometry targets driven together.</figcaption>
+        </figure>
+        <div class="fig-pair">
+          <figure class="figure">
+            <div class="figure-media dark-bg"><img src="../assets/formula-student/custom3-profile.png" alt="The Custom 3 rear-wing main element airfoil profile, derived from S1223 with more rearward camber and a thickened trailing edge."></div>
+            <figcaption><span class="fig-num">Fig 16</span><strong>Custom 3</strong> — rear-wing main element. S1223-derived, with camber shifted rearward to move the suction peak aft and a thickened trailing edge for manufacturability.</figcaption>
+          </figure>
+          <figure class="figure">
+            <div class="figure-media dark-bg"><img src="../assets/formula-student/front-wing-main-profile.png" alt="The highly cambered front-wing main element airfoil profile designed for ground effect."></div>
+            <figcaption><span class="fig-num">Fig 17</span>Front-wing main element — high camber to exploit ground effect, with a straight trailing region that conditions flow for the next element.</figcaption>
+          </figure>
+        </div>
+        <p>
+          Each element got a section matched to its job. Rear-wing flaps use a thin trailing edge and
+          rounded leading edge to raise the slot convergence ratio. The front-wing first flap is
+          strongly rear-cambered so it turns the flow parallel to the second flap's leading edge —
+          because on a front wing, <em>the wake it sends downstream matters as much as the force it makes</em>.
+        </p>
+      </section>
+
+      <!-- ============ 7. 3D wing ============ -->
+      <section id="wing3d">
+        <div class="eyebrow">07 · Step 3a</div>
+        <h2 style="margin-top:.55rem">3D wing CFD, endplates and mounts</h2>
+        <p>
+          Only configurations that had already proved efficient in 2D reached this stage. The isolated
+          rear wing was run in <strong>SimScale</strong> with the <strong>k–ω SST</strong> turbulence
+          model — chosen for adverse-pressure-gradient and separation prediction — and a near-wall
+          mesh targeting <strong>y⁺ &lt; 1</strong>.
+        </p>
+        <div class="table-wrap">
+          <table>
+            <caption><span class="fig-num">Table 4</span>3D computational setup, scaled on wing chord <span class="v">c</span>.</caption>
+            <thead><tr><th>Boundary</th><th>Placement / setting</th><th>Reason</th></tr></thead>
+            <tbody>
+              <tr><td>Inlet</td><td>3 c upstream</td><td>Let the incoming flow develop</td></tr>
+              <tr><td>Outlet</td><td>8 c downstream</td><td>Room for the wake to develop and dissipate</td></tr>
+              <tr><td>Upper &amp; lateral</td><td>3 c from the wing</td><td>Limit blockage and artificial boundary interaction</td></tr>
+              <tr><td>Turbulence</td><td>k–ω SST</td><td>k–ω near the wall, k–ε in the free stream</td></tr>
+              <tr><td>Near-wall</td><td>y⁺ &lt; 1</td><td>Resolve wall shear stress rather than model it</td></tr>
+              <tr><td>Mesh</td><td>Unstructured, refined at surfaces and in the wake</td><td>Conform to high-curvature leading/trailing edges</td></tr>
+            </tbody>
+          </table>
+        </div>
+        <div class="fig-pair">
+          <figure class="figure">
+            <div class="figure-media"><img src="../assets/formula-student/domain-3d-wing.png" alt="The rectangular three-dimensional fluid domain around the isolated rear wing in SimScale, with inlet and outlet markers."></div>
+            <figcaption><span class="fig-num">Fig 18</span>Isolated-wing domain, sized in chord lengths (no ground effect at this stage).</figcaption>
+          </figure>
+          <figure class="figure">
+            <div class="figure-media"><img src="../assets/formula-student/yplus-map.png" alt="Wall y-plus distribution over the rear wing surfaces, showing values kept below one across the faces."></div>
+            <figcaption><span class="fig-num">Fig 19</span>Wall y⁺ map — the near-wall resolution target verified across the wing faces, not just assumed.</figcaption>
+          </figure>
+        </div>
+        <figure class="figure">
+          <div class="figure-media"><img src="../assets/formula-student/mesh-3d-wing.png" alt="Surface and volume mesh around the rear wing in SimScale, refined near the elements and in the wake region."></div>
+          <figcaption><span class="fig-num">Fig 20</span>Mesh refinement at the surfaces and downstream, resolving separation and the turbulent wake.</figcaption>
+        </figure>
+
+        <h3>Endplates: deeper is not automatically better</h3>
+        <p>
+          Endplates sustain the pressure difference across the wing by blocking tip spillage. Their
+          first-order effect is an increase in effective aspect ratio:
+        </p>
+        <div class="eq">
+          <span class="eq-body"><i>AR</i><sub>eff</sub> = <i>AR</i><sub>actual</sub> <span style="font-size:1.15em">(</span>1 + 1.9 <span class="frac"><span><i>h</i></span><span><i>b</i></span></span><span style="font-size:1.15em">)</span></span>
+          <span class="eq-num">Eq. 6</span>
+        </div>
+        <p>
+          But that formula suggests "deeper is always better", and published CFD says otherwise:
+          an intermediate depth can outperform a much deeper plate, because the vortex curling under
+          the bottom edge energises the flow beneath the suction surface. The design therefore treats
+          depth as a parameter to optimise, not maximise — which also saves weight and lowers the
+          centre of gravity.
+        </p>
+        <figure class="figure">
+          <div class="figure-media"><img src="../assets/formula-student/endplate-sketch.png" alt="Dimensioned CAD sketch of the first rear-wing endplate design, with depth, length and mounting features annotated in millimetres." style="max-height:420px;width:auto;margin-inline:auto"></div>
+          <figcaption><span class="fig-num">Fig 21</span>Parametrised endplate sketch (mm). The plate is extended downwards to double as a structural support for the wing.</figcaption>
+        </figure>
+
+        <div class="callout">
+          <span class="callout-title">Swan-neck mounts</span>
+          <p class="mb-0">
+            On an inverted wing the <strong>lower surface is the suction surface</strong> — the most
+            aerodynamically sensitive region. A conventional underside mount sits directly in that
+            high-velocity flow and can trigger premature separation. Top-mounted "swan-neck" supports
+            move the obstruction to the pressure side, where it costs far less.
+          </p>
+        </div>
+
+        <h3>Standard vs custom sections in 3D</h3>
+        <div class="table-wrap">
+          <table>
+            <caption><span class="fig-num">Table 5</span>Isolated rear-wing 3D CFD — standard against custom airfoils. Efficiency = C<sub>L</sub>/C<sub>D</sub>.</caption>
+            <thead><tr><th>Main element</th><th>Flaps</th><th class="num">α<sub>ME</sub>/α<sub>F1</sub>/α<sub>F2</sub></th><th class="num">C<sub>L</sub></th><th class="num">C<sub>D</sub></th><th class="num">Efficiency</th></tr></thead>
+            <tbody>
+              <tr><td>Custom 1</td><td>Custom 2</td><td class="num">0/35/58°</td><td class="num">3.09</td><td class="num">0.97</td><td class="num">3.186</td></tr>
+              <tr class="best"><td>S1223</td><td>FX 63-137</td><td class="num">0/35/60°</td><td class="num">3.47</td><td class="num">1.08</td><td class="num">3.212</td></tr>
+              <tr><td>Custom 3</td><td>FX 63-137</td><td class="num">0/40/65°</td><td class="num">3.73</td><td class="num">1.29</td><td class="num">2.890</td></tr>
+              <tr><td>Custom 3</td><td>FX 63-137</td><td class="num">0/35/60°</td><td class="num">3.54</td><td class="num">1.11</td><td class="num">3.190</td></tr>
+              <tr><td>Custom 3</td><td>Custom 4</td><td class="num">0/35/60°</td><td class="num">3.69</td><td class="num">1.24</td><td class="num">2.980</td></tr>
+              <tr><td>Custom 3</td><td>Custom 4 + Gurney</td><td class="num">0/35/60°</td><td class="num">4.12</td><td class="num">1.57</td><td class="num">2.622</td></tr>
+            </tbody>
+          </table>
+          <div class="table-note">
+            The Gurney flap buys the most downforce (C<sub>L</sub> = 4.12) at the worst efficiency (2.62).
+            Because Step 1 proved drag is affordable, that trade is acceptable here — the ranking
+            depends entirely on the drag budget established at the start.
+          </div>
+        </div>
+        <div class="fig-pair">
+          <figure class="figure">
+            <div class="figure-media"><img src="../assets/formula-student/rear-wing-pressure-3d.png" alt="Three-dimensional pressure contours on the isolated rear wing assembly showing the suction distribution across the elements and endplates."></div>
+            <figcaption><span class="fig-num">Fig 22</span>3D pressure field on the rear-wing assembly, including endplate effects.</figcaption>
+          </figure>
+          <figure class="figure">
+            <div class="figure-media"><img src="../assets/formula-student/rear-wing-streamlines.png" alt="Streamlines over the isolated rear wing coloured by velocity magnitude, showing the tip vortex and wake structure."></div>
+            <figcaption><span class="fig-num">Fig 23</span>Streamlines coloured by velocity — tip vortex and wake structure that no 2D run can show.</figcaption>
+          </figure>
+        </div>
+      </section>
+
+      <!-- ============ 8. Full vehicle ============ -->
+      <section id="vehicle">
+        <div class="eyebrow">08 · Step 3b</div>
+        <h2 style="margin-top:.55rem">Full-vehicle CFD: what the package actually does</h2>
+        <p>
+          An isolated wing number means little on a car. The full geometry was prepared for CFD by
+          simplifying components <em>without changing their aerodynamic character</em> — a spring
+          becomes a cylinder, not a deletion — so the model converges faster while still representing
+          the real flow. Body, wings, suspension arms and springs, tyres and uprights, rear axle and
+          differential, radiator and driver were all retained.
+        </p>
+        <div class="fig-pair">
+          <figure class="figure">
+            <div class="figure-media"><img src="../assets/formula-student/car-cfd-geometry.png" alt="The prepared CFD geometry of the complete Formula Student car with front and rear wings installed."></div>
+            <figcaption><span class="fig-num">Fig 24</span>Prepared full-car CFD geometry with the wings installed.</figcaption>
+          </figure>
+          <figure class="figure">
+            <div class="figure-media"><img src="../assets/formula-student/car-baseline-geometry.png" alt="The baseline car geometry without any aerodynamic devices, used as the CFD reference case."></div>
+            <figcaption><span class="fig-num">Fig 25</span>Baseline geometry — no aero devices. The reference every later run is compared against.</figcaption>
+          </figure>
+        </div>
+        <figure class="figure">
+          <div class="figure-media"><img src="../assets/formula-student/car-mesh.png" alt="Cross-section of the volume mesh around the car in the wind-tunnel domain, with refinement zones near the vehicle."></div>
+          <figcaption><span class="fig-num">Fig 26</span>Wind-tunnel domain mesh with local refinement around the vehicle.</figcaption>
+        </figure>
+        <p>
+          The baseline returned <strong>C<sub>D</sub> ≈ 0.645</strong> and essentially zero lift
+          (<strong>C<sub>L</sub> ≈ 0.0048</strong>) — a plausible starting point for a car with no
+          aerodynamic devices. Both later configurations were run under <strong>identical wind-tunnel
+          conditions</strong>, so the differences are attributable to geometry alone.
+        </p>
+        <div class="fig-pair">
+          <figure class="figure">
+            <div class="figure-media"><img src="../assets/formula-student/baseline-pressure.png" alt="Static pressure contours on the car body and midplane for the baseline geometry without aerodynamic devices."></div>
+            <figcaption><span class="fig-num">Fig 27</span>Baseline pressure field on the body and midplane.</figcaption>
+          </figure>
+          <figure class="figure">
+            <div class="figure-media"><img src="../assets/formula-student/car-wings-pressure.png" alt="Static pressure contours on the car and midplane with the front and rear wings fitted, showing strong suction under the wings."></div>
+            <figcaption><span class="fig-num">Fig 28</span>With wings fitted — the suction regions under both wings are now the dominant feature.</figcaption>
+          </figure>
+        </div>
+
+        <div class="callout result">
+          <span class="callout-title">Result</span>
+          <p class="mb-0">
+            With front and rear wings: <strong>460 N of downforce for 296 N of drag</strong>
+            (C<sub>L</sub> = 2.69, C<sub>D</sub> = 1.73, C<sub>L</sub>/C<sub>D</sub> = 1.555).
+            Drag rises by a factor of ~2.7 over the baseline — a large penalty, and exactly the one
+            the Step 1 budget said was affordable.
+          </p>
+        </div>
+      </section>
+
+      <!-- ============ 9. Underbody ============ -->
+      <section id="underbody">
+        <div class="eyebrow">09 · Step 4</div>
+        <h2 style="margin-top:.55rem">Downforce for free: side diffusers and underbody walls</h2>
+        <p>
+          The chassis would not accept a full-width Venturi floor without a redesign. Instead of
+          rebuilding the floor, two additions were tested on the existing bodywork:
+          <strong>lateral ramps (side diffusers)</strong> that expand the flow along the lower sides,
+          and <strong>vertical underbody walls</strong> that restrict lateral exchange between the
+          low-pressure underbody region and the surrounding flow.
+        </p>
+        <p>
+          A diffuser is not automatically a gain: the pressure recovery creates an adverse gradient,
+          and if the boundary layer cannot survive it the flow separates and the device stops working.
+          The walls, likewise, can add drag or leak at their ends. Both effects had to be measured
+          rather than assumed — so the car <em>with wings</em> became the new baseline, run under the
+          same conditions.
+        </p>
+        <div class="fig-pair">
+          <figure class="figure">
+            <div class="figure-media"><img src="../assets/formula-student/underbody-closeup.png" alt="Close-up of the rear underside of the car showing the side diffuser ramp and vertical underbody wall geometry."></div>
+            <figcaption><span class="fig-num">Fig 29</span>The underbody devices in detail — lateral ramp and sealing wall working together.</figcaption>
+          </figure>
+          <figure class="figure">
+            <div class="figure-media"><img src="../assets/formula-student/full-package-midplane.png" alt="Flow-field contours on the vehicle midplane for the complete package including side diffusers and underbody walls."></div>
+            <figcaption><span class="fig-num">Fig 30</span>Midplane flow field with the full package fitted.</figcaption>
+          </figure>
+        </div>
+
+        <div class="table-wrap">
+          <table>
+            <caption><span class="fig-num">Table 6</span>Full-vehicle force coefficients from CFD (magnitudes).</caption>
+            <thead><tr><th>Configuration</th><th class="num">C<sub>L</sub></th><th class="num">C<sub>D</sub></th><th class="num">C<sub>L</sub>/C<sub>D</sub></th><th>Change</th></tr></thead>
+            <tbody>
+              <tr><td>Baseline — no aero devices</td><td class="num">0.005</td><td class="num">0.645</td><td class="num">—</td><td>Reference</td></tr>
+              <tr><td>Front and rear wings</td><td class="num">2.69</td><td class="num">1.73</td><td class="num">1.56</td><td>Downforce bought with drag</td></tr>
+              <tr class="best"><td>Wings + side diffusers + underbody walls</td><td class="num">3.35</td><td class="num">1.70</td><td class="num">1.97</td><td><strong>+25% C<sub>L</sub> at no drag cost</strong></td></tr>
+            </tbody>
+          </table>
+        </div>
+
+        <div class="panel">
+          <div class="panel-head">
+            <div>
+              <h4>Compare the three configurations</h4>
+              <p>CFD coefficients (Table 6) and OptimumLap results (Table 8).</p>
+            </div>
+            <div class="toggle-group" role="group" aria-label="Choose metric">
+              <button data-fs-metric="cl" aria-pressed="true">C<sub>L</sub></button>
+              <button data-fs-metric="cd" aria-pressed="false">C<sub>D</sub></button>
+              <button data-fs-metric="ld" aria-pressed="false">C<sub>L</sub>/C<sub>D</sub></button>
+              <button data-fs-metric="lap" aria-pressed="false">Lap time</button>
+            </div>
+          </div>
+          <svg id="fsChart" class="chart" role="img" aria-label="Bar chart comparing the baseline car, the car with wings, and the full aerodynamic package."></svg>
+          <p id="fsChartNote" class="muted" style="font-size:.84rem;margin:12px 0 0;min-height:2.6em"></p>
+        </div>
+
+        <div class="callout warn">
+          <span class="callout-title">What this does not separate</span>
+          <p class="mb-0">
+            The contributions of the side diffusers and of the underbody walls were
+            <strong>not tested independently</strong>, and their sensitivity to ride height, pitch and
+            roll was not assessed. The +25% is a combined effect for this geometry at this attitude.
+          </p>
+        </div>
+      </section>
+
+      <!-- ============ 10. Structure ============ -->
+      <section id="structure">
+        <div class="eyebrow">10 · Structures</div>
+        <h2 style="margin-top:.55rem">Making the wing stiff enough to be legal</h2>
+        <p>
+          The rear wing has to pass the rulebook deflection tests while staying light. Two rib-and-spar
+          architectures were developed: <strong>Design 1</strong> uses six ribs (two outboard, four
+          central), with the four central ribs carrying attachment lugs so each mount bolts to two ribs.
+          <strong>Design 2</strong> reduces this to two central ribs, so each mount fastens to a single,
+          larger rib with two parallel lugs.
+        </p>
+        <div class="fig-pair">
+          <figure class="figure">
+            <div class="figure-media"><img src="../assets/formula-student/rear-wing-structure.png" alt="CAD of the rear wing internal structure showing ribs and longitudinal stiffening bars."></div>
+            <figcaption><span class="fig-num">Fig 31</span>Design 1 internal structure — ribs plus longitudinal bars for stiffness.</figcaption>
+          </figure>
+          <figure class="figure">
+            <div class="figure-media"><img src="../assets/formula-student/rear-wing-mount.png" alt="CAD detail of the swan-neck rear wing mount fastened to the central ribs of the wing."></div>
+            <figcaption><span class="fig-num">Fig 32</span>Swan-neck mount fastened into the central ribs, keeping the suction surface clear.</figcaption>
+          </figure>
+        </div>
+        <p class="muted">
+          Selecting between them requires running the 200 N / 10 mm distributed test and the 50 N / 25 mm
+          point test on the actual laminate — listed under next steps rather than claimed as done.
+        </p>
+      </section>
+
+      <!-- ============ 11. Lap time ============ -->
+      <section id="laptime">
+        <div class="eyebrow">11 · Validation</div>
+        <h2 style="margin-top:.55rem">Does the trade-off actually make the car faster?</h2>
+        <p>
+          Force coefficients are not a result until they are converted into something the car does.
+          The three configurations were run through <strong>OptimumLap</strong>, a quasi-steady-state
+          point-mass lap simulator, on the <strong>Formula Student Germany 2012 endurance track</strong>
+          at Hockenheim — about 1.4 km with slow, medium and fast corners plus two long straights.
+          Only C<sub>D</sub> and C<sub>L</sub> change between runs; mass, tyre friction and powertrain
+          are identical, so any lap-time difference is aerodynamic.
+        </p>
+
+        <div class="table-wrap">
+          <table>
+            <caption><span class="fig-num">Table 7</span>Aerodynamic inputs as entered in the simulator (rounded CFD values).</caption>
+            <thead><tr><th>Configuration</th><th class="num">C<sub>D</sub></th><th class="num">C<sub>L</sub> (downforce)</th></tr></thead>
+            <tbody>
+              <tr><td>1 · Baseline</td><td class="num">0.65</td><td class="num">0.006</td></tr>
+              <tr><td>2 · Wings</td><td class="num">1.73</td><td class="num">2.70</td></tr>
+              <tr><td>3 · Full package</td><td class="num">1.71</td><td class="num">3.35</td></tr>
+            </tbody>
+          </table>
+        </div>
+        <div class="table-wrap">
+          <table>
+            <caption><span class="fig-num">Table 8</span>Simulated lap times. Lateral accelerations read from the OptimumLap plot and are approximate.</caption>
+            <thead><tr><th>Configuration</th><th class="num">Lap [s]</th><th class="num">Gain [s]</th><th class="num">Gain [%]</th><th class="num">Max lateral acc. [m/s²]</th></tr></thead>
+            <tbody>
+              <tr><td>1 · Baseline</td><td class="num">86.71</td><td class="num">—</td><td class="num">—</td><td class="num">≈14.7</td></tr>
+              <tr><td>2 · Wings</td><td class="num">85.06</td><td class="num">1.65</td><td class="num">1.9</td><td class="num">≈16.6</td></tr>
+              <tr class="best"><td>3 · Full package</td><td class="num">84.59</td><td class="num">2.12</td><td class="num">2.4</td><td class="num">≈17.0</td></tr>
+            </tbody>
+          </table>
+        </div>
+
+        <figure class="figure">
+          <div class="figure-media"><img src="../assets/formula-student/lap-speed-trace.png" alt="Simulated speed against elapsed distance for the three configurations, showing nearly identical traces in slow corners and higher speeds through medium and fast corners."></div>
+          <figcaption><span class="fig-num">Fig 33</span>Speed along the lap — black: baseline, red: wings, blue: full package. The traces separate in the medium and fast corners and coincide in the slowest ones.</figcaption>
+        </figure>
+        <figure class="figure">
+          <div class="figure-media"><img src="../assets/formula-student/lap-lateral-accel.png" alt="Maximum lateral acceleration plotted against downforce coefficient for the three simulated configurations."></div>
+          <figcaption><span class="fig-num">Fig 34</span>Peak lateral acceleration rises from ≈14.7 m/s² (1.5 g) to ≈17.0 m/s² — about +16%.</figcaption>
+        </figure>
+
+        <h3>Three findings</h3>
+        <ol>
+          <li><strong>The package works.</strong> Wings gain 1.65 s; the underbody devices add 0.47 s more, for 2.12 s (2.4%) total.</li>
+          <li><strong>The gain is in the corners.</strong> Below ~28 km/h the traces coincide — downforce grows with v², so it does nothing in the slowest turns. In medium and fast corners the aero cars carry 2–3 km/h more.</li>
+          <li><strong>The drag penalty never appears.</strong> All three reach the same 110 km/h ceiling on both straights, despite ~2.7× the drag coefficient.</li>
+        </ol>
+        <p>
+          The two upgrades also differ in <em>efficiency of gain</em>: the wings add 2.7 of C<sub>L</sub>
+          for 1.65 s (≈0.6 s per unit), while the underbody devices add 0.65 for 0.47 s
+          (≈0.7 s per unit) because they raise downforce without raising drag. That identifies the
+          lower bodywork as the better place to look for the next increment.
+        </p>
+
+        <div class="callout warn">
+          <span class="callout-title">Scope of the lap simulation</span>
+          <p>
+            OptimumLap is a point-mass, quasi-steady-state model. It uses a <strong>constant tyre
+            friction coefficient with no load sensitivity</strong>, and does not model suspension,
+            weight transfer, aero balance, or the effect of ride height, pitch and yaw on the
+            coefficients. The driver is ideal, the powertrain is a typical FSAE car rather than the
+            intended engine, and the track is a reference layout, not one of the team's events.
+          </p>
+          <p class="mb-0">
+            Absolute lap times must not be compared with real competition times. Because real tyres
+            lose grip per unit load as load grows, <strong>the real gains are likely smaller</strong>
+            than simulated. The mass of the aero devices is not included, so these are gross gains.
+          </p>
+        </div>
+      </section>
+
+      <!-- ============ 12. Limitations ============ -->
+      <section id="limits">
+        <div class="eyebrow">12 · Limitations &amp; next steps</div>
+        <h2 style="margin-top:.55rem">What I would do differently, and next</h2>
+        <div class="grid-2">
+          <div class="card">
+            <h3 class="mt-0">Known limitations</h3>
+            <ul class="muted mb-0" style="font-size:.93rem">
+              <li>Full-car geometry used non-final components, so absolute values are indicative.</li>
+              <li>XFOIL and 2D CFD are screening tools; tip vortices and front-wing wake interaction only appear in 3D.</li>
+              <li>Side-diffuser and underbody-wall contributions were not separated.</li>
+              <li>Underbody sensitivity to ride height, pitch and roll was not assessed.</li>
+              <li>No wind-tunnel or on-track validation; compute resources limited model detail.</li>
+              <li>Lap simulation uses constant tyre friction and a generic powertrain.</li>
+            </ul>
+          </div>
+          <div class="card">
+            <h3 class="mt-0">Next steps</h3>
+            <ul class="muted mb-0" style="font-size:.93rem">
+              <li>Re-run lap simulation with measured engine data, a load-sensitive tyre model, and the mass of the aero devices; test sensitivity to tyre friction.</li>
+              <li>Check full-car drag against the 28.4 kW budget at the speeds the car will actually run.</li>
+              <li>Separate diffuser and wall effects; map sensitivity to ride height, pitch, roll and yaw.</li>
+              <li>Choose between the two rear-wing structures and verify against the 200 N / 10 mm and 50 N / 25 mm rulebook tests.</li>
+              <li>Plan physical validation of the final package.</li>
+            </ul>
+          </div>
+        </div>
+      </section>
+
+      <!-- ============ 13. Tools & refs ============ -->
+      <section id="tools">
+        <div class="eyebrow">13 · Tools &amp; sources</div>
+        <h2 style="margin-top:.55rem">What was used, and where the method comes from</h2>
+        <div class="table-wrap">
+          <table>
+            <caption><span class="fig-num">Table 9</span>Software and its role in the study.</caption>
+            <thead><tr><th>Tool</th><th>Use</th></tr></thead>
+            <tbody>
+              <tr><td>XFOIL</td><td>2D screening of 24 candidates at Re = 300,000, N = 160–300</td></tr>
+              <tr><td>Airfoil Tools</td><td>Airfoil coordinate and performance database</td></tr>
+              <tr><td>Python</td><td>Coordinate retrieval, batch XFOIL automation, custom airfoil editing</td></tr>
+              <tr><td>AirfoilEditor</td><td>Shape editing and particle swarm optimisation</td></tr>
+              <tr><td>MATLAB</td><td>Post-processing of XFOIL polars</td></tr>
+              <tr><td>ANSYS Fluent</td><td>2D parametric CFD: chord, flap angles, slot gap, overlap</td></tr>
+              <tr><td>SimScale</td><td>3D CFD: isolated wing, baseline car, wings, full package</td></tr>
+              <tr><td>CAD</td><td>Wing, endplate and mount geometry; car simplification for CFD</td></tr>
+              <tr><td>OptimumLap</td><td>Quasi-steady-state lap-time simulation</td></tr>
+              <tr><td>LaTeX</td><td>The 53-page technical report</td></tr>
+            </tbody>
+          </table>
+        </div>
+        <h3>Key references</h3>
+        <ul class="muted" style="font-size:.9rem">
+          <li>S. McBeath, <em>Competition Car Aerodynamics</em> — the rear-wing-first design method and wing design rules.</li>
+          <li>S. Wordley &amp; J. Saunders, <em>Aerodynamics for Formula SAE: Initial design and performance prediction</em>, SAE 2006-01-0806 — the traction-limited argument.</li>
+          <li>J. Katz, <em>Race Car Aerodynamics</em> and <em>Aerodynamics of Race Cars</em>, Annu. Rev. Fluid Mech. 38 (2006) 27–63.</li>
+          <li>K. R. Cooper et al., <em>The aerodynamic performance of automotive underbody diffusers</em>, SAE 980030.</li>
+          <li>A. Ruhrmann &amp; X. Zhang, <em>Influence of diffuser angle on a bluff body in ground effect</em>, J. Fluids Eng. 125(2) (2003) 332–338.</li>
+          <li>C. Chatpattanasiri et al., <em>Numerical study and design of side-diffusers for Formula-SAE car</em>, JRAME 10(1) (2022).</li>
+          <li>S. F. Hoerner &amp; H. V. Borst, <em>Fluid-Dynamic Lift</em> — effective aspect ratio with endplates.</li>
+          <li>I. H. Abbott &amp; A. E. von Doenhoff, <em>Theory of Wing Sections</em>.</li>
+        </ul>
+
+        <div class="callout">
+          <span class="callout-title">Figures and permissions</span>
+          <p class="mb-0">
+            All figures on this page are from my own analyses in the project report. Third-party
+            images used in the report for literature review (other teams' cars, rulebook diagrams and
+            published figures) are <strong>not</strong> republished here. The full report is not
+            distributed publicly; this page is a summary cleared for sharing.
+          </p>
+        </div>
+
+        <div class="btn-row">
+          <a class="btn btn-primary" href="riyah.html">Next: Riyah wind-turbine tool
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round"><path d="M5 12h14M13 6l6 6-6 6"/></svg>
+          </a>
+          <a class="btn" href="../index.html#work">All projects</a>
+          <a class="btn" href="https://github.com/abdoubunaido-maker/haithem-engineering-portfolio/blob/main/projects/formula-student-aerodynamics/README.md" rel="noopener">Markdown version</a>
+        </div>
+      </section>
+
+    </div>
+
+    <!-- ---------------- TOC ---------------- -->
+    <aside class="toc" aria-label="On this page">
+      <div class="toc-title">On this page</div>
+      <ol>
+        <li><a href="#overview">Overview</a></li>
+        <li><a href="#constraints">Rulebook constraints</a></li>
+        <li><a href="#strategy">Drag-power budget</a></li>
+        <li><a href="#screening">Airfoil screening</a></li>
+        <li><a href="#cfd2d">2D parametric CFD</a></li>
+        <li><a href="#custom">Custom airfoils</a></li>
+        <li><a href="#wing3d">3D wing &amp; endplates</a></li>
+        <li><a href="#vehicle">Full-vehicle CFD</a></li>
+        <li><a href="#underbody">Underbody devices</a></li>
+        <li><a href="#structure">Wing structure</a></li>
+        <li><a href="#laptime">Lap-time simulation</a></li>
+        <li><a href="#limits">Limitations</a></li>
+        <li><a href="#tools">Tools &amp; sources</a></li>
+      </ol>
+    </aside>
+  </div>
+</main>
+
+<footer class="footer">
+  <div class="wrap footer-in">
+    <div>© <span id="year">2026</span> Haithem Benaida · Simulation results, not measured performance.</div>
+    <div class="footer-links">
+      <a href="../index.html">Home</a>
+      <a href="riyah.html">Riyah</a>
+      <a href="rocketry.html">Rocketry</a>
+      <a href="../cv.html">CV</a>
+    </div>
+  </div>
+</footer>
+
+<script src="../assets/js/site.js"></script>
+</body>
+</html>

@@ -1,38 +1,115 @@
-# Publish this portfolio
+# Publishing this portfolio
 
-The GitHub repository was created at: https://github.com/abdoubunaido-maker/haithem-engineering-portfolio
+Repository: <https://github.com/abdoubunaido-maker/haithem-engineering-portfolio>
 
-## 1. Upload the files
+The site is **plain HTML, CSS and JavaScript with no build step and no external dependencies**. It
+runs on GitHub Pages as-is, works offline, and prints cleanly. Nothing to install.
 
-1. Extract `haithem-engineering-portfolio.zip` on your computer.
-2. Open the repository on GitHub and choose **Add file → Upload files**.
-3. Upload the *contents* of the extracted `haithem-engineering-portfolio` folder (including `index.html`, `README.md`, and the project folders) to the repository root.
-4. Commit the changes to the `main` branch.
+---
 
-Keep the `projects/`, `assets/`, and `project-template/` directories at the repository root. The primary Pages homepage is `index.html` at the repository root; the separate `website/` folder is not needed for publishing. Do not upload the ZIP itself as a substitute for its extracted contents.
+## 1. Personalise before going public
 
-## 2. Personalize it
+These are the only things left to fill in. Everything else is complete.
 
-- Add your LinkedIn profile URL in `README.md` and `index.html`.
-- Add a professional contact email only if you want it public.
-- Review project figures, numerical results, sources, and permissions before publishing.
-- Never upload API keys, `.env` files, Streamlit secrets, or confidential team material.
+| What | Where |
+|---|---|
+| LinkedIn profile URL | `README.md` → Contact · `index.html` → contact section · `cv.html` → header |
+| Professional email (optional) | same three places · `cv.html` header |
+| Phone (optional, CV only) | `cv.html` → `.cv-contact` block |
+| Exact education dates | `cv.html` → Education entries · `index.html` → Background timeline |
+| Languages and availability | `cv.html` → Additional section |
+| Riyah demo / repo URL | `projects/riyah.html` → Access callout · `projects/riyah-hawt-design/README.md` → Access |
 
-## 3. Publish the website with GitHub Pages
+In `cv.html` the fields to complete are **highlighted in amber** and listed in a notice at the top.
+That notice, the highlighting and the navigation all disappear automatically when you print.
 
-1. In the repository, open **Settings → Pages**.
-2. Under the build/deployment source, choose **Deploy from a branch**.
-3. Select branch `main` and folder `/(root)`, then save.
-4. GitHub will display the Pages URL in that section after deployment. The homepage is already provided as `index.html` at the repository root.
+Search for `TODO` and `to-add` / `to add` to find every placeholder:
 
-The website links to the Markdown project pages in this repository. The README remains the main landing page for visitors who prefer GitHub.
+```bash
+grep -rn "TODO\|to-add\|to add\|Pages URL" --include="*.html" --include="*.md" .
+```
 
-## 4. Share it on LinkedIn
+---
 
-- Add the repository URL in the **Featured** section or Contact info on your LinkedIn profile.
-- You can adapt the text in `LINKEDIN_LAUNCH_POST.md`.
-- Consider pinning this portfolio repository on your GitHub profile.
+## 2. Preview locally
 
-## 5. Add a new project
+From the repository root:
 
-Copy `project-template/README.md` into a new folder under `projects/`. Include your personal contribution, assumptions, numerical settings, units, limitations, and sources. Distinguish simulation results from experimental measurements.
+```bash
+python3 -m http.server 8080
+```
+
+Then open <http://localhost:8080>. Any static file server works — there is nothing to compile.
+
+---
+
+## 3. Deploy with GitHub Pages
+
+1. Push the repository contents to `main` (keep `index.html`, `projects/`, `assets/`, `cv.html` at the
+   repository root).
+2. Open **Settings → Pages**.
+3. Under **Build and deployment**, choose **Deploy from a branch**.
+4. Select branch `main`, folder `/ (root)`, and save.
+5. GitHub shows the URL in that section once deployment finishes — usually under a minute:
+
+   ```
+   https://abdoubunaido-maker.github.io/haithem-engineering-portfolio/
+   ```
+
+6. Replace `[Pages URL]` / `[URL]` in `LINKEDIN_KIT.md` and `LINKEDIN_LAUNCH_POST.md` with that address,
+   and confirm the link in `README.md` matches.
+
+**No Jekyll configuration is needed.** The site does not use Jekyll templates, and `.nojekyll` is
+included so GitHub Pages serves every file and folder verbatim.
+
+---
+
+## 4. Export the CV as a PDF
+
+1. Open `cv.html` locally or on the deployed site.
+2. Fill in the highlighted fields in the file first (they are not editable in the browser).
+3. Click **Print / Save as PDF**, or press `Ctrl/Cmd + P`.
+4. Choose **Save as PDF**, enable **Background graphics** if you want the accent colours, and save.
+
+Print styles switch the page to a light, single-column, ink-friendly layout and strip the navigation,
+the setup notice and the placeholder highlighting.
+
+---
+
+## 5. Share on LinkedIn
+
+- Work through [`LINKEDIN_KIT.md`](LINKEDIN_KIT.md): headline, About, Experience, Projects, Skills,
+  Featured, plus outreach templates for labs and recruiters.
+- Publish [`LINKEDIN_LAUNCH_POST.md`](LINKEDIN_LAUNCH_POST.md), attaching a figure.
+- Add the site to your **Featured** section and **Contact info**.
+- Pin the repository on your GitHub profile.
+
+---
+
+## 6. Adding a new project
+
+1. Copy `project-template/README.md` into a new folder under `projects/`.
+2. Put figures in `assets/<project>/` with descriptive filenames.
+3. Record your **personal contribution**, assumptions, numerical settings, units, limitations and
+   sources. Distinguish simulation from measurement.
+4. For a web case-study page, copy the structure of `projects/formula-student.html`:
+   - link `../assets/css/site.css` and `../assets/js/site.js`
+   - use `.report` + `.toc` for the sidebar layout
+   - wrap images in `<figure class="figure"><div class="figure-media">…</div><figcaption>` so they
+     get the click-to-zoom lightbox automatically
+   - give each section an `id` and add it to the `.toc` list for scroll-spy
+5. Add a card to `index.html` and a row to the table in `README.md`.
+
+---
+
+## 7. Housekeeping
+
+- **Never commit** API keys, `.env` files, Streamlit secrets or confidential team material.
+  `.gitignore` already covers the common cases.
+- **Solver output stays out of Git** (`*.cas.h5`, `*.dat.h5`, `*.trn`, `*.out` are ignored). Keep large
+  meshes and result files in external storage and link to them.
+- **Figures:** only publish images you created or have permission to share. The Formula Student
+  figures here are all from the author's own analyses; third-party images from the report's literature
+  review were deliberately excluded.
+- **Rocketry figures** are separated by source model under `assets/rocketry/study-1/` and `study-2/`.
+  Do not mix them — they are different configurations.

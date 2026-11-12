@@ -1,0 +1,278 @@
+<!doctype html>
+<html lang="en" data-theme="dark">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>CFD &amp; Fluid-Mechanics Notes — Haithem Benaida</title>
+<meta name="description" content="Working notes on CFD verification: near-wall treatment and y+ targets, mesh and domain sensitivity, turbulence-model choice, convergence criteria, and how force coefficients should be interpreted.">
+<link rel="stylesheet" href="../assets/css/site.css">
+<link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'><rect width='32' height='32' rx='8' fill='%235eead4'/><text x='16' y='22' font-family='monospace' font-size='16' font-weight='bold' text-anchor='middle' fill='%2304211d'>HB</text></svg>">
+</head>
+<body>
+<a class="skip" href="#main">Skip to content</a>
+
+<nav class="nav">
+  <div class="wrap nav-in">
+    <a class="brand" href="../index.html"><span class="brand-mark">HB</span> Haithem Benaida</a>
+    <div class="nav-links" id="navLinks">
+      <a href="../index.html#work">Work</a>
+      <a href="formula-student.html">Formula Student</a>
+      <a href="riyah.html">Riyah</a>
+      <a href="rocketry.html">Rocketry</a>
+      <a href="../cv.html">CV</a>
+      <a href="../index.html#contact">Contact</a>
+    </div>
+    <button class="icon-btn nav-toggle" id="navToggle" aria-label="Toggle navigation" aria-expanded="false">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M3 6h18M3 12h18M3 18h18"/></svg>
+    </button>
+    <button class="icon-btn" id="themeBtn" aria-label="Switch theme"></button>
+  </div>
+</nav>
+
+<header class="hero">
+  <div class="wrap">
+    <div class="eyebrow">Working notes · Numerics</div>
+    <h1 style="max-width:22ch">Making a contour<br><span class="grad">plot mean something.</span></h1>
+    <p class="lede">
+      The verification habits behind the projects in this portfolio — what I check before believing
+      a force coefficient, and the questions I try to answer before publishing a result. Written
+      down so the reasoning is inspectable, not just the pictures.
+    </p>
+    <div class="chips">
+      <span class="chip chip-accent">Verification</span>
+      <span class="chip">Near-wall treatment</span>
+      <span class="chip">Mesh sensitivity</span>
+      <span class="chip">Turbulence modelling</span>
+      <span class="chip">Convergence</span>
+    </div>
+  </div>
+</header>
+
+<main id="main" class="wrap">
+  <div class="report">
+    <div class="report-main">
+
+      <section id="checklist">
+        <div class="eyebrow">01 · The checklist</div>
+        <h2 style="margin-top:.55rem">Six questions every study has to answer</h2>
+        <p>
+          This is the template I use for each study, and the standard the project pages here are
+          written against. A result that cannot answer these is a picture, not a finding.
+        </p>
+        <div class="table-wrap">
+          <table>
+            <caption><span class="fig-num">Table 1</span>Study template — what must be recorded, and why.</caption>
+            <thead><tr><th>#</th><th>Question</th><th>What gets recorded</th></tr></thead>
+            <tbody>
+              <tr><td class="num">1</td><td><strong>Question</strong></td><td>The physical or design question being investigated — stated before the model is built.</td></tr>
+              <tr><td class="num">2</td><td><strong>Model</strong></td><td>Geometry, simplifications, governing equations, turbulence and physical models, and what was deliberately left out.</td></tr>
+              <tr><td class="num">3</td><td><strong>Numerical setup</strong></td><td>Domain extents, boundary conditions, mesh strategy, near-wall resolution, solver settings, convergence criteria.</td></tr>
+              <tr><td class="num">4</td><td><strong>Results</strong></td><td>Figures with units, labelled axes, stated reference area and reference velocity, and the configuration they belong to.</td></tr>
+              <tr><td class="num">5</td><td><strong>Verification</strong></td><td>Mesh and domain sensitivity, conservation checks, panel/element-count independence, comparison against theory or experiment where it exists.</td></tr>
+              <tr><td class="num">6</td><td><strong>Limitations</strong></td><td>What the model does <em>not</em> establish — written next to the result, not in a footnote elsewhere.</td></tr>
+            </tbody>
+          </table>
+        </div>
+      </section>
+
+      <section id="nearwall">
+        <div class="eyebrow">02 · Near-wall treatment</div>
+        <h2 style="margin-top:.55rem">y⁺ is a decision, not a number you report afterwards</h2>
+        <p>
+          The choice between resolving the boundary layer and modelling it with wall functions
+          determines the mesh before anything else. It has to be made from the physics of the
+          question — separation and wall shear stress need resolution; a bulk pressure-drop estimate
+          may not.
+        </p>
+        <div class="table-wrap">
+          <table>
+            <caption><span class="fig-num">Table 2</span>Near-wall targets actually used in this portfolio.</caption>
+            <thead><tr><th>Study</th><th>Target</th><th>Why</th></tr></thead>
+            <tbody>
+              <tr><td>Formula Student — 2D wing (Fluent)</td><td class="num">y⁺ &lt; 3</td><td>Structured mesh with inflation layers on every element; needed for slot-jet and separation behaviour.</td></tr>
+              <tr><td>Formula Student — 3D wing (SimScale, k–ω SST)</td><td class="num">y⁺ &lt; 1</td><td>Resolve wall shear stress rather than model it; verified with a wall y⁺ map, not assumed.</td></tr>
+              <tr><td>Rocketry — compressible external flow</td><td>Resolution set per case</td><td>Density-based solver with energy equation; drag monitored as the integral quantity of interest.</td></tr>
+            </tbody>
+          </table>
+          <div class="table-note">
+            A stated target is not evidence. The 3D wing study includes a
+            <a href="formula-student.html#wing3d">wall y⁺ map</a> showing the achieved distribution
+            across the surfaces — that is the check that matters.
+          </div>
+        </div>
+        <p>
+          The practical sequence: estimate the flat-plate skin-friction coefficient at the relevant
+          Reynolds number, get the wall shear stress and friction velocity, then size the first cell
+          height for the target y⁺ — and <em>verify the achieved map afterwards</em>, because the
+          estimate is only as good as the velocity scale you assumed.
+        </p>
+      </section>
+
+      <section id="convergence">
+        <div class="eyebrow">03 · Convergence</div>
+        <h2 style="margin-top:.55rem">Residuals are necessary, never sufficient</h2>
+        <p>
+          A residual plot falling three orders of magnitude tells you the linear algebra is
+          behaving. It does not tell you the quantity you care about has stopped changing. The
+          projects here therefore monitor the <strong>integral output</strong> alongside residuals:
+        </p>
+        <ul>
+          <li><strong>Formula Student:</strong> lift and drag coefficient histories, checked for a flat plateau after the initial transient — the underbody study explicitly shows force-coefficient convergence rather than only residuals.</li>
+          <li><strong>Rocketry:</strong> residual target of 1×10⁻⁵ for continuity and energy, <em>plus</em> a stable drag-coefficient plateau.</li>
+          <li><strong>XFOIL screening:</strong> the equivalent check is panel-count independence — every candidate was re-run at N = 160 → 300 to confirm the polars were not a discretisation artefact.</li>
+        </ul>
+        <div class="callout">
+          <span class="callout-title">The distinction worth keeping</span>
+          <p class="mb-0">
+            <strong>Iterative convergence</strong> — has this run settled?
+            <strong>Discretisation convergence</strong> — would a finer mesh give the same answer?
+            They are different questions, and only the second one says anything about accuracy.
+            A perfectly converged run on a bad mesh is still wrong.
+          </p>
+        </div>
+      </section>
+
+      <section id="domain">
+        <div class="eyebrow">04 · Domain &amp; boundaries</div>
+        <h2 style="margin-top:.55rem">Keep the boundaries away from the physics</h2>
+        <p>
+          Domain sizing is a sensitivity study, not a habit. The 3D wing study sized the domain in
+          chord lengths and stated the reasoning for each face:
+        </p>
+        <div class="grid-3">
+          <div class="card">
+            <div class="eyebrow no-rule">Inlet · 3 c</div>
+            <p class="mb-0" style="font-size:.92rem">Enough upstream length for the incoming flow to develop and for the body's upstream influence not to reach the boundary.</p>
+          </div>
+          <div class="card">
+            <div class="eyebrow no-rule">Outlet · 8 c</div>
+            <p class="mb-0" style="font-size:.92rem">The wake needs the most room. Placing the outlet too close forces the wake to exit before it has developed, contaminating the force prediction.</p>
+          </div>
+          <div class="card">
+            <div class="eyebrow no-rule">Lateral · 3 c</div>
+            <p class="mb-0" style="font-size:.92rem">Limits blockage. Too small a cross-section accelerates the flow around the body and inflates both lift and drag.</p>
+          </div>
+        </div>
+        <p style="margin-top:1.2rem">
+          Symmetry is the other big lever. The rocketry studies simulate a
+          <strong>quarter domain</strong>, which is legitimate only while the flow itself is
+          symmetric — a valid assumption at zero incidence, and one that breaks as soon as asymmetric
+          vortex shedding or angle of attack matters. Knowing when a symmetry plane stops being free
+          accuracy is part of using it responsibly.
+        </p>
+      </section>
+
+      <section id="turbulence">
+        <div class="eyebrow">05 · Turbulence modelling</div>
+        <h2 style="margin-top:.55rem">Why k–ω SST keeps being the right answer here</h2>
+        <p>
+          Every external-aerodynamics study in this portfolio uses <strong>k–ω SST</strong>, and the
+          reason is specific rather than habitual: these flows are dominated by
+          <strong>adverse pressure gradients and separation</strong> — multi-element wing flaps near
+          stall, diffuser pressure recovery, fin and body wakes.
+        </p>
+        <p>
+          SST blends k–ω near the wall, where it resolves the boundary layer without damping
+          functions, into k–ε in the free stream, where standard k–ω is notoriously sensitive to
+          inlet turbulence values. Its shear-stress limiter improves separation prediction under
+          adverse gradients, which is precisely the behaviour being designed against.
+        </p>
+        <div class="callout warn">
+          <span class="callout-title">What RANS still cannot do</span>
+          <p class="mb-0">
+            A steady RANS solution gives a time-averaged picture. It does not resolve vortex
+            shedding, buffeting or unsteady load fluctuations, and it tends to be optimistic about
+            reattachment. Where those matter — post-stall wing behaviour, diffuser stall — the honest
+            statement is that the model brackets the trend rather than predicts the instantaneous
+            flow. That is one reason the Formula Student work treats 2D and 3D results as
+            <em>screening</em> and asks lap time, not a single force number, to judge the design.
+          </p>
+        </div>
+      </section>
+
+      <section id="interpretation">
+        <div class="eyebrow">06 · Interpretation</div>
+        <h2 style="margin-top:.55rem">Reporting coefficients so they can be reused</h2>
+        <p>A force coefficient is meaningless without its reference quantities. Every set here states:</p>
+        <ul>
+          <li><strong>Reference area</strong> — and whether it is frontal area or planform area. The lap-time simulation explicitly assumes the frontal area entered matches the CFD reference area, because a mismatch silently rescales every result.</li>
+          <li><strong>Reference velocity</strong> — the 16 m/s cornering condition is not the 33.3 m/s maximum-speed condition.</li>
+          <li><strong>Sign convention</strong> — downforce taken as positive C<sub>L</sub> throughout the Formula Student work, stated explicitly because the opposite convention is equally common.</li>
+          <li><strong>2D or 3D</strong> — section coefficients per unit span are not comparable to finite-wing coefficients. The 2D sweep reaches C<sub>L</sub> ≈ 5.4 while the 3D wing reaches ≈ 3.5–4.1; that gap is finite-span physics, not an inconsistency.</li>
+          <li><strong>Configuration identity</strong> — which geometry, which incidence, which mesh. The two rocketry studies are kept in separate folders for exactly this reason.</li>
+        </ul>
+        <div class="callout result">
+          <span class="callout-title">The rule I try to hold</span>
+          <p class="mb-0">
+            Publish the assumption next to the number. A reader who disagrees with the assumption can
+            then still use the result — and a reviewer can find the mistake. That is worth more than
+            a cleaner-looking plot.
+          </p>
+        </div>
+      </section>
+
+      <section id="planned">
+        <div class="eyebrow">07 · In progress</div>
+        <h2 style="margin-top:.55rem">Studies being written up</h2>
+        <p class="muted">
+          This section grows as studies are completed and documented properly. Planned entries —
+          listed as <span class="badge wip">planned</span>, not as results:
+        </p>
+        <div class="grid-2">
+          <div class="card">
+            <h3 class="mt-0">Boundary-layer scaling <span class="badge wip">planned</span></h3>
+            <p class="mb-0" style="font-size:.92rem">Order-of-magnitude reduction of the Navier–Stokes equations to the boundary-layer equations, and where the simplification fails.</p>
+          </div>
+          <div class="card">
+            <h3 class="mt-0">Mesh-independence study <span class="badge wip">planned</span></h3>
+            <p class="mb-0" style="font-size:.92rem">A systematic three-mesh refinement on one of the wing cases, with a Richardson-extrapolation estimate of discretisation error on C<sub>L</sub> and C<sub>D</sub>.</p>
+          </div>
+          <div class="card">
+            <h3 class="mt-0">Turbulence-model comparison <span class="badge wip">planned</span></h3>
+            <p class="mb-0" style="font-size:.92rem">Spalart–Allmaras vs k–ω SST vs k–ε on the same multi-element case, quantifying how much the separation prediction depends on model choice.</p>
+          </div>
+          <div class="card">
+            <h3 class="mt-0">BEM vs rotor CFD <span class="badge wip">planned</span></h3>
+            <p class="mb-0" style="font-size:.92rem">Cross-fidelity check for Riyah: where the fast blade-element model drifts from a resolved rotor solution, and what that implies for design-loop use.</p>
+          </div>
+        </div>
+        <div class="btn-row">
+          <a class="btn btn-primary" href="formula-student.html">See the checks applied
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round"><path d="M5 12h14M13 6l6 6-6 6"/></svg>
+          </a>
+          <a class="btn" href="../index.html#work">All projects</a>
+        </div>
+      </section>
+
+    </div>
+
+    <aside class="toc" aria-label="On this page">
+      <div class="toc-title">On this page</div>
+      <ol>
+        <li><a href="#checklist">Study checklist</a></li>
+        <li><a href="#nearwall">Near-wall / y⁺</a></li>
+        <li><a href="#convergence">Convergence</a></li>
+        <li><a href="#domain">Domain &amp; boundaries</a></li>
+        <li><a href="#turbulence">Turbulence modelling</a></li>
+        <li><a href="#interpretation">Interpreting coefficients</a></li>
+        <li><a href="#planned">In progress</a></li>
+      </ol>
+    </aside>
+  </div>
+</main>
+
+<footer class="footer">
+  <div class="wrap footer-in">
+    <div>© <span id="year">2026</span> Haithem Benaida · Assumptions next to the numbers.</div>
+    <div class="footer-links">
+      <a href="../index.html">Home</a>
+      <a href="formula-student.html">Formula Student</a>
+      <a href="riyah.html">Riyah</a>
+      <a href="../cv.html">CV</a>
+    </div>
+  </div>
+</footer>
+
+<script src="../assets/js/site.js"></script>
+</body>
+</html>

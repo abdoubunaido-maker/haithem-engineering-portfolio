@@ -1,0 +1,675 @@
+<!doctype html>
+<html lang="en" data-theme="dark">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Riyah — Wind-Turbine Design &amp; Performance Prediction | Haithem Benaida</title>
+<meta name="description" content="Riyah: a Python/Streamlit application for horizontal-axis wind-turbine aerodynamic design and performance prediction, built on blade-element momentum theory with polar extrapolation, differential-evolution optimisation and NREL reference-turbine benchmarks.">
+<meta name="author" content="Haithem Abd Allah Benaida">
+<meta property="og:title" content="Riyah — HAWT design and performance prediction">
+<meta property="og:description" content="Blade-element momentum theory wrapped in a usable design tool: airfoil polars, loss corrections, blade geometry, optimisation and NREL benchmarks.">
+<link rel="stylesheet" href="../assets/css/site.css">
+<link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'><rect width='32' height='32' rx='8' fill='%235eead4'/><text x='16' y='22' font-family='monospace' font-size='16' font-weight='bold' text-anchor='middle' fill='%2304211d'>HB</text></svg>">
+</head>
+<body>
+<a class="skip" href="#main">Skip to content</a>
+
+<nav class="nav">
+  <div class="wrap nav-in">
+    <a class="brand" href="../index.html"><span class="brand-mark">HB</span> Haithem Benaida</a>
+    <div class="nav-links" id="navLinks">
+      <a href="../index.html#work">Work</a>
+      <a href="formula-student.html">Formula Student</a>
+      <a href="riyah.html" aria-current="page">Riyah</a>
+      <a href="rocketry.html">Rocketry</a>
+      <a href="../cv.html">CV</a>
+      <a href="../index.html#contact">Contact</a>
+    </div>
+    <button class="icon-btn nav-toggle" id="navToggle" aria-label="Toggle navigation" aria-expanded="false">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M3 6h18M3 12h18M3 18h18"/></svg>
+    </button>
+    <button class="icon-btn" id="themeBtn" aria-label="Switch theme"></button>
+  </div>
+</nav>
+
+<header class="hero">
+  <div class="wrap hero-grid">
+    <div>
+      <div class="eyebrow">Case study · Wind energy · Engineering software</div>
+      <h1 style="max-width:16ch">Riyah<span class="grad">.</span></h1>
+      <p class="lede">
+        A wind-turbine design and performance-prediction application. Riyah takes
+        blade-element momentum theory — fast enough to sit inside an optimisation loop — and wraps
+        it in the parts that usually stop people using it: airfoil-polar acquisition, post-stall
+        extrapolation, loss corrections, blade geometry generation and result visualisation.
+      </p>
+      <div class="chips">
+        <span class="chip chip-accent">Python</span>
+        <span class="chip">Streamlit</span>
+        <span class="chip">BEM</span>
+        <span class="chip">XFOIL / NeuralFoil</span>
+        <span class="chip">Differential evolution</span>
+        <span class="chip">3D visualisation</span>
+      </div>
+      <div class="btn-row">
+        <a class="btn btn-primary" href="#method">The method
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round"><path d="M5 12h14M13 6l6 6-6 6"/></svg>
+        </a>
+        <a class="btn" href="#validation">Benchmarks</a>
+        <a class="btn" href="formula-student.html">Other case study</a>
+      </div>
+    </div>
+    <figure class="hero-figure" style="background:linear-gradient(155deg,var(--panel-2),var(--panel));">
+      <svg viewBox="0 0 460 300" role="img" aria-label="Schematic of a three-bladed horizontal-axis wind turbine rotor with the incoming wind profile, blade element stations and the rotor swept area marked.">
+        <defs>
+          <linearGradient id="rg" x1="0" y1="0" x2="1" y2="1">
+            <stop offset="0" stop-color="#5eead4"/><stop offset="1" stop-color="#7dd3fc"/>
+          </linearGradient>
+        </defs>
+        <g stroke="#7dd3fc" stroke-width="1.3" opacity=".45" stroke-linecap="round">
+          <path d="M20 70h74M20 96h62M20 122h74M20 148h62M20 174h74M20 200h62"/>
+          <path d="M86 65l9 5-9 5M74 91l9 5-9 5M86 117l9 5-9 5M74 143l9 5-9 5M86 169l9 5-9 5M74 195l9 5-9 5" fill="none"/>
+        </g>
+        <text x="20" y="52" font-family="monospace" font-size="11" fill="#7387a3">U∞</text>
+        <circle cx="268" cy="140" r="104" fill="none" stroke="#22304f" stroke-width="1" stroke-dasharray="4 5"/>
+        <text x="352" y="60" font-family="monospace" font-size="10" fill="#7387a3">R</text>
+        <line x1="268" y1="140" x2="352" y2="72" stroke="#22304f" stroke-width="1"/>
+        <g fill="url(#rg)" opacity=".93">
+          <path d="M268 140 C282 92 288 54 279 36 C266 46 254 92 255 136 Z"/>
+          <path d="M268 140 C310 164 344 184 361 178 C354 162 312 142 272 129 Z"/>
+          <path d="M268 140 C226 164 192 184 175 178 C182 162 224 142 264 129 Z"/>
+        </g>
+        <g stroke="#0b1120" stroke-width=".8" opacity=".5">
+          <path d="M262 112l14 4M259 86l14 4M257 62l13 4M292 152l6-12M316 163l6-12M340 173l5-11M244 152l-6-12M220 163l-6-12M196 173l-5-11"/>
+        </g>
+        <circle cx="268" cy="140" r="13" fill="#101a2d" stroke="#5eead4" stroke-width="2.5"/>
+        <rect x="262" y="150" width="12" height="106" rx="4" fill="#22304f"/>
+        <rect x="234" y="252" width="68" height="7" rx="3.5" fill="#22304f"/>
+        <g font-family="monospace" font-size="10" fill="#5eead4">
+          <text x="292" y="100">dr</text>
+          <text x="386" y="140">Ω</text>
+        </g>
+        <path d="M370 118 a26 26 0 0 1 14 22" fill="none" stroke="#5eead4" stroke-width="1.3"/>
+        <path d="M380 136l4 6 5-5" fill="none" stroke="#5eead4" stroke-width="1.3"/>
+      </svg>
+      <figcaption>Blade-element discretisation of a HAWT rotor — the model Riyah solves.</figcaption>
+    </figure>
+  </div>
+</header>
+
+<main id="main" class="wrap">
+  <div class="report">
+    <div class="report-main">
+
+      <!-- ---------- Overview ---------- -->
+      <section id="overview">
+        <div class="eyebrow">01 · Overview</div>
+        <h2 style="margin-top:.55rem">Why build this at all?</h2>
+        <p>
+          Rotor aerodynamics has an awkward gap in it. CFD resolves the flow but is far too expensive
+          to run thousands of times inside a design search. Blade-element momentum theory is cheap
+          enough for that — a full C<sub>P</sub>–λ curve in a fraction of a second — but using it
+          properly means assembling a lot of unglamorous machinery first: polars at the right Reynolds
+          numbers, extrapolated to angles the wind tunnel never reached, plus tip, hub and
+          high-induction corrections.
+        </p>
+        <p>
+          <strong>Riyah closes that gap.</strong> It puts the whole chain behind one interface, so a
+          rotor can be specified, analysed, reshaped and optimised without leaving the tool. It was
+          developed as a final-year project and is built to be used by someone who wants an answer,
+          not by someone who wants to write a BEM solver.
+        </p>
+
+        <div class="metrics" style="margin:1.8rem 0">
+          <div class="metric">
+            <span class="metric-val">BEM</span>
+            <span class="metric-label">Core solver</span>
+            <span class="metric-note">with tip, hub &amp; high-induction corrections</span>
+          </div>
+          <div class="metric">
+            <span class="metric-val">±180<span class="unit">°</span></span>
+            <span class="metric-label">Polar coverage</span>
+            <span class="metric-note">post-stall extrapolation</span>
+          </div>
+          <div class="metric">
+            <span class="metric-val">0.482</span>
+            <span class="metric-label">Peak C<sub>P</sub> reproduced</span>
+            <span class="metric-note">NREL 5-MW, at λ ≈ 7.55</span>
+          </div>
+          <div class="metric">
+            <span class="metric-val">DE</span>
+            <span class="metric-label">Optimiser</span>
+            <span class="metric-note">differential evolution</span>
+          </div>
+        </div>
+
+        <h3>What the application does</h3>
+        <div class="grid-2">
+          <div class="card">
+            <div class="eyebrow no-rule">Input &amp; data</div>
+            <h4 class="mt-0">Rotor definition and airfoil polars</h4>
+            <ul class="muted mb-0" style="font-size:.92rem">
+              <li>Interactive definition of rotor and operating parameters</li>
+              <li>Airfoil data from a local database, fetched sources, or user upload</li>
+              <li>Polar generation via XFOIL, or prediction via NeuralFoil where available</li>
+              <li>Extrapolation beyond the supplied angle-of-attack range</li>
+            </ul>
+          </div>
+          <div class="card">
+            <div class="eyebrow no-rule">Analysis &amp; design</div>
+            <h4 class="mt-0">Performance, geometry and search</h4>
+            <ul class="muted mb-0" style="font-size:.92rem">
+              <li>BEM performance prediction and post-processing</li>
+              <li>Preliminary blade design — chord and twist distributions</li>
+              <li>Three-dimensional blade visualisation</li>
+              <li>Differential-evolution optimisation of the design</li>
+            </ul>
+          </div>
+        </div>
+      </section>
+
+      <!-- ---------- Architecture ---------- -->
+      <section id="architecture">
+        <div class="eyebrow">02 · Architecture</div>
+        <h2 style="margin-top:.55rem">How the pieces fit together</h2>
+        <p>
+          The design of the application follows the dependency chain of the physics. Polars are
+          resolved and made complete <em>before</em> the solver runs, because a BEM iteration that
+          walks off the end of a polar table is the most common source of silent nonsense in rotor
+          codes. The optimiser then sits outside the solver and treats it as a black box.
+        </p>
+        <figure class="figure">
+          <div class="figure-media" style="background:var(--panel-2);padding:18px 10px">
+            <svg viewBox="0 0 880 400" role="img" aria-label="Architecture diagram: rotor inputs and airfoil data sources feed polar preparation, which feeds the BEM solver with loss corrections, producing performance outputs; the optimiser wraps the solver in a search loop and the blade view renders the geometry.">
+              <defs>
+                <marker id="ar" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto">
+                  <path d="M0 0 L10 5 L0 10 z" fill="#5eead4"/>
+                </marker>
+                <marker id="ar2" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto">
+                  <path d="M0 0 L10 5 L0 10 z" fill="#7dd3fc"/>
+                </marker>
+              </defs>
+              <g font-family="ui-monospace, monospace" font-size="12">
+                <!-- inputs -->
+                <rect x="16" y="24" width="182" height="82" rx="10" fill="#16223c" stroke="#22304f"/>
+                <text x="32" y="48" fill="#5eead4" font-size="11">ROTOR INPUTS</text>
+                <text x="32" y="70" fill="#9db0cb" font-size="11">R, B, hub, pitch</text>
+                <text x="32" y="88" fill="#9db0cb" font-size="11">U∞, Ω / λ, ρ, ν</text>
+
+                <rect x="16" y="140" width="182" height="104" rx="10" fill="#16223c" stroke="#22304f"/>
+                <text x="32" y="164" fill="#5eead4" font-size="11">AIRFOIL DATA</text>
+                <text x="32" y="186" fill="#9db0cb" font-size="11">local database</text>
+                <text x="32" y="204" fill="#9db0cb" font-size="11">fetch / upload</text>
+                <text x="32" y="222" fill="#9db0cb" font-size="11">XFOIL · NeuralFoil</text>
+
+                <!-- polar prep -->
+                <rect x="248" y="140" width="180" height="104" rx="10" fill="#16223c" stroke="#5eead4" stroke-opacity=".5"/>
+                <text x="264" y="164" fill="#5eead4" font-size="11">POLAR PREP</text>
+                <text x="264" y="186" fill="#9db0cb" font-size="11">Re interpolation</text>
+                <text x="264" y="204" fill="#9db0cb" font-size="11">±180° extrapolation</text>
+                <text x="264" y="222" fill="#9db0cb" font-size="11">Cl, Cd tables</text>
+
+                <!-- solver -->
+                <rect x="478" y="86" width="196" height="158" rx="10" fill="#101a2d" stroke="#5eead4"/>
+                <text x="494" y="110" fill="#5eead4" font-size="11">BEM SOLVER</text>
+                <text x="494" y="134" fill="#9db0cb" font-size="11">per-element iteration</text>
+                <text x="494" y="152" fill="#9db0cb" font-size="11">on a, a′</text>
+                <line x1="494" y1="164" x2="658" y2="164" stroke="#22304f"/>
+                <text x="494" y="184" fill="#7dd3fc" font-size="11">+ Prandtl tip / hub</text>
+                <text x="494" y="202" fill="#7dd3fc" font-size="11">+ high-induction</text>
+                <text x="494" y="220" fill="#7dd3fc" font-size="11">+ drag in wake</text>
+
+                <!-- outputs -->
+                <rect x="724" y="24" width="140" height="104" rx="10" fill="#16223c" stroke="#22304f"/>
+                <text x="740" y="48" fill="#5eead4" font-size="11">OUTPUTS</text>
+                <text x="740" y="70" fill="#9db0cb" font-size="11">C_P–λ, C_T–λ</text>
+                <text x="740" y="88" fill="#9db0cb" font-size="11">power curve</text>
+                <text x="740" y="106" fill="#9db0cb" font-size="11">spanwise loads</text>
+
+                <rect x="724" y="164" width="140" height="80" rx="10" fill="#16223c" stroke="#22304f"/>
+                <text x="740" y="188" fill="#5eead4" font-size="11">BLADE VIEW</text>
+                <text x="740" y="210" fill="#9db0cb" font-size="11">chord &amp; twist</text>
+                <text x="740" y="228" fill="#9db0cb" font-size="11">3D render</text>
+
+                <!-- optimiser -->
+                <rect x="330" y="304" width="344" height="72" rx="10" fill="#16223c" stroke="#7dd3fc" stroke-dasharray="5 4"/>
+                <text x="348" y="328" fill="#7dd3fc" font-size="11">DIFFERENTIAL EVOLUTION</text>
+                <text x="348" y="350" fill="#9db0cb" font-size="11">chord / twist / λ design → objective + constraints</text>
+
+                <!-- arrows -->
+                <g stroke="#5eead4" stroke-width="1.6" fill="none" marker-end="url(#ar)">
+                  <path d="M198 66 H226 Q240 66 240 82 V124 Q240 140 254 140 H244"/>
+                  <path d="M198 192 H244"/>
+                  <path d="M428 192 H452 Q466 192 466 178 V170 H474"/>
+                  <path d="M674 140 H700 Q714 140 714 124 V90 Q714 76 720 76"/>
+                  <path d="M674 204 H720"/>
+                </g>
+                <g stroke="#7dd3fc" stroke-width="1.6" fill="none" marker-end="url(#ar2)" stroke-dasharray="5 4">
+                  <path d="M794 128 V150 Q794 160 780 160 H700 Q686 160 686 300"/>
+                  <path d="M400 304 V276 Q400 262 414 262 H560 Q576 262 576 248"/>
+                </g>
+                <text x="700" y="286" fill="#7387a3" font-size="10">objective</text>
+                <text x="410" y="290" fill="#7387a3" font-size="10">new design</text>
+              </g>
+            </svg>
+          </div>
+          <figcaption><span class="fig-num">Fig 1</span>Application data flow. Polars are completed before the solver runs; the optimiser treats the solver as a black box and closes the loop on the objective.</figcaption>
+        </figure>
+      </section>
+
+      <!-- ---------- Method ---------- -->
+      <section id="method">
+        <div class="eyebrow">03 · Method</div>
+        <h2 style="margin-top:.55rem">Blade-element momentum theory, properly</h2>
+        <p>
+          BEM equates two independent expressions for the load on an annular ring of the rotor: the
+          momentum the ring extracts from the flow, and the aerodynamic force the blade sections in
+          that ring actually generate. Solving them together gives the induction factors, and from
+          those everything else follows.
+        </p>
+
+        <h3>Geometry of a blade element</h3>
+        <p>
+          At radius <span class="v">r</span>, the section sees a relative velocity combining the
+          axially retarded wind and the tangentially accelerated rotation:
+        </p>
+        <div class="eq">
+          <span class="eq-body"><i>W</i> = √<span class="sqrt">[<i>U</i><sub>∞</sub>(1 − <i>a</i>)]² + [Ω<i>r</i>(1 + <i>a</i>′)]²</span></span>
+          <span class="eq-num">Eq. 1</span>
+        </div>
+        <div class="eq">
+          <span class="eq-body">φ = arctan <span class="frac"><span><i>U</i><sub>∞</sub>(1 − <i>a</i>)</span><span>Ω<i>r</i>(1 + <i>a</i>′)</span></span> ,&nbsp;&nbsp; α = φ − (θ<sub>pitch</sub> + θ<sub>twist</sub>)</span>
+          <span class="eq-num">Eq. 2</span>
+        </div>
+        <p>
+          The angle of attack α is what indexes the polar — and it is the reason the polars must cover
+          the full range. At start-up or low tip-speed ratio, α at the inboard stations runs far past
+          stall, well outside any measured table.
+        </p>
+
+        <h3>The two load expressions</h3>
+        <p>Momentum side, for an annulus of width d<span class="v">r</span> with total loss factor <span class="v">F</span>:</p>
+        <div class="eq">
+          <span class="eq-body">d<i>T</i> = 4π<i>r</i> ρ <i>U</i><sub>∞</sub>² <i>a</i>(1 − <i>a</i>) <i>F</i> d<i>r</i></span>
+          <span class="eq-num">Eq. 3</span>
+        </div>
+        <div class="eq">
+          <span class="eq-body">d<i>Q</i> = 4π<i>r</i>³ ρ <i>U</i><sub>∞</sub> Ω <i>a</i>′(1 − <i>a</i>) <i>F</i> d<i>r</i></span>
+          <span class="eq-num">Eq. 4</span>
+        </div>
+        <p>Blade-element side, for <span class="v">B</span> blades of chord <span class="v">c</span>:</p>
+        <div class="eq">
+          <span class="eq-body">d<i>T</i> = ½ <i>B</i> ρ <i>W</i>² <i>c</i> (<i>C<sub>l</sub></i> cos φ + <i>C<sub>d</sub></i> sin φ) d<i>r</i></span>
+          <span class="eq-num">Eq. 5</span>
+        </div>
+        <div class="eq">
+          <span class="eq-body">d<i>Q</i> = ½ <i>B</i> ρ <i>W</i>² <i>c</i> (<i>C<sub>l</sub></i> sin φ − <i>C<sub>d</sub></i> cos φ) <i>r</i> d<i>r</i></span>
+          <span class="eq-num">Eq. 6</span>
+        </div>
+        <p>
+          Note that drag <em>adds</em> to thrust in Eq. 5 but <em>subtracts</em> from torque in Eq. 6.
+          This is why neglecting C<sub>d</sub> inflates predicted power — and why polar quality
+          matters as much as the solver. Integrating along the span and non-dimensionalising gives
+          the coefficients the tool reports:
+        </p>
+        <div class="eq">
+          <span class="eq-body"><i>C<sub>P</sub></i> = <span class="frac"><span><i>Q</i>Ω</span><span>½ρ<i>A U</i><sub>∞</sub><sup>3</sup></span></span> ,&nbsp;&nbsp; <i>C<sub>T</sub></i> = <span class="frac"><span><i>T</i></span><span>½ρ<i>A U</i><sub>∞</sub><sup>2</sup></span></span> ,&nbsp;&nbsp; λ = <span class="frac"><span>Ω<i>R</i></span><span><i>U</i><sub>∞</sub></span></span></span>
+          <span class="eq-num">Eq. 7</span>
+        </div>
+
+        <h3>The corrections that make it trustworthy</h3>
+        <div class="table-wrap">
+          <table>
+            <caption><span class="fig-num">Table 1</span>Corrections applied to the ideal annulus model, and why each is needed.</caption>
+            <thead><tr><th>Correction</th><th>Physical reason</th><th>Form</th></tr></thead>
+            <tbody>
+              <tr>
+                <td><strong>Prandtl tip loss</strong></td>
+                <td>A finite number of blades sheds tip vortices; the annulus is not independent, and loading must fall to zero at the tip.</td>
+                <td class="num">F<sub>tip</sub> = (2/π)·arccos[e<sup>−B(R−r)/(2r sinφ)</sup>]</td>
+              </tr>
+              <tr>
+                <td><strong>Hub loss</strong></td>
+                <td>The same argument at the root, where the blade meets the hub.</td>
+                <td class="num">F<sub>hub</sub> = (2/π)·arccos[e<sup>−B(r−r<sub>hub</sub>)/(2r sinφ)</sup>]</td>
+              </tr>
+              <tr>
+                <td><strong>High induction</strong></td>
+                <td>Above a ≈ 0.4 momentum theory predicts a reversed wake and becomes non-physical (turbulent-wake state).</td>
+                <td>Empirical C<sub>T</sub>–a relation (Glauert / Buhl type)</td>
+              </tr>
+              <tr>
+                <td><strong>Post-stall polars</strong></td>
+                <td>Measured or computed polars stop near stall; the solver still needs values at high α.</td>
+                <td>Viterna-type extrapolation to ±180°</td>
+              </tr>
+            </tbody>
+          </table>
+          <div class="table-note">F = F<sub>tip</sub>·F<sub>hub</sub>. Without the loss factors an ideal BEM code over-predicts power near the tip and approaches the Betz limit too closely.</div>
+        </div>
+
+        <div class="panel">
+          <div class="panel-head">
+            <div>
+              <h4>Feel the momentum theory underneath</h4>
+              <p>
+                Exact one-dimensional actuator-disk results: C<sub>P</sub> = 4a(1−a)² and
+                C<sub>T</sub> = 4a(1−a). <strong>Teaching illustration of the theory — not Riyah output.</strong>
+              </p>
+            </div>
+          </div>
+          <div class="slider-row">
+            <label for="inductionSlider">Axial induction <span class="v">a</span></label>
+            <input type="range" id="inductionSlider" min="0" max="0.5" step="0.001" value="0.333" aria-describedby="momReadout">
+            <span class="readout" id="outA">0.333</span>
+          </div>
+          <svg id="momentumChart" class="chart" role="img" aria-label="Power coefficient and thrust coefficient against axial induction factor, with the Betz limit marked at a equals one third."></svg>
+          <div class="legend">
+            <span><i style="background:var(--accent)"></i>C<sub>P</sub> = 4a(1−a)²</span>
+            <span><i style="background:var(--accent-2)"></i>C<sub>T</sub> = 4a(1−a)</span>
+            <span><i style="background:var(--warn);opacity:.35"></i>a &gt; 0.4 — momentum invalid</span>
+          </div>
+          <div class="metrics" id="momReadout" style="margin-top:16px;grid-template-columns:repeat(auto-fit,minmax(140px,1fr))">
+            <div class="metric"><span class="metric-val" id="outCp">0.5926</span><span class="metric-label">C<sub>P</sub></span></div>
+            <div class="metric"><span class="metric-val" id="outCt">0.8889</span><span class="metric-label">C<sub>T</sub></span></div>
+            <div class="metric"><span class="metric-val">0.593</span><span class="metric-label">Betz limit</span><span class="metric-note">16/27, at a = 1/3</span></div>
+          </div>
+          <p class="muted" style="font-size:.84rem;margin:14px 0 0">
+            Power peaks at a = 1/3, but thrust keeps climbing towards a = 0.5. That tension — between
+            extracting energy and loading the structure — is the real design problem, and it is why
+            maximum C<sub>P</sub> is rarely the only objective. Past a ≈ 0.4 the simple theory breaks
+            down, which is exactly where the empirical correction in Table 1 takes over.
+          </p>
+        </div>
+      </section>
+
+      <!-- ---------- Polars ---------- -->
+      <section id="polars">
+        <div class="eyebrow">04 · Airfoil data</div>
+        <h2 style="margin-top:.55rem">The part that decides whether the answer means anything</h2>
+        <p>
+          A BEM code is only as good as its C<sub>l</sub>(α, Re) and C<sub>d</sub>(α, Re) tables. Riyah
+          supports three routes to them, because no single source is always available:
+        </p>
+        <ol class="steps">
+          <li>
+            <h4>Local database</h4>
+            <p>Curated polars for common wind-turbine sections, ready for immediate use and reproducible between runs.</p>
+          </li>
+          <li>
+            <h4>Fetch or upload</h4>
+            <p>Pull published data, or bring your own measured or computed tables — including section data from a separate CFD or wind-tunnel campaign.</p>
+          </li>
+          <li>
+            <h4>Generate or predict</h4>
+            <p>Run XFOIL for the required Reynolds number, or use NeuralFoil where available for a fast learned estimate. This is the same batch-XFOIL instinct used in the Formula Student airfoil campaign, applied to rotor sections.</p>
+          </li>
+          <li>
+            <h4>Extrapolate to ±180°</h4>
+            <p>Extend the finite table so the solver never has to guess. Viterna-type extrapolation blends the polar at the stall angle into flat-plate behaviour at high incidence, where C<sub>d</sub> tends towards a bluff-body value and C<sub>l</sub> falls back towards a sinusoidal form.</p>
+          </li>
+        </ol>
+        <div class="callout warn">
+          <span class="callout-title">Why extrapolation is a modelling choice, not a formality</span>
+          <p class="mb-0">
+            Different extrapolation models give visibly different answers at start-up and at low
+            tip-speed ratio, where much of the blade is stalled. The extrapolated region is
+            <strong>not validated data</strong> — it is a physically-motivated assumption. Any result
+            that depends heavily on it should be reported with that caveat, which is why the model
+            used and the original polar range belong in the output metadata.
+          </p>
+        </div>
+      </section>
+
+      <!-- ---------- Blade design ---------- -->
+      <section id="design">
+        <div class="eyebrow">05 · Blade design</div>
+        <h2 style="margin-top:.55rem">From a target λ to a chord and twist distribution</h2>
+        <p>
+          For preliminary design, the classical optimum-rotor result gives a starting geometry
+          directly. Choosing a design tip-speed ratio and a design angle of attack fixes the inflow
+          angle at every station, and from it the chord:
+        </p>
+        <div class="eq">
+          <span class="eq-body">φ<sub>r</sub> = <span class="frac"><span>2</span><span>3</span></span> arctan<span style="font-size:1.15em">(</span><span class="frac"><span>1</span><span>λ<sub>r</sub></span></span><span style="font-size:1.15em">)</span> ,&nbsp;&nbsp; λ<sub>r</sub> = λ <span class="frac"><span><i>r</i></span><span><i>R</i></span></span></span>
+          <span class="eq-num">Eq. 8</span>
+        </div>
+        <div class="eq">
+          <span class="eq-body"><i>c</i><sub>r</sub> = <span class="frac"><span>8π<i>r</i></span><span><i>B C<sub>l</sub></i></span></span> (1 − cos φ<sub>r</sub>) ,&nbsp;&nbsp; θ<sub>twist,r</sub> = φ<sub>r</sub> − α<sub>design</sub></span>
+          <span class="eq-num">Eq. 9</span>
+        </div>
+        <p>
+          This produces the familiar tapered, twisted blade — wide and heavily twisted at the root,
+          narrow and nearly flat at the tip. It is a <em>starting point</em>: it ignores losses and
+          assumes a single design C<sub>l</sub>. The loss-corrected solver then evaluates what the
+          geometry actually delivers, and the optimiser refines it.
+        </p>
+        <p>
+          The 3D blade view exists for a practical reason. Chord and twist tables hide problems that
+          a rendered blade shows immediately — a root chord that will not fit the hub, a twist
+          distribution too aggressive to manufacture, or a non-monotonic taper that came out of an
+          unconstrained search.
+        </p>
+      </section>
+
+      <!-- ---------- Optimisation ---------- -->
+      <section id="optimisation">
+        <div class="eyebrow">06 · Optimisation</div>
+        <h2 style="margin-top:.55rem">Why differential evolution</h2>
+        <p>
+          The rotor design objective is not smooth. Polars are interpolated tables, the
+          high-induction correction switches branch, stall onset introduces kinks, and the loss
+          factors are transcendental. Gradient methods struggle with that landscape and are easily
+          trapped by the starting guess.
+        </p>
+        <p>
+          <strong>Differential evolution</strong> is a population-based, derivative-free search: it
+          mutates candidates by scaled differences between population members, crosses them over, and
+          keeps improvements. It handles multimodal, non-smooth objectives and box constraints
+          naturally — which is exactly the shape of this problem — and each objective evaluation is
+          cheap because the solver is BEM rather than CFD.
+        </p>
+        <div class="table-wrap">
+          <table>
+            <caption><span class="fig-num">Table 2</span>Structure of the design search.</caption>
+            <thead><tr><th>Element</th><th>Typical formulation</th></tr></thead>
+            <tbody>
+              <tr><td>Design variables</td><td>Chord and twist at spanwise control stations; design tip-speed ratio; pitch setting</td></tr>
+              <tr><td>Objective</td><td>Maximise C<sub>P</sub> at the design λ, or maximise annual energy production over a wind-speed distribution</td></tr>
+              <tr><td>Constraints</td><td>Chord bounds and smoothness, maximum tip speed (noise), manufacturable twist, root fitting</td></tr>
+              <tr><td>Evaluation</td><td>Loss-corrected BEM — fast enough for thousands of candidate evaluations</td></tr>
+            </tbody>
+          </table>
+          <div class="table-note">
+            For a Weibull wind distribution f(v), AEP = 8760·∫P(v)f(v)dv — which rewards a broad
+            C<sub>P</sub>–λ curve rather than a tall narrow peak, and usually gives a different blade
+            from a single-point C<sub>P</sub> optimisation.
+          </div>
+        </div>
+      </section>
+
+      <!-- ---------- Validation ---------- -->
+      <section id="validation">
+        <div class="eyebrow">07 · Validation</div>
+        <h2 style="margin-top:.55rem">Checking the tool against reference turbines</h2>
+        <p>
+          A design tool that has never reproduced a known answer is just a random-number generator
+          with a nice interface. Riyah was compared against two established reference cases, chosen
+          because they test different things.
+        </p>
+
+        <div class="grid-2">
+          <div class="card">
+            <div class="eyebrow no-rule">Case A</div>
+            <h3 class="mt-0">NREL 5-MW reference turbine</h3>
+            <p style="font-size:.93rem">
+              A large three-bladed, pitch-regulated machine — the standard offshore reference. It
+              tests whether the tool reproduces a well-documented optimum in the attached-flow,
+              high-efficiency regime.
+            </p>
+            <div class="stat-row">
+              <div><b>0.482</b>reference C<sub>P,max</sub></div>
+              <div><b>7.55</b>reference λ</div>
+            </div>
+            <p class="mb-0" style="font-size:.9rem">
+              The published definition report finds a peak power coefficient of
+              <strong>0.482 at λ = 7.55</strong> and zero collective pitch, from FAST/AeroDyn
+              simulations at 8 m/s. A value recorded during Riyah's development was a peak
+              C<sub>P</sub> of <strong>≈0.482 near λ ≈ 7.55</strong> — reproducing both the
+              magnitude and the location of the published optimum.
+            </p>
+          </div>
+          <div class="card">
+            <div class="eyebrow no-rule">Case B</div>
+            <h3 class="mt-0">NREL Phase VI (UAE) rotor</h3>
+            <p style="font-size:.93rem">
+              A small two-bladed, stall-regulated rotor with the S809 section, measured in the NASA
+              Ames wind tunnel. It is the harder test: it exercises the stalled regime, where the
+              answer depends on post-stall polar extrapolation and the high-induction correction
+              rather than on the clean attached-flow physics.
+            </p>
+            <p class="mb-0" style="font-size:.9rem">
+              This is the case that exposes whether the corrections and extrapolation are behaving
+              sensibly — a BEM code can match an attached-flow optimum and still be badly wrong here.
+            </p>
+          </div>
+        </div>
+
+        <div class="callout">
+          <span class="callout-title">How to read the benchmark</span>
+          <p class="mb-0">
+            Matching one operating point is <strong>not</strong> validation of the whole model. A
+            defensible benchmark reports the input assumptions, polar source and Reynolds numbers,
+            which corrections were active, convergence tolerance, and agreement across the
+            <em>whole</em> C<sub>P</sub>–λ curve — not just at the peak. The figure quoted above is a
+            development result recorded against the published reference; the versioned comparison
+            plots belong with the project report.
+          </p>
+        </div>
+      </section>
+
+      <!-- ---------- Reproducibility ---------- -->
+      <section id="reproducibility">
+        <div class="eyebrow">08 · Reproducibility &amp; limits</div>
+        <h2 style="margin-top:.55rem">What BEM cannot tell you</h2>
+        <div class="grid-2">
+          <div class="card">
+            <h3 class="mt-0">Inherent model limitations</h3>
+            <ul class="muted mb-0" style="font-size:.93rem">
+              <li>Annuli are treated as independent — no radial flow.</li>
+              <li>Steady, uniform, axial inflow: no yaw, shear, tower shadow or turbulence without extra models.</li>
+              <li>No dynamic stall or unsteady aerodynamics.</li>
+              <li>Tip and hub corrections are empirical approximations, not resolved vortex physics.</li>
+              <li>Deep-stall behaviour depends on the extrapolation model chosen.</li>
+              <li>Rigid blade — no aeroelastic deflection changing the effective geometry.</li>
+            </ul>
+          </div>
+          <div class="card">
+            <h3 class="mt-0">Reproducibility practice</h3>
+            <ul class="muted mb-0" style="font-size:.93rem">
+              <li>Version the polar data alongside the results — polars change the answer more than solver settings do.</li>
+              <li>Record which corrections and extrapolation model were active.</li>
+              <li>State units and reference area explicitly on every coefficient.</li>
+              <li>Report convergence tolerance and element count, and check element-count sensitivity.</li>
+              <li>Keep benchmark inputs as fixed, re-runnable cases.</li>
+            </ul>
+          </div>
+        </div>
+
+        <h3>Where I want to take it</h3>
+        <ul class="muted">
+          <li><strong>Yawed and sheared inflow</strong> — skewed-wake correction and a proper inflow model.</li>
+          <li><strong>AEP-driven optimisation</strong> with site wind distributions and a tip-speed/noise constraint, rather than single-point C<sub>P</sub>.</li>
+          <li><strong>Full benchmark suite</strong> — published comparison plots across the whole C<sub>P</sub>–λ curve for both NREL cases, with versioned inputs.</li>
+          <li><strong>Cross-fidelity check</strong> — compare BEM against rotor CFD at selected operating points to quantify where the fast model drifts.</li>
+          <li><strong>Public release</strong> — packaged app, documented API, tests, and a hosted demo.</li>
+        </ul>
+      </section>
+
+      <!-- ---------- Stack ---------- -->
+      <section id="stack">
+        <div class="eyebrow">09 · Stack &amp; access</div>
+        <h2 style="margin-top:.55rem">Built with</h2>
+        <div class="skill-grid">
+          <div class="skill-card">
+            <h4>Language &amp; UI</h4>
+            <ul><li>Python</li><li>Streamlit application interface</li><li>Interactive parameter workflows</li></ul>
+          </div>
+          <div class="skill-card">
+            <h4>Aerodynamics</h4>
+            <ul><li>Blade-element momentum solver</li><li>XFOIL polar generation</li><li>NeuralFoil prediction (where available)</li><li>Prandtl / high-induction corrections</li></ul>
+          </div>
+          <div class="skill-card">
+            <h4>Numerics</h4>
+            <ul><li>Iterative induction solution</li><li>Polar interpolation &amp; extrapolation</li><li>Differential-evolution optimisation</li></ul>
+          </div>
+          <div class="skill-card">
+            <h4>Output</h4>
+            <ul><li>C<sub>P</sub>–λ and C<sub>T</sub>–λ curves</li><li>Spanwise load distributions</li><li>3D blade geometry view</li></ul>
+          </div>
+        </div>
+
+        <div class="callout warn">
+          <span class="callout-title">Access &amp; documentation status</span>
+          <p class="mb-0">
+            The source repository is currently <strong>private</strong>, so there is no public demo
+            link yet. This page documents the method and the capabilities listed above; the
+            code-level reference, versioned benchmark plots and a hosted demo will be published with
+            the release. If you would like to see the implementation or discuss the modelling, please
+            <a href="../index.html#contact">get in touch</a>.
+          </p>
+        </div>
+
+        <div class="btn-row">
+          <a class="btn btn-primary" href="formula-student.html">Next: Formula Student aero
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round"><path d="M5 12h14M13 6l6 6-6 6"/></svg>
+          </a>
+          <a class="btn" href="../index.html#work">All projects</a>
+          <a class="btn" href="https://github.com/abdoubunaido-maker/haithem-engineering-portfolio/blob/main/projects/riyah-hawt-design/README.md" rel="noopener">Markdown version</a>
+        </div>
+
+        <h3>References</h3>
+        <ul class="muted" style="font-size:.9rem">
+          <li>J. Jonkman, S. Butterfield, W. Musial &amp; G. Scott, <em>Definition of a 5-MW Reference Wind Turbine for Offshore System Development</em>, NREL/TP-500-38060, 2009 — Table 7-2 gives C<sub>P,max</sub> = 0.482 at λ = 7.55.</li>
+          <li>NREL Unsteady Aerodynamics Experiment (UAE) Phase VI — two-bladed S809 rotor, NASA Ames 80 ft × 120 ft wind tunnel.</li>
+          <li>J. F. Manwell, J. G. McGowan &amp; A. L. Rogers, <em>Wind Energy Explained</em> — BEM formulation and optimum-rotor design relations.</li>
+          <li>L. A. Viterna &amp; R. D. Corrigan, post-stall airfoil extrapolation method (as implemented in NREL AirfoilPrep).</li>
+          <li>M. L. Buhl, <em>A New Empirical Relationship between Thrust Coefficient and Induction Factor for the Turbulent Windmill State</em>, NREL/TP-500-36834.</li>
+          <li>R. Storn &amp; K. Price, <em>Differential Evolution — A Simple and Efficient Heuristic for Global Optimization over Continuous Spaces</em>, J. Global Optim. 11 (1997) 341–359.</li>
+        </ul>
+      </section>
+
+    </div>
+
+    <aside class="toc" aria-label="On this page">
+      <div class="toc-title">On this page</div>
+      <ol>
+        <li><a href="#overview">Overview</a></li>
+        <li><a href="#architecture">Architecture</a></li>
+        <li><a href="#method">BEM method</a></li>
+        <li><a href="#polars">Airfoil polars</a></li>
+        <li><a href="#design">Blade design</a></li>
+        <li><a href="#optimisation">Optimisation</a></li>
+        <li><a href="#validation">Validation</a></li>
+        <li><a href="#reproducibility">Limits &amp; roadmap</a></li>
+        <li><a href="#stack">Stack &amp; access</a></li>
+      </ol>
+    </aside>
+  </div>
+</main>
+
+<footer class="footer">
+  <div class="wrap footer-in">
+    <div>© <span id="year">2026</span> Haithem Benaida · Numerical results, with assumptions stated.</div>
+    <div class="footer-links">
+      <a href="../index.html">Home</a>
+      <a href="formula-student.html">Formula Student</a>
+      <a href="rocketry.html">Rocketry</a>
+      <a href="../cv.html">CV</a>
+    </div>
+  </div>
+</footer>
+
+<script src="../assets/js/site.js"></script>
+</body>
+</html>

@@ -1,5 +1,7 @@
 # Rocketry — Two Separate Rocket Simulation Studies
 
+**[→ Web case study with figures](../rocketry.html)** · **[→ Back to portfolio](../../README.md)**
+
 This section documents **two different rocket models**, each with its own CAD preparation, compressible-flow CFD setup, and composite-fin structural analysis. Their fin geometry, lay-up descriptions, plots, and numerical results are intentionally kept separate because the two source reports describe different configurations.
 
 ## Study 1 — 3 mm wood core; glass-fibre layers of 500/240 g/m²

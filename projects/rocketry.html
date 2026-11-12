@@ -1,0 +1,302 @@
+<!doctype html>
+<html lang="en" data-theme="dark">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Rocketry — CAD, Compressible CFD &amp; Composite Fin Analysis | Haithem Benaida</title>
+<meta name="description" content="Two independent rocket simulation studies: CAD preparation, quarter-domain compressible external-flow CFD in ANSYS Fluent, and composite-fin structural analysis in ANSYS Mechanical / ACP.">
+<link rel="stylesheet" href="../assets/css/site.css">
+<link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'><rect width='32' height='32' rx='8' fill='%235eead4'/><text x='16' y='22' font-family='monospace' font-size='16' font-weight='bold' text-anchor='middle' fill='%2304211d'>HB</text></svg>">
+</head>
+<body>
+<a class="skip" href="#main">Skip to content</a>
+
+<nav class="nav">
+  <div class="wrap nav-in">
+    <a class="brand" href="../index.html"><span class="brand-mark">HB</span> Haithem Benaida</a>
+    <div class="nav-links" id="navLinks">
+      <a href="../index.html#work">Work</a>
+      <a href="formula-student.html">Formula Student</a>
+      <a href="riyah.html">Riyah</a>
+      <a href="rocketry.html" aria-current="page">Rocketry</a>
+      <a href="../cv.html">CV</a>
+      <a href="../index.html#contact">Contact</a>
+    </div>
+    <button class="icon-btn nav-toggle" id="navToggle" aria-label="Toggle navigation" aria-expanded="false">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M3 6h18M3 12h18M3 18h18"/></svg>
+    </button>
+    <button class="icon-btn" id="themeBtn" aria-label="Switch theme"></button>
+  </div>
+</nav>
+
+<header class="hero">
+  <div class="wrap">
+    <div class="eyebrow">Case study · Aerospace · Multiphysics</div>
+    <h1 style="max-width:22ch">Rocketry — two<br><span class="grad">separate studies.</span></h1>
+    <p class="lede">
+      Two different rocket models, each taken through CAD preparation, compressible external-flow
+      CFD, and composite-fin structural analysis. They are documented separately on purpose:
+      different fin stack-ups, different load cases, different results — and one result that does
+      not reconcile, which is flagged rather than buried.
+    </p>
+    <div class="chips">
+      <span class="chip chip-accent">SolidWorks</span>
+      <span class="chip">ANSYS Fluent — density-based</span>
+      <span class="chip">k–ω SST</span>
+      <span class="chip">ANSYS Mechanical</span>
+      <span class="chip">ACP — composites</span>
+      <span class="badge sim">Simulation study</span>
+    </div>
+  </div>
+</header>
+
+<main id="main" class="wrap">
+  <div class="report">
+    <div class="report-main">
+
+      <section id="approach">
+        <div class="eyebrow">01 · Common approach</div>
+        <h2 style="margin-top:.55rem">The workflow both studies share</h2>
+        <p>
+          Although the models differ, both follow the same multiphysics chain — geometry, external
+          aerodynamics, then structural response of the fin under the aerodynamic load supplied by
+          the flight-dynamics team.
+        </p>
+        <ol class="steps">
+          <li>
+            <h4>CAD and model idealisation</h4>
+            <p>Nose cone, cylindrical body and fin assembly modelled in SolidWorks. For the structural model the fin and root were reduced to <strong>midsurfaces</strong>, giving a shell model rather than a solid one — appropriate for a thin laminate and far cheaper to solve.</p>
+          </li>
+          <li>
+            <h4>Fluid domain by Boolean subtraction</h4>
+            <p>An external enclosure was created around the rocket and the body subtracted from it. The geometric symmetry of the vehicle was then exploited to simulate <strong>one quarter of the domain</strong> with symmetry boundary conditions.</p>
+          </li>
+          <li>
+            <h4>Compressible external CFD</h4>
+            <p>Density-based solver for compressible flow, k–ω SST turbulence model, energy equation enabled, and a <strong>Pressure Far-Field</strong> boundary specifying freestream Mach number, static pressure and static temperature at the selected maximum-velocity ascent condition.</p>
+          </li>
+          <li>
+            <h4>Convergence assessment</h4>
+            <p>Residual target of <strong>1×10⁻⁵</strong> for continuity and energy, together with a stable drag-coefficient plateau — residuals alone are not treated as proof of convergence.</p>
+          </li>
+          <li>
+            <h4>Composite fin structural analysis</h4>
+            <p>Static structural analysis in ANSYS Workbench. The fin root constrained to represent the body attachment, aerodynamic loads applied to the fin surfaces, mesh refined at the root and edges where stress concentrations are expected. Laminate layers assigned through <strong>ACP Mechanical</strong> using fibre-datasheet properties.</p>
+          </li>
+        </ol>
+      </section>
+
+      <section id="study1">
+        <div class="eyebrow">02 · Study 1</div>
+        <h2 style="margin-top:.55rem">3 mm wood core, 500 / 500 / 240 g/m² glass</h2>
+        <p>
+          The first model uses a <strong>3 mm wood core</strong> with three glass-fibre layers on each
+          side — the first two at <strong>500 g/m²</strong> and the third at <strong>240 g/m²</strong>,
+          oriented 0°, 45° and 90°.
+        </p>
+        <div class="fig-trio">
+          <figure class="figure">
+            <div class="figure-media"><img src="../assets/rocketry/study-1/cad-fin-geometry.png" alt="Fin CAD geometry from rocket Study 1."></div>
+            <figcaption><span class="fig-num">1a</span>Fin geometry.</figcaption>
+          </figure>
+          <figure class="figure">
+            <div class="figure-media"><img src="../assets/rocketry/study-1/fin-mesh.png" alt="Finite-element mesh of the fin for Study 1, refined at the root and edges."></div>
+            <figcaption><span class="fig-num">1b</span>Shell mesh, refined at the root.</figcaption>
+          </figure>
+          <figure class="figure">
+            <div class="figure-media"><img src="../assets/rocketry/study-1/composite-layup-setup.png" alt="Composite layup definition in ACP for Study 1 showing ply orientations and materials."></div>
+            <figcaption><span class="fig-num">1c</span>Layup definition in ACP.</figcaption>
+          </figure>
+        </div>
+
+        <div class="callout result">
+          <span class="callout-title">Reported structural result</span>
+          <p class="mb-0">
+            Peak equivalent (von Mises) stress of approximately <strong>9.99 MPa</strong>, compared in
+            the report against an estimated allowable of about <strong>13.4 MPa</strong> for that load
+            case — i.e. the layup was judged adequate <em>for Study 1's assumptions</em>. That
+            conclusion does not transfer to Study 2.
+          </p>
+        </div>
+        <figure class="figure">
+          <div class="figure-media"><img src="../assets/rocketry/study-1/fin-stress-contour.png" alt="Equivalent von Mises stress contour on the Study 1 composite fin, with a displayed maximum of about 9.99 MPa."></div>
+          <figcaption><span class="fig-num">Fig 2</span>Study 1 equivalent-stress contour; displayed maximum ≈ 9.99 MPa.</figcaption>
+        </figure>
+
+        <h3>External aerodynamics</h3>
+        <div class="fig-pair">
+          <figure class="figure">
+            <div class="figure-media"><img src="../assets/rocketry/study-1/cfd-domain.png" alt="Quarter-symmetry external CFD domain around the rocket in Study 1."></div>
+            <figcaption><span class="fig-num">Fig 3</span>Quarter-domain enclosure after Boolean subtraction.</figcaption>
+          </figure>
+          <figure class="figure">
+            <div class="figure-media"><img src="../assets/rocketry/study-1/pressure-far-field-setup.png" alt="ANSYS Fluent Pressure Far-Field boundary condition settings for Study 1, specifying Mach number, static pressure and temperature."></div>
+            <figcaption><span class="fig-num">Fig 4</span>Pressure Far-Field setup for the selected ascent condition.</figcaption>
+          </figure>
+        </div>
+        <figure class="figure">
+          <div class="figure-media"><img src="../assets/rocketry/study-1/cfd-residual-history.png" alt="Solver residual history for Study 1 showing continuity and energy residuals falling towards the one-times-ten-to-the-minus-five target."></div>
+          <figcaption><span class="fig-num">Fig 5</span>Residual history, assessed alongside a stable drag coefficient.</figcaption>
+        </figure>
+        <div class="fig-trio">
+          <figure class="figure">
+            <div class="figure-media"><img src="../assets/rocketry/study-1/cfd-result-01.png" alt="Compressible flow post-processing result 1 from rocket Study 1."></div>
+            <figcaption><span class="fig-num">6a</span>Flow field.</figcaption>
+          </figure>
+          <figure class="figure">
+            <div class="figure-media"><img src="../assets/rocketry/study-1/cfd-result-03.png" alt="Compressible flow post-processing result 3 from rocket Study 1."></div>
+            <figcaption><span class="fig-num">6b</span>Flow field.</figcaption>
+          </figure>
+          <figure class="figure">
+            <div class="figure-media"><img src="../assets/rocketry/study-1/cfd-result-05.png" alt="Compressible flow post-processing result 5 from rocket Study 1."></div>
+            <figcaption><span class="fig-num">6c</span>Flow field.</figcaption>
+          </figure>
+        </div>
+      </section>
+
+      <section id="study2">
+        <div class="eyebrow">03 · Study 2</div>
+        <h2 style="margin-top:.55rem">2 mm wood core, 240 g/m² glass throughout</h2>
+        <p>
+          The second model is a <strong>different rocket</strong>: a <strong>2 mm wood core</strong>
+          with three glass-fibre layers per side, all at <strong>240 g/m²</strong>, again at 0°, 45°
+          and 90°. Same workflow, different configuration.
+        </p>
+        <div class="fig-trio">
+          <figure class="figure">
+            <div class="figure-media"><img src="../assets/rocketry/study-2/cad-fin-geometry.png" alt="Fin CAD geometry from rocket Study 2."></div>
+            <figcaption><span class="fig-num">7a</span>Fin geometry.</figcaption>
+          </figure>
+          <figure class="figure">
+            <div class="figure-media"><img src="../assets/rocketry/study-2/structural-model.png" alt="Shell structural model of the fin and root for Study 2."></div>
+            <figcaption><span class="fig-num">7b</span>Midsurface structural model.</figcaption>
+          </figure>
+          <figure class="figure">
+            <div class="figure-media"><img src="../assets/rocketry/study-2/composite-layup-setup.png" alt="Composite material and layup setup in ACP for Study 2."></div>
+            <figcaption><span class="fig-num">7c</span>Layup definition.</figcaption>
+          </figure>
+        </div>
+
+        <div class="callout warn">
+          <span class="callout-title">Unresolved result — reported, not explained away</span>
+          <p>
+            The Study 2 stress contour displays a maximum equivalent stress of
+            <strong>875.42 MPa</strong> and the deformation contour <strong>9.5887 mm</strong>. The
+            report text does not document an allowable stress or establish that this is acceptable.
+          </p>
+          <p class="mb-0">
+            A stress of that magnitude in a glass-fibre/wood laminate is not credible as a passing
+            result, and a ~9.6 mm fin deflection would be large. These are therefore presented as
+            <strong>plot readings only, not evidence of structural adequacy</strong>. Before any
+            conclusion, the load case and its units, material properties, laminate assignment,
+            constraints and the displayed stress quantity need to be checked against the original
+            ANSYS model — a unit or load-application error is the first thing to rule out.
+          </p>
+        </div>
+        <div class="fig-pair">
+          <figure class="figure">
+            <div class="figure-media"><img src="../assets/rocketry/study-2/fin-stress-contour.png" alt="Equivalent stress contour for Study 2 displaying a maximum of 875.42 MPa, an unresolved result."></div>
+            <figcaption><span class="fig-num">Fig 8</span>Study 2 stress contour — displayed maximum 875.42 MPa. <strong>Unresolved.</strong></figcaption>
+          </figure>
+          <figure class="figure">
+            <div class="figure-media"><img src="../assets/rocketry/study-2/fin-deformation-contour.png" alt="Total deformation contour for Study 2 displaying a maximum of 9.5887 mm."></div>
+            <figcaption><span class="fig-num">Fig 9</span>Study 2 deformation contour — displayed maximum 9.5887 mm.</figcaption>
+          </figure>
+        </div>
+
+        <h3>External aerodynamics</h3>
+        <div class="fig-pair">
+          <figure class="figure">
+            <div class="figure-media"><img src="../assets/rocketry/study-2/cfd-domain.png" alt="Quarter-symmetry external CFD domain for rocket Study 2."></div>
+            <figcaption><span class="fig-num">Fig 10</span>Study 2 CFD domain.</figcaption>
+          </figure>
+          <figure class="figure">
+            <div class="figure-media"><img src="../assets/rocketry/study-2/cfd-residual-history.png" alt="Solver residual history for rocket Study 2."></div>
+            <figcaption><span class="fig-num">Fig 11</span>Study 2 residual history.</figcaption>
+          </figure>
+        </div>
+        <div class="fig-trio">
+          <figure class="figure">
+            <div class="figure-media"><img src="../assets/rocketry/study-2/cfd-result-01.png" alt="Compressible flow post-processing result 1 from rocket Study 2."></div>
+            <figcaption><span class="fig-num">12a</span>Flow field.</figcaption>
+          </figure>
+          <figure class="figure">
+            <div class="figure-media"><img src="../assets/rocketry/study-2/cfd-result-02.png" alt="Compressible flow post-processing result 2 from rocket Study 2."></div>
+            <figcaption><span class="fig-num">12b</span>Flow field.</figcaption>
+          </figure>
+          <figure class="figure">
+            <div class="figure-media"><img src="../assets/rocketry/study-2/cfd-result-03.png" alt="Compressible flow post-processing result 3 from rocket Study 2."></div>
+            <figcaption><span class="fig-num">12c</span>Flow field.</figcaption>
+          </figure>
+        </div>
+      </section>
+
+      <section id="comparison">
+        <div class="eyebrow">04 · Comparison &amp; scope</div>
+        <h2 style="margin-top:.55rem">Why these two are not a design iteration</h2>
+        <div class="table-wrap">
+          <table>
+            <caption><span class="fig-num">Table 1</span>The two studies side by side — for orientation, <strong>not</strong> as a like-for-like comparison.</caption>
+            <thead><tr><th></th><th>Study 1</th><th>Study 2</th></tr></thead>
+            <tbody>
+              <tr><td>Core</td><td>3 mm wood</td><td>2 mm wood</td></tr>
+              <tr><td>Glass fibre per side</td><td>500 / 500 / 240 g/m²</td><td>240 / 240 / 240 g/m²</td></tr>
+              <tr><td>Orientations</td><td>0° / 45° / 90°</td><td>0° / 45° / 90°</td></tr>
+              <tr><td>Peak equivalent stress</td><td>≈ 9.99 MPa</td><td>875.42 MPa <span class="badge wip">unresolved</span></td></tr>
+              <tr><td>Allowable documented</td><td>≈ 13.4 MPa (estimated)</td><td>Not documented</td></tr>
+              <tr><td>Max deformation</td><td>—</td><td>9.5887 mm</td></tr>
+            </tbody>
+          </table>
+          <div class="table-note">
+            Different models, different load cases. Any genuine engineering comparison requires
+            reviewing each model's load case, material properties, laminate definition, boundary
+            conditions, units, solver outputs and applicable failure criterion first.
+          </div>
+        </div>
+        <div class="callout">
+          <span class="callout-title">Scope</span>
+          <p class="mb-0">
+            These pages document methods and reported figures. They claim
+            <strong>no experimental or flight-test validation</strong>. Structural adequacy depends on
+            the exact load case, material characterisation, laminate definition, boundary conditions
+            and failure criterion — and for a composite, von Mises stress is itself a questionable
+            criterion compared with a ply-level one such as Tsai–Wu or Hashin.
+          </p>
+        </div>
+        <div class="btn-row">
+          <a class="btn btn-primary" href="cfd-notes.html">CFD verification notes
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round"><path d="M5 12h14M13 6l6 6-6 6"/></svg>
+          </a>
+          <a class="btn" href="../index.html#work">All projects</a>
+        </div>
+      </section>
+
+    </div>
+
+    <aside class="toc" aria-label="On this page">
+      <div class="toc-title">On this page</div>
+      <ol>
+        <li><a href="#approach">Common workflow</a></li>
+        <li><a href="#study1">Study 1 — 3 mm core</a></li>
+        <li><a href="#study2">Study 2 — 2 mm core</a></li>
+        <li><a href="#comparison">Comparison &amp; scope</a></li>
+      </ol>
+    </aside>
+  </div>
+</main>
+
+<footer class="footer">
+  <div class="wrap footer-in">
+    <div>© <span id="year">2026</span> Haithem Benaida · Two separate models, kept separate.</div>
+    <div class="footer-links">
+      <a href="../index.html">Home</a>
+      <a href="formula-student.html">Formula Student</a>
+      <a href="riyah.html">Riyah</a>
+      <a href="../cv.html">CV</a>
+    </div>
+  </div>
+</footer>
+
+<script src="../assets/js/site.js"></script>
+</body>
+</html>
