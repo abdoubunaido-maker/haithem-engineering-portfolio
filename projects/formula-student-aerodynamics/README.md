@@ -571,7 +571,7 @@ republished here. The full report is not distributed publicly; this page is a su
 sharing.
 
 **Team context:** ENP Racing Team represented Algeria at Formula Student UK and received the
-**Newcomers Award**. This work was carried out as part of a student team project; the aerodynamic
+**Best Newcomer Award**. This work was carried out as part of a student team project; the aerodynamic
 development and report described here are my own contribution.
 
 **[→ Web case study](../formula-student.html)** · **[→ Riyah](../riyah-hawt-design/README.md)** · **[→ Portfolio](../../README.md)**

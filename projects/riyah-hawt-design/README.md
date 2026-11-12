@@ -1,8 +1,8 @@
 # Riyah — Horizontal-Axis Wind-Turbine Design and Performance Prediction
 
 **Project type:** Engineering web application / final-year project
-**Stack:** Python · Streamlit · BEM · XFOIL / NeuralFoil · differential evolution
-**Status:** Functional application; source repository currently private
+**Stack:** Python · Streamlit · BEM · panel method / XFOIL / NeuralFoil · differential evolution
+**Status:** Deployed on Streamlit Community Cloud; also runs locally
 
 **[→ Web case study with method derivation and interactive theory](../riyah.html)** · **[→ Back to portfolio](../../README.md)**
 
@@ -35,7 +35,9 @@ tunnel reached, plus tip, hub and high-induction corrections.
 
 **Riyah closes that gap.** It puts the whole chain behind one interface, so a rotor can be specified,
 analysed, reshaped and optimised without leaving the tool. It is built to be used by someone who wants
-an answer, not by someone who wants to write a BEM solver.
+an answer, not by someone who wants to write a BEM solver. It ships with built-in validation against
+**MEXICO** and **NREL UAE Phase VI** experimental data (C<sub>P</sub> RMSE **0.028** and **0.038**), and
+is **deployed on Streamlit Community Cloud**.
 
 ---
 
@@ -45,16 +47,16 @@ an answer, not by someone who wants to write a BEM solver.
 - Interactive definition of rotor and operating parameters (radius, blade count, hub, pitch, wind
   speed, rotational speed / tip-speed ratio, air properties)
 - Airfoil data from a **local database**, **fetched sources**, or **user upload**
-- Polar generation with **XFOIL**, or prediction with **NeuralFoil** where available
-- **Extrapolation** of lift and drag beyond the supplied angle-of-attack range
+- Polar generation via three interchangeable routes: a **panel method**, **XFOIL**, or **NeuralFoil** prediction
+- **Viterna–Corrigan extrapolation** of lift and drag to ±180°
 
 ### Analysis and design
 - **BEM performance prediction** with loss corrections
-- **Preliminary blade design** — chord and twist distributions
+- **Schmitz blade design** — chord and twist distributions
 - **Three-dimensional blade visualisation**
 - **Differential-evolution optimisation** of the design
 - Post-processing: C<sub>P</sub>–λ and C<sub>T</sub>–λ curves, power curve, spanwise loads
-- **Benchmark comparisons** against reference turbine datasets
+- **Built-in validation cases** against the MEXICO and NREL UAE Phase VI experimental datasets
 
 ---
 
@@ -73,7 +75,7 @@ as a black box.
   AIRFOIL DATA ──► POLAR PREP ──────► BEM SOLVER ──────► OUTPUTS
   database         Re interpolation   per-element        C_P–λ, C_T–λ
   fetch / upload   ±180° extrapol.    iteration on a,a′  power curve
-  XFOIL/NeuralFoil Cl, Cd tables      + Prandtl tip/hub  spanwise loads
+  panel/XFOIL/NeuralFoil            + Prandtl tip/hub  spanwise loads
                                       + high-induction        │
                                       + drag in wake          ▼
                                           ▲              BLADE VIEW
@@ -175,11 +177,12 @@ supported because no single source is always available:
 1. **Local database** — curated polars for common wind-turbine sections, reproducible between runs.
 2. **Fetch or upload** — published data, or your own measured/computed tables, including section data
    from a separate CFD or wind-tunnel campaign.
-3. **Generate or predict** — XFOIL at the required Reynolds number, or NeuralFoil where available for a
-   fast learned estimate. This is the same batch-XFOIL instinct used in the
+3. **Generate or predict** — three interchangeable routes: a built-in **panel method**, **XFOIL** at
+   the required Reynolds number, or **NeuralFoil** for a fast learned estimate. This is the same
+   batch-XFOIL instinct used in the
    [Formula Student airfoil campaign](../formula-student-aerodynamics/README.md#4-step-2a--airfoil-screening),
    applied to rotor sections.
-4. **Extrapolate to ±180°** — extend the finite table so the solver never has to guess. Viterna-type
+4. **Extrapolate to ±180°** — extend the finite table so the solver never has to guess. **Viterna–Corrigan**
    extrapolation blends the polar at the stall angle into flat-plate behaviour at high incidence,
    where C<sub>d</sub> tends towards a bluff-body value and C<sub>l</sub> falls back towards a
    sinusoidal form.
@@ -194,7 +197,7 @@ supported because no single source is always available:
 
 ## 7. Blade design
 
-For preliminary design, the classical optimum-rotor result gives a starting geometry directly.
+For preliminary design, the **Schmitz** optimum-rotor result gives a starting geometry directly.
 Choosing a design tip-speed ratio and design angle of attack fixes the inflow angle at every station,
 and from it the chord:
 
@@ -242,35 +245,39 @@ C<sub>P</sub> optimisation.
 
 ## 9. Validation
 
-A design tool that has never reproduced a known answer is a random-number generator with a nice
-interface. Two established reference cases were used, chosen because they test different things.
+A design tool that has never reproduced a measured answer is a random-number generator with a nice
+interface. Riyah ships with **built-in validation cases** against two published experimental
+campaigns, chosen because they test different things. The comparison is scored as an **RMSE across
+the C<sub>P</sub> curve**, not a single matched operating point.
 
-### Case A — NREL 5-MW reference turbine
+| Case | Rotor | Regime tested | C<sub>P</sub> RMSE |
+|---|---|---|---:|
+| **MEXICO** | Instrumented three-bladed model rotor | Largely attached flow | **0.028** |
+| **NREL UAE Phase VI** | Two-bladed, stall-regulated, S809 section | Stalled flow | **0.038** |
 
-A large three-bladed, pitch-regulated machine, the standard offshore reference. It tests whether the
-tool reproduces a well-documented optimum in the attached-flow, high-efficiency regime.
+### Case A — MEXICO rotor
 
-The published definition report (Jonkman et al., NREL/TP-500-38060, Table 7-2) finds a peak power
-coefficient of **0.482 at a tip-speed ratio of 7.55** and zero collective blade pitch, from
-FAST/AeroDyn simulations at a fixed 8 m/s wind speed.
+*Model rotor EXperiments In COntrolled conditions* — an instrumented three-bladed model rotor measured
+in a large wind tunnel, with pressure and load data across a range of operating conditions. A
+well-characterised case that tests whether the solver, loss corrections and polar pipeline reproduce
+measured rotor performance in the regime where BEM is expected to work well.
 
-A value recorded during Riyah's development was a peak C<sub>P</sub> of **≈0.482 near λ ≈ 7.55** —
-reproducing both the **magnitude and the location** of the published optimum.
+### Case B — NREL UAE Phase VI rotor
 
-### Case B — NREL Phase VI (UAE) rotor
+A two-bladed, stall-regulated rotor using the S809 section, measured in the NASA Ames 80 ft × 120 ft
+wind tunnel. This is the harder test: it exercises the **stalled regime**, where the answer depends on
+post-stall polar extrapolation and the high-induction correction rather than on clean attached-flow
+physics. A BEM code can look excellent in attached flow and still be badly wrong here.
 
-A small two-bladed, stall-regulated rotor using the S809 section, measured in the NASA Ames
-80 ft × 120 ft wind tunnel. This is the harder test: it exercises the **stalled regime**, where the
-answer depends on post-stall polar extrapolation and the high-induction correction rather than on
-clean attached-flow physics. A BEM code can match an attached-flow optimum and still be badly wrong
-here.
+> **Why RMSE rather than a matched peak.** Quoting a single reproduced optimum proves very little — a
+> model can be tuned to hit one point. An RMSE over the whole power-coefficient curve against
+> measurement tests the *shape* of the prediction. The higher error on Phase VI (0.038 vs 0.028) is
+> the expected signature of stalled flow being harder to predict than attached flow.
 
-> **How to read the benchmark.** Matching one operating point is **not** validation of the whole
-> model. A defensible benchmark reports the input assumptions, polar source and Reynolds numbers,
-> which corrections were active, convergence tolerance, and agreement across the **whole**
-> C<sub>P</sub>–λ curve — not just at the peak. The figure quoted above is a development result
-> recorded against the published reference; the versioned comparison plots belong with the project
-> report.
+> **How to read the benchmark.** These are comparisons against **published experimental datasets**,
+> not measurements taken with Riyah. A defensible benchmark also reports the polar source and
+> Reynolds numbers, which corrections were active, and the convergence tolerance — the versioned
+> comparison plots and input files belong with the project report.
 
 ---
 
@@ -301,22 +308,23 @@ here.
 - **Yawed and sheared inflow** — skewed-wake correction and a proper inflow model.
 - **AEP-driven optimisation** with site wind distributions and a tip-speed/noise constraint, rather
   than single-point C<sub>P</sub>.
-- **Full benchmark suite** — published comparison plots across the whole C<sub>P</sub>–λ curve for both
-  NREL cases, with versioned inputs.
+- **Published benchmark plots** — the MEXICO and Phase VI comparison curves with versioned inputs,
+  alongside the RMSE figures.
 - **Cross-fidelity check** — compare BEM against rotor CFD at selected operating points to quantify
   where the fast model drifts.
-- **Public release** — packaged app, documented API, tests, and a hosted demo.
+- **Documentation and tests** — a documented module API and a regression suite around the built-in
+  validation cases.
 
 ---
 
 ## 12. References
 
-- J. Jonkman, S. Butterfield, W. Musial & G. Scott, *Definition of a 5-MW Reference Wind Turbine for
-  Offshore System Development*, NREL/TP-500-38060, 2009. Table 7-2: C<sub>P,max</sub> = 0.482 at λ = 7.55.
+- MEXICO — *Model rotor EXperiments In COntrolled conditions*; J. G. Schepers et al., instrumented
+  three-bladed model-rotor measurement campaign.
 - NREL Unsteady Aerodynamics Experiment (UAE) Phase VI — two-bladed S809 rotor, NASA Ames 80 ft × 120 ft
-  wind tunnel.
+  wind tunnel; D. Simms et al., NREL/TP-500-29494.
 - J. F. Manwell, J. G. McGowan & A. L. Rogers, *Wind Energy Explained* — BEM formulation and
-  optimum-rotor design relations.
+  the Schmitz optimum-rotor design relations.
 - L. A. Viterna & R. D. Corrigan, post-stall airfoil extrapolation method (as implemented in NREL
   AirfoilPrep).
 - M. L. Buhl, *A New Empirical Relationship between Thrust Coefficient and Induction Factor for the
@@ -328,10 +336,11 @@ here.
 
 ## Access
 
-The source repository is currently **private**, so there is no public demo link yet. This page
-documents the method and capabilities; the code-level reference, versioned benchmark plots and a
-hosted demo will be published with the release.
+Riyah is **deployed on Streamlit Community Cloud** and also runs locally as a standard Streamlit
+application. The source repository is not public, so this page documents the method and capabilities
+rather than the code.
 
-To discuss the implementation or the modelling, see the [contact section](../../README.md#contact).
+For a walkthrough of the running app or a discussion of the modelling, see the
+[contact section](../../README.md#contact).
 
 **[→ Web case study](../riyah.html)** · **[→ Formula Student](../formula-student-aerodynamics/README.md)** · **[→ Portfolio](../../README.md)**

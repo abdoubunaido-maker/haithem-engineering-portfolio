@@ -42,20 +42,23 @@
         blade-element momentum theory — fast enough to sit inside an optimisation loop — and wraps
         it in the parts that usually stop people using it: airfoil-polar acquisition, post-stall
         extrapolation, loss corrections, blade geometry generation and result visualisation.
+        Validated against <strong>MEXICO</strong> and <strong>NREL UAE Phase VI</strong> experimental
+        data, and deployed on <strong>Streamlit Community Cloud</strong>.
       </p>
       <div class="chips">
         <span class="chip chip-accent">Python</span>
         <span class="chip">Streamlit</span>
         <span class="chip">BEM</span>
-        <span class="chip">XFOIL / NeuralFoil</span>
+        <span class="chip">Panel / XFOIL / NeuralFoil</span>
+        <span class="chip">Viterna–Corrigan</span>
+        <span class="chip">Schmitz design</span>
         <span class="chip">Differential evolution</span>
-        <span class="chip">3D visualisation</span>
       </div>
       <div class="btn-row">
         <a class="btn btn-primary" href="#method">The method
           <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round"><path d="M5 12h14M13 6l6 6-6 6"/></svg>
         </a>
-        <a class="btn" href="#validation">Benchmarks</a>
+        <a class="btn" href="#validation">Experimental validation</a>
         <a class="btn" href="formula-student.html">Other case study</a>
       </div>
     </div>
@@ -129,12 +132,12 @@
           <div class="metric">
             <span class="metric-val">±180<span class="unit">°</span></span>
             <span class="metric-label">Polar coverage</span>
-            <span class="metric-note">post-stall extrapolation</span>
+            <span class="metric-note">Viterna–Corrigan extrapolation</span>
           </div>
           <div class="metric">
-            <span class="metric-val">0.482</span>
-            <span class="metric-label">Peak C<sub>P</sub> reproduced</span>
-            <span class="metric-note">NREL 5-MW, at λ ≈ 7.55</span>
+            <span class="metric-val">0.028</span>
+            <span class="metric-label">C<sub>P</sub> RMSE vs experiment</span>
+            <span class="metric-note">MEXICO rotor · 0.038 on NREL UAE Phase VI</span>
           </div>
           <div class="metric">
             <span class="metric-val">DE</span>
@@ -151,7 +154,7 @@
             <ul class="muted mb-0" style="font-size:.92rem">
               <li>Interactive definition of rotor and operating parameters</li>
               <li>Airfoil data from a local database, fetched sources, or user upload</li>
-              <li>Polar generation via XFOIL, or prediction via NeuralFoil where available</li>
+              <li>Three polar routes: a panel method, XFOIL, or NeuralFoil prediction</li>
               <li>Extrapolation beyond the supplied angle-of-attack range</li>
             </ul>
           </div>
@@ -160,7 +163,7 @@
             <h4 class="mt-0">Performance, geometry and search</h4>
             <ul class="muted mb-0" style="font-size:.92rem">
               <li>BEM performance prediction and post-processing</li>
-              <li>Preliminary blade design — chord and twist distributions</li>
+              <li>Schmitz blade design — chord and twist distributions</li>
               <li>Three-dimensional blade visualisation</li>
               <li>Differential-evolution optimisation of the design</li>
             </ul>
@@ -200,7 +203,7 @@
                 <text x="32" y="164" fill="#5eead4" font-size="11">AIRFOIL DATA</text>
                 <text x="32" y="186" fill="#9db0cb" font-size="11">local database</text>
                 <text x="32" y="204" fill="#9db0cb" font-size="11">fetch / upload</text>
-                <text x="32" y="222" fill="#9db0cb" font-size="11">XFOIL · NeuralFoil</text>
+                <text x="32" y="222" fill="#9db0cb" font-size="11">panel · XFOIL · NeuralFoil</text>
 
                 <!-- polar prep -->
                 <rect x="248" y="140" width="180" height="104" rx="10" fill="#16223c" stroke="#5eead4" stroke-opacity=".5"/>
@@ -393,19 +396,19 @@
         </p>
         <ol class="steps">
           <li>
-            <h4>Local database</h4>
+            <h3>Local database</h3>
             <p>Curated polars for common wind-turbine sections, ready for immediate use and reproducible between runs.</p>
           </li>
           <li>
-            <h4>Fetch or upload</h4>
+            <h3>Fetch or upload</h3>
             <p>Pull published data, or bring your own measured or computed tables — including section data from a separate CFD or wind-tunnel campaign.</p>
           </li>
           <li>
-            <h4>Generate or predict</h4>
-            <p>Run XFOIL for the required Reynolds number, or use NeuralFoil where available for a fast learned estimate. This is the same batch-XFOIL instinct used in the Formula Student airfoil campaign, applied to rotor sections.</p>
+            <h3>Generate or predict</h3>
+            <p>Three interchangeable routes: a built-in <strong>panel method</strong>, <strong>XFOIL</strong> at the required Reynolds number, or <strong>NeuralFoil</strong> for a fast learned estimate. This is the same batch-XFOIL instinct used in the Formula Student airfoil campaign, applied to rotor sections.</p>
           </li>
           <li>
-            <h4>Extrapolate to ±180°</h4>
+            <h3>Extrapolate to ±180°</h3>
             <p>Extend the finite table so the solver never has to guess. Viterna-type extrapolation blends the polar at the stall angle into flat-plate behaviour at high incidence, where C<sub>d</sub> tends towards a bluff-body value and C<sub>l</sub> falls back towards a sinusoidal form.</p>
           </li>
         </ol>
@@ -426,9 +429,9 @@
         <div class="eyebrow">05 · Blade design</div>
         <h2 style="margin-top:.55rem">From a target λ to a chord and twist distribution</h2>
         <p>
-          For preliminary design, the classical optimum-rotor result gives a starting geometry
-          directly. Choosing a design tip-speed ratio and a design angle of attack fixes the inflow
-          angle at every station, and from it the chord:
+          The design module uses the classical <strong>Schmitz</strong> optimum-rotor result, which
+          gives a starting geometry directly. Choosing a design tip-speed ratio and a design angle of
+          attack fixes the inflow angle at every station, and from it the chord:
         </p>
         <div class="eq">
           <span class="eq-body">φ<sub>r</sub> = <span class="frac"><span>2</span><span>3</span></span> arctan<span style="font-size:1.15em">(</span><span class="frac"><span>1</span><span>λ<sub>r</sub></span></span><span style="font-size:1.15em">)</span> ,&nbsp;&nbsp; λ<sub>r</sub> = λ <span class="frac"><span><i>r</i></span><span><i>R</i></span></span></span>
@@ -491,59 +494,68 @@
       <!-- ---------- Validation ---------- -->
       <section id="validation">
         <div class="eyebrow">07 · Validation</div>
-        <h2 style="margin-top:.55rem">Checking the tool against reference turbines</h2>
+        <h2 style="margin-top:.55rem">Checking the tool against experimental data</h2>
         <p>
-          A design tool that has never reproduced a known answer is just a random-number generator
-          with a nice interface. Riyah was compared against two established reference cases, chosen
-          because they test different things.
+          A design tool that has never reproduced a measured answer is just a random-number generator
+          with a nice interface. Riyah has <strong>built-in validation cases</strong> against two
+          published experimental campaigns, chosen because they test different things — and the
+          comparison is scored as an <strong>RMSE across the C<sub>P</sub> curve</strong>, not a single
+          matched operating point.
         </p>
 
         <div class="grid-2">
           <div class="card">
             <div class="eyebrow no-rule">Case A</div>
-            <h3 class="mt-0">NREL 5-MW reference turbine</h3>
+            <h3 class="mt-0">MEXICO rotor</h3>
             <p style="font-size:.93rem">
-              A large three-bladed, pitch-regulated machine — the standard offshore reference. It
-              tests whether the tool reproduces a well-documented optimum in the attached-flow,
-              high-efficiency regime.
+              <em>Model rotor EXperiments In COntrolled conditions</em> — a three-bladed instrumented
+              model rotor measured in a large wind tunnel, with pressure and load data across a range
+              of operating conditions. A well-characterised, largely attached-flow case.
             </p>
             <div class="stat-row">
-              <div><b>0.482</b>reference C<sub>P,max</sub></div>
-              <div><b>7.55</b>reference λ</div>
+              <div><b>0.028</b>C<sub>P</sub> RMSE</div>
             </div>
             <p class="mb-0" style="font-size:.9rem">
-              The published definition report finds a peak power coefficient of
-              <strong>0.482 at λ = 7.55</strong> and zero collective pitch, from FAST/AeroDyn
-              simulations at 8 m/s. A value recorded during Riyah's development was a peak
-              C<sub>P</sub> of <strong>≈0.482 near λ ≈ 7.55</strong> — reproducing both the
-              magnitude and the location of the published optimum.
+              Tests whether the solver, loss corrections and polar pipeline reproduce measured rotor
+              performance in the regime where BEM is expected to work well.
             </p>
           </div>
           <div class="card">
             <div class="eyebrow no-rule">Case B</div>
-            <h3 class="mt-0">NREL Phase VI (UAE) rotor</h3>
+            <h3 class="mt-0">NREL UAE Phase VI rotor</h3>
             <p style="font-size:.93rem">
-              A small two-bladed, stall-regulated rotor with the S809 section, measured in the NASA
-              Ames wind tunnel. It is the harder test: it exercises the stalled regime, where the
-              answer depends on post-stall polar extrapolation and the high-induction correction
-              rather than on the clean attached-flow physics.
+              A two-bladed, stall-regulated rotor with the S809 section, measured in the NASA Ames
+              80 ft × 120 ft wind tunnel. The harder test: it exercises the <strong>stalled
+              regime</strong>, where the answer depends on post-stall polar extrapolation and the
+              high-induction correction rather than clean attached-flow physics.
             </p>
+            <div class="stat-row">
+              <div><b>0.038</b>C<sub>P</sub> RMSE</div>
+            </div>
             <p class="mb-0" style="font-size:.9rem">
-              This is the case that exposes whether the corrections and extrapolation are behaving
-              sensibly — a BEM code can match an attached-flow optimum and still be badly wrong here.
+              A BEM code can look excellent in attached flow and still be badly wrong here — which is
+              exactly why this case is included.
             </p>
           </div>
+        </div>
+
+        <div class="callout result">
+          <span class="callout-title">Why RMSE rather than a matched peak</span>
+          <p class="mb-0">
+            Quoting a single reproduced optimum proves very little — a model can be tuned to hit one
+            point. An <strong>RMSE over the whole power-coefficient curve against measurement</strong>
+            tests the shape of the prediction, and the higher error on Phase VI (0.038 vs 0.028) is
+            the expected signature of stalled flow being harder to predict than attached flow.
+          </p>
         </div>
 
         <div class="callout">
           <span class="callout-title">How to read the benchmark</span>
           <p class="mb-0">
-            Matching one operating point is <strong>not</strong> validation of the whole model. A
-            defensible benchmark reports the input assumptions, polar source and Reynolds numbers,
-            which corrections were active, convergence tolerance, and agreement across the
-            <em>whole</em> C<sub>P</sub>–λ curve — not just at the peak. The figure quoted above is a
-            development result recorded against the published reference; the versioned comparison
-            plots belong with the project report.
+            These are comparisons against <strong>published experimental datasets</strong>, not
+            measurements taken with Riyah. A defensible benchmark also reports the polar source and
+            Reynolds numbers, which corrections were active, and the convergence tolerance — the
+            versioned comparison plots and input files belong with the project report.
           </p>
         </div>
       </section>
@@ -580,9 +592,9 @@
         <ul class="muted">
           <li><strong>Yawed and sheared inflow</strong> — skewed-wake correction and a proper inflow model.</li>
           <li><strong>AEP-driven optimisation</strong> with site wind distributions and a tip-speed/noise constraint, rather than single-point C<sub>P</sub>.</li>
-          <li><strong>Full benchmark suite</strong> — published comparison plots across the whole C<sub>P</sub>–λ curve for both NREL cases, with versioned inputs.</li>
+          <li><strong>Published benchmark plots</strong> — the MEXICO and Phase VI comparison curves with versioned inputs, alongside the RMSE figures.</li>
           <li><strong>Cross-fidelity check</strong> — compare BEM against rotor CFD at selected operating points to quantify where the fast model drifts.</li>
-          <li><strong>Public release</strong> — packaged app, documented API, tests, and a hosted demo.</li>
+          <li><strong>Documentation and tests</strong> — a documented module API and a regression suite around the built-in validation cases.</li>
         </ul>
       </section>
 
@@ -592,30 +604,30 @@
         <h2 style="margin-top:.55rem">Built with</h2>
         <div class="skill-grid">
           <div class="skill-card">
-            <h4>Language &amp; UI</h4>
+            <h3>Language &amp; UI</h3>
             <ul><li>Python</li><li>Streamlit application interface</li><li>Interactive parameter workflows</li></ul>
           </div>
           <div class="skill-card">
-            <h4>Aerodynamics</h4>
-            <ul><li>Blade-element momentum solver</li><li>XFOIL polar generation</li><li>NeuralFoil prediction (where available)</li><li>Prandtl / high-induction corrections</li></ul>
+            <h3>Aerodynamics</h3>
+            <ul><li>Blade-element momentum solver</li><li>Panel method / XFOIL / NeuralFoil polars</li><li>Viterna–Corrigan extrapolation</li><li>Prandtl / high-induction corrections</li></ul>
           </div>
           <div class="skill-card">
-            <h4>Numerics</h4>
+            <h3>Numerics</h3>
             <ul><li>Iterative induction solution</li><li>Polar interpolation &amp; extrapolation</li><li>Differential-evolution optimisation</li></ul>
           </div>
           <div class="skill-card">
-            <h4>Output</h4>
+            <h3>Output</h3>
             <ul><li>C<sub>P</sub>–λ and C<sub>T</sub>–λ curves</li><li>Spanwise load distributions</li><li>3D blade geometry view</li></ul>
           </div>
         </div>
 
-        <div class="callout warn">
-          <span class="callout-title">Access &amp; documentation status</span>
+        <div class="callout">
+          <span class="callout-title">Access</span>
           <p class="mb-0">
-            The source repository is currently <strong>private</strong>, so there is no public demo
-            link yet. This page documents the method and the capabilities listed above; the
-            code-level reference, versioned benchmark plots and a hosted demo will be published with
-            the release. If you would like to see the implementation or discuss the modelling, please
+            Riyah is <strong>deployed on Streamlit Community Cloud</strong> and also runs locally as a
+            standard Streamlit application. The source repository is not public, so this page
+            documents the method and capabilities rather than the code. If you would like a
+            walkthrough of the running app or a discussion of the modelling, please
             <a href="../index.html#contact">get in touch</a>.
           </p>
         </div>
@@ -630,9 +642,9 @@
 
         <h3>References</h3>
         <ul class="muted" style="font-size:.9rem">
-          <li>J. Jonkman, S. Butterfield, W. Musial &amp; G. Scott, <em>Definition of a 5-MW Reference Wind Turbine for Offshore System Development</em>, NREL/TP-500-38060, 2009 — Table 7-2 gives C<sub>P,max</sub> = 0.482 at λ = 7.55.</li>
-          <li>NREL Unsteady Aerodynamics Experiment (UAE) Phase VI — two-bladed S809 rotor, NASA Ames 80 ft × 120 ft wind tunnel.</li>
-          <li>J. F. Manwell, J. G. McGowan &amp; A. L. Rogers, <em>Wind Energy Explained</em> — BEM formulation and optimum-rotor design relations.</li>
+          <li>MEXICO — <em>Model rotor EXperiments In COntrolled conditions</em>; J. G. Schepers et al., instrumented three-bladed model-rotor measurement campaign.</li>
+          <li>NREL Unsteady Aerodynamics Experiment (UAE) Phase VI — two-bladed S809 rotor, NASA Ames 80 ft × 120 ft wind tunnel; D. Simms et al., NREL/TP-500-29494.</li>
+          <li>J. F. Manwell, J. G. McGowan &amp; A. L. Rogers, <em>Wind Energy Explained</em> — BEM formulation and the Schmitz optimum-rotor design relations.</li>
           <li>L. A. Viterna &amp; R. D. Corrigan, post-stall airfoil extrapolation method (as implemented in NREL AirfoilPrep).</li>
           <li>M. L. Buhl, <em>A New Empirical Relationship between Thrust Coefficient and Induction Factor for the Turbulent Windmill State</em>, NREL/TP-500-36834.</li>
           <li>R. Storn &amp; K. Price, <em>Differential Evolution — A Simple and Efficient Heuristic for Global Optimization over Continuous Spaces</em>, J. Global Optim. 11 (1997) 341–359.</li>
@@ -666,6 +678,7 @@
       <a href="formula-student.html">Formula Student</a>
       <a href="rocketry.html">Rocketry</a>
       <a href="../cv.html">CV</a>
+      <a href="https://www.linkedin.com/in/haithembenaida" rel="noopener">LinkedIn</a>
     </div>
   </div>
 </footer>

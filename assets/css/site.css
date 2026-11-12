@@ -219,6 +219,24 @@ code {
 }
 .chip-accent { border-color: color-mix(in srgb, var(--accent) 45%, var(--line)); color: var(--accent); }
 
+/* ---------- Availability banner ---------- */
+.availability {
+  display: flex; align-items: flex-start; gap: 10px;
+  margin: 1.1rem 0 0; padding: 11px 15px;
+  max-width: 60ch; font-size: .93rem; line-height: 1.5;
+  border: 1px solid color-mix(in srgb, var(--accent) 32%, var(--line));
+  border-left: 3px solid var(--accent);
+  border-radius: 10px;
+  background: color-mix(in srgb, var(--accent) 7%, var(--panel));
+  color: var(--muted);
+}
+.availability strong { color: var(--text); }
+.availability .dot {
+  flex: 0 0 auto; width: 8px; height: 8px; margin-top: .45em;
+  border-radius: 50%; background: var(--accent);
+  box-shadow: 0 0 0 4px color-mix(in srgb, var(--accent) 18%, transparent);
+}
+
 /* ---------- Sections ---------- */
 .section { padding: clamp(38px, 5.5vw, 66px) 0; border-top: 1px solid var(--line-soft); }
 .section-head { max-width: 72ch; margin-bottom: 2rem; }
@@ -394,7 +412,7 @@ tr.best td:first-child { box-shadow: inset 3px 0 0 var(--good); }
   background: var(--panel); border: 1px solid var(--line);
   color: var(--accent); font: 700 .74rem/31px var(--mono); text-align: center;
 }
-.steps h4 { margin: .1rem 0 .4rem; font-size: 1.02rem; }
+.steps :is(h3, h4) { margin: .1rem 0 .4rem; font-size: 1.02rem; }
 .steps p { color: var(--muted); font-size: .93rem; margin-bottom: .5rem; }
 
 /* ---------- Report layout with TOC ---------- */
@@ -434,7 +452,7 @@ tr.best td:first-child { box-shadow: inset 3px 0 0 var(--good); }
   display: flex; align-items: center; justify-content: space-between;
   gap: 14px; flex-wrap: wrap; margin-bottom: 16px;
 }
-.panel-head h4 { margin: 0; font-size: 1rem; }
+.panel-head :is(h3, h4) { margin: 0; font-size: 1rem; }
 .panel-head p { margin: 4px 0 0; font-size: .82rem; color: var(--muted-2); }
 
 .toggle-group { display: inline-flex; border: 1px solid var(--line); border-radius: 9px; overflow: hidden; background: var(--panel-2); }
@@ -508,12 +526,12 @@ input[type="range"]::-moz-range-thumb {
 }
 .timeline li:first-child { border-top: 0; }
 .timeline .when { font: 600 .8rem/1.6 var(--mono); color: var(--accent); }
-.timeline h4 { margin: 0 0 .25rem; }
+.timeline :is(h3, h4) { margin: 0 0 .25rem; font-size: 1rem; }
 .timeline p { margin: 0; color: var(--muted); font-size: .92rem; }
 
 .skill-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(230px, 1fr)); gap: 14px; }
 .skill-card { border: 1px solid var(--line); border-radius: var(--radius-sm); background: var(--panel); padding: 17px; }
-.skill-card h4 { margin: 0 0 .6rem; font-size: .92rem; color: var(--accent); font-family: var(--mono); letter-spacing: .04em; }
+.skill-card :is(h3, h4) { margin: 0 0 .6rem; font-size: .92rem; color: var(--accent); font-family: var(--mono); letter-spacing: .04em; }
 .skill-card ul { margin: 0; padding-left: 1.05em; font-size: .88rem; color: var(--muted); }
 .skill-card li { margin: .25em 0; }
 
