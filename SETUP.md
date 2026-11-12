@@ -43,20 +43,44 @@ Then open <http://localhost:8080>. Any static file server works — there is not
 
 ---
 
-## 3. Deploy with GitHub Pages — already configured
+## 3. Deploy with GitHub Pages — already enabled
 
-GitHub Pages is **already enabled** on this repository: **Deploy from a branch**, branch `main`,
-folder `/ (root)`, with HTTPS enforced. The live site is:
+GitHub Pages is enabled on this repository using **Deploy from a branch**, folder `/ (root)`, with
+HTTPS enforced. The live site is:
 
 ```
 https://abdoubunaido-maker.github.io/haithem-engineering-portfolio/
 ```
 
-**To publish an update, merge into `main`.** Pages rebuilds automatically — usually within a minute.
-No settings changes are needed. Keep `index.html`, `projects/`, `assets/` and `cv.html` at the
-repository root.
+Keep `index.html`, `projects/`, `assets/` and `cv.html` at the repository root. The live URL is already
+written into `README.md`, `LINKEDIN_KIT.md` and `LINKEDIN_LAUNCH_POST.md`.
 
-The live URL is already written into `README.md`, `LINKEDIN_KIT.md` and `LINKEDIN_LAUNCH_POST.md`.
+### ⚠ Check which branch Pages publishes from
+
+**The publishing branch must be `main`.** At the time of writing it is set to **`mainwww`**, so merging
+a pull request into `main` updates the repository but **does not update the live site**.
+
+`main` and `mainwww` currently hold identical content (`mainwww` is the merge commit of PR #1; `main`
+is the commit it merged), which is why the site still looks correct and the mismatch is easy to miss.
+
+**To fix — one setting, in the browser:**
+
+1. Open **Settings → Pages**.
+2. Under **Build and deployment → Source**, keep **Deploy from a branch**.
+3. Change the branch dropdown from `mainwww` to **`main`**, keep folder `/ (root)`, and **Save**.
+4. Wait for the build to finish, then hard-refresh the site (`Ctrl/Cmd + Shift + R`).
+
+After that, **merging into `main` deploys automatically** — usually within a minute. The `mainwww`
+branch can then be deleted.
+
+To check the current setting at any time:
+
+```bash
+gh api repos/abdoubunaido-maker/haithem-engineering-portfolio/pages --jq '.source'
+```
+
+This toggle needs repository-admin rights in the browser; a sandboxed or scoped token typically gets
+`403 Resource not accessible by integration` on the Pages settings API.
 
 **No Jekyll configuration is needed.** The site does not use Jekyll templates, and `.nojekyll` is
 included so GitHub Pages serves every file and folder verbatim.
