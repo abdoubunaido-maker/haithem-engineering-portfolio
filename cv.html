@@ -4,24 +4,14 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>Curriculum Vitae — Haithem Benaida</title>
-<meta name="description" content="CV of Haithem Abd Allah Benaida — mechanical engineer, M2 Fluid Mechanics and Energy, specialising in aerodynamics, CFD, wind energy and design optimisation.">
+<meta name="description" content="CV of Haithem Abd Allah Benaida — mechanical engineer (ENP Algiers), Master's student in Fluid Mechanics and Energy (Lyon 1 / École Centrale de Lyon). Aerodynamics, CFD, combustion and aircraft propulsion. Seeking a 6-month research PFE from April 2027.">
 <link rel="stylesheet" href="assets/css/site.css">
 <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'><rect width='32' height='32' rx='8' fill='%235eead4'/><text x='16' y='22' font-family='monospace' font-size='16' font-weight='bold' text-anchor='middle' fill='%2304211d'>HB</text></svg>">
 <style>
   .cv-head { display:grid; grid-template-columns:minmax(0,1fr) auto; gap:24px; align-items:end; }
   .cv-contact { font-size:.9rem; color:var(--muted); text-align:right; line-height:1.9; }
   .cv-contact a { color:var(--muted); }
-  .fill {
-    background:color-mix(in srgb, var(--warn) 20%, transparent);
-    border-bottom:1px dashed var(--warn);
-    padding:0 4px; border-radius:3px; color:var(--text);
-  }
-  .setup-note {
-    border:1px solid var(--warn); border-left-width:3px; border-radius:10px;
-    background:color-mix(in srgb, var(--warn) 8%, var(--panel));
-    padding:14px 18px; margin:0 0 26px; font-size:.9rem;
-  }
-  .setup-note strong { color:var(--warn); }
+  .cv-actions { display:flex; flex-wrap:wrap; gap:10px; margin:0 0 26px; }
   .cv-section { padding:22px 0; border-top:1px solid var(--line); }
   .cv-section:first-of-type { border-top:0; }
   .cv-section > h2 {
@@ -36,7 +26,9 @@
   .cv-entry .org { color:var(--muted); font-size:.92rem; margin:2px 0 6px; }
   .cv-entry ul { margin:6px 0 0; font-size:.92rem; color:var(--muted); }
   .cv-entry li { margin:.22em 0; }
-  .cv-skills { display:grid; grid-template-columns:150px minmax(0,1fr); gap:10px 18px; font-size:.92rem; }
+  .cv-entry.compact { margin-bottom:12px; }
+  .cv-entry.compact ul { margin-top:3px; }
+  .cv-skills { display:grid; grid-template-columns:170px minmax(0,1fr); gap:10px 18px; font-size:.92rem; }
   .cv-skills dt { font-weight:650; color:var(--text); }
   .cv-skills dd { margin:0; color:var(--muted); }
   @media (max-width:700px) {
@@ -48,10 +40,12 @@
   @media print {
     .cv-head { grid-template-columns:minmax(0,1fr) auto; }
     .cv-contact { text-align:right; }
-    .fill { background:none; border:0; padding:0; }
-    .cv-section { padding:12px 0; }
-    .cv-entry { margin-bottom:11px; }
+    .cv-section { padding:11px 0; }
+    .cv-entry { margin-bottom:10px; }
+    .cv-entry.compact { margin-bottom:7px; }
     h1 { font-size:20pt; margin-bottom:.15em; }
+    .cv-entry ul { font-size:9.6pt; }
+    .cv-skills { font-size:9.6pt; }
   }
 </style>
 </head>
@@ -77,17 +71,12 @@
 
 <main id="main" class="wrap" style="padding:34px 0 50px">
 
-  <div class="setup-note no-print">
-    <strong>Before you send this out:</strong> fill in the highlighted fields (LinkedIn, email, phone,
-    and the exact education dates), then use your browser's <strong>Print → Save as PDF</strong>.
-    The navigation, this notice and the highlighting are all removed automatically in the PDF.
-    <div class="btn-row" style="margin-top:12px">
-      <button class="btn btn-primary" onclick="window.print()">
-        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M6 9V2h12v7M6 18H4a2 2 0 0 1-2-2v-5a2 2 0 0 1 2-2h16a2 2 0 0 1 2 2v5a2 2 0 0 1-2 2h-2"/><path d="M6 14h12v8H6z"/></svg>
-        Print / Save as PDF
-      </button>
-      <a class="btn" href="index.html">Back to portfolio</a>
-    </div>
+  <div class="cv-actions no-print">
+    <button class="btn btn-primary" onclick="window.print()">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M6 9V2h12v7M6 18H4a2 2 0 0 1-2-2v-5a2 2 0 0 1 2-2h16a2 2 0 0 1 2 2v5a2 2 0 0 1-2 2h-2"/><path d="M6 14h12v8H6z"/></svg>
+      Print / Save as PDF
+    </button>
+    <a class="btn" href="index.html">Back to portfolio</a>
   </div>
 
   <header class="cv-head" style="padding-bottom:22px">
@@ -95,29 +84,27 @@
       <div class="eyebrow no-print">Curriculum vitae</div>
       <h1 style="margin:.15em 0 .1em">Haithem Abd Allah Benaida</h1>
       <p class="muted mb-0" style="font-size:1.02rem">
-        Mechanical engineer · Aerodynamics, CFD &amp; wind energy<br>
-        M2 Fluid Mechanics and Energy, Université Claude Bernard Lyon 1
+        Mechanical Engineer | Master's Student in Fluid Mechanics and Energy
       </p>
     </div>
     <div class="cv-contact">
       Lyon, France<br>
-      <span class="fill">email@to-add.com</span><br>
-      <span class="fill">+33 · phone to add</span><br>
-      <span class="fill">linkedin.com/in/…</span><br>
-      <a href="https://github.com/abdoubunaido-maker">github.com/abdoubunaido-maker</a>
+      <a href="tel:+33759494503">+33 7 59 49 45 03</a><br>
+      <a href="mailto:haithem.abdallah.benaida@gmail.com">haithem.abdallah.benaida@gmail.com</a><br>
+      <a href="https://linkedin.com/in/haithembenaida" rel="noopener">linkedin.com/in/haithembenaida</a><br>
+      <a href="https://github.com/abdoubunaido-maker" rel="noopener">github.com/abdoubunaido-maker</a>
     </div>
   </header>
 
   <section class="cv-section">
-    <h2>Profile</h2>
+    <h2>Professional summary</h2>
     <p class="muted mb-0">
-      Mechanical engineer completing an M2 in Fluid Mechanics and Energy, with hands-on development
-      experience across the full simulation chain — analytical sizing, airfoil analysis, 2D and 3D
-      CFD, composite structural analysis and design optimisation. Led aerodynamic development for a
-      Formula Student team and built a wind-turbine design application around blade-element momentum
-      theory. Comfortable automating analysis workflows in Python and documenting assumptions and
-      limitations rigorously. <strong>Seeking a research internship or PhD position</strong> in
-      aerodynamics, CFD, wind energy or design optimisation.
+      Mechanical engineer (ENP Algiers, 2026) and Master's student in Fluid Mechanics and Energy
+      (Lyon 1 / École Centrale de Lyon), specialised in aerodynamics, CFD, combustion and aircraft
+      propulsion. Hands-on CFD and FEA experience through Formula Student, rocketry and aircraft
+      competition projects, plus a final-year project on wind-turbine aerodynamic simulation.
+      <strong>Seeking a 6-month research end-of-studies internship (PFE)</strong> in aerodynamics,
+      CFD or propulsion <strong>starting April 2027</strong>, with a view to continuing into a PhD.
     </p>
   </section>
 
@@ -125,71 +112,23 @@
     <h2>Education</h2>
     <div class="cv-entry">
       <div class="cv-entry-head">
-        <h3>M2 — Fluid Mechanics and Energy</h3>
-        <span class="when"><span class="fill">20XX</span> – present</span>
+        <h3>Master's in Fluid Mechanics and Energy</h3>
+        <span class="when">2026 – 2027</span>
       </div>
-      <p class="org">Université Claude Bernard Lyon 1 · Lyon, France</p>
+      <p class="org">Université Claude Bernard Lyon 1 / École Centrale de Lyon · Lyon, France</p>
       <ul>
-        <li>Graduate coursework in fluid mechanics, turbulence, energetics and numerical methods.</li>
+        <li>Focus: aerodynamics, CFD, combustion, aircraft propulsion.</li>
       </ul>
     </div>
     <div class="cv-entry">
       <div class="cv-entry-head">
-        <h3>Mechanical engineering degree</h3>
-        <span class="when"><span class="fill">20XX – 20XX</span></span>
+        <h3>State Engineer Degree in Mechanical Engineering</h3>
+        <span class="when">2021 – 2026</span>
       </div>
-      <p class="org">École Nationale Polytechnique (ENP) · Algiers, Algeria</p>
+      <p class="org">National Polytechnic School of Algiers (ENP) · Algiers, Algeria</p>
       <ul>
-        <li>Project work in aerodynamics, composite structures and multiphysics simulation.</li>
-        <li>Head of Aerodynamics, ENP Racing Team (Formula Student).</li>
-      </ul>
-    </div>
-  </section>
-
-  <section class="cv-section">
-    <h2>Engineering experience</h2>
-    <div class="cv-entry">
-      <div class="cv-entry-head">
-        <h3>Head of Aerodynamics — ENP Racing Team</h3>
-        <span class="when">2026</span>
-      </div>
-      <p class="org">Formula Student · École Nationale Polytechnique, Algiers</p>
-      <ul>
-        <li>Led aerodynamic development of the car's downforce package and authored the 53-page aerodynamics technical report.</li>
-        <li>Derived a power-based drag budget (28.4 kW of 45.3 kW at the wheels) and a prescribed centre-of-pressure target before geometry design.</li>
-        <li>Automated screening of 24 airfoils in XFOIL with Python; ran 27 parametric 2D CFD cases in ANSYS Fluent.</li>
-        <li>Designed custom airfoils using particle swarm optimisation and Bézier refinement.</li>
-        <li>Ran 3D wing and full-vehicle CFD in SimScale (k–ω SST, y⁺ &lt; 1): 460 N downforce for 296 N drag; C<sub>L</sub> 3.35 at C<sub>D</sub> ≈ 1.7 with underbody devices.</li>
-        <li>Quantified the design trade-off with lap-time simulation: 2.12 s (2.4%) gain on the FSG 2012 endurance track.</li>
-        <li>Team represented Algeria at Formula Student UK and received the <strong>Newcomers Award</strong>.</li>
-      </ul>
-    </div>
-  </section>
-
-  <section class="cv-section">
-    <h2>Selected projects</h2>
-    <div class="cv-entry">
-      <div class="cv-entry-head">
-        <h3>Riyah — wind-turbine design &amp; performance prediction</h3>
-        <span class="when">Python · Streamlit</span>
-      </div>
-      <p class="org">Engineering web application · final-year project</p>
-      <ul>
-        <li>Built a blade-element momentum application with airfoil-polar acquisition (database, fetch, upload), XFOIL/NeuralFoil generation and post-stall extrapolation.</li>
-        <li>Implemented loss corrections, preliminary blade design (chord/twist), 3D blade visualisation and differential-evolution optimisation.</li>
-        <li>Benchmarked against NREL reference turbines; reproduced the NREL 5-MW published optimum of C<sub>P</sub> ≈ 0.482 at λ ≈ 7.55.</li>
-      </ul>
-    </div>
-    <div class="cv-entry">
-      <div class="cv-entry-head">
-        <h3>Rocketry — two composite-fin multiphysics studies</h3>
-        <span class="when">ANSYS · SolidWorks</span>
-      </div>
-      <p class="org">CAD · compressible CFD · composite structural analysis</p>
-      <ul>
-        <li>Prepared CAD and shell midsurface models; built quarter-symmetry external domains by Boolean subtraction.</li>
-        <li>Ran compressible external-flow CFD (density-based solver, k–ω SST, energy equation, Pressure Far-Field) with residual and drag-coefficient convergence monitoring.</li>
-        <li>Assigned glass-fibre/wood-core laminates in ACP Mechanical and ran static structural analyses; documented an unreconciled stress result rather than presenting it as a pass.</li>
+        <li>Including 2 years of preparatory classes.</li>
+        <li>Final-year project: web application for aerodynamic performance prediction and design of horizontal-axis wind turbines.</li>
       </ul>
     </div>
   </section>
@@ -197,57 +136,132 @@
   <section class="cv-section">
     <h2>Technical skills</h2>
     <dl class="cv-skills">
-      <dt>CFD</dt>
-      <dd>ANSYS Fluent (2D parametric, compressible, density-based), SimScale (3D external), k–ω SST, near-wall meshing and y⁺ verification, domain and convergence studies</dd>
-      <dt>Structural / FEA</dt>
-      <dd>ANSYS Mechanical, ACP Mechanical (composite layups), shell idealisation, static structural analysis</dd>
-      <dt>Aerodynamic analysis</dt>
-      <dd>XFOIL / XFLR5, blade-element momentum theory, momentum/actuator-disk theory, multi-element wing design, OptimumLap</dd>
-      <dt>Programming</dt>
-      <dd>Python (automation, numerical solvers, Streamlit applications, Plotly, SciPy), MATLAB, batch simulation frameworks, Git</dd>
-      <dt>Optimisation</dt>
-      <dd>Particle swarm optimisation, differential evolution, parametric design sweeps, Bézier geometry parametrisation</dd>
-      <dt>CAD &amp; manufacture</dt>
-      <dd>SolidWorks, composite part planning, plug/mould considerations</dd>
-      <dt>Documentation</dt>
-      <dd>LaTeX technical reporting, verification and limitation statements</dd>
+      <dt>CFD and Aerodynamics</dt>
+      <dd>ANSYS Fluent (2D/3D), SimScale, OpenFOAM, SU2, XFOIL, XFLR5, airfoil selection, aerodynamic package design</dd>
+      <dt>Structural Analysis (FEA)</dt>
+      <dd>ANSYS Mechanical (Static Structural), ANSYS ACP, LS-DYNA, parametric simulations</dd>
+      <dt>Programming and CAD</dt>
+      <dd>MATLAB, Python (NumPy, SciPy, Matplotlib, Streamlit), SolidWorks (3D modeling)</dd>
+      <dt>Manufacturing</dt>
+      <dd>CNC machining (2 to 3 axis), CAMWorks, composite hand lay-up, workshop fabrication</dd>
+      <dt>Languages</dt>
+      <dd>Arabic (native), English (C1), French (C1)</dd>
     </dl>
   </section>
 
   <section class="cv-section">
-    <h2>Research interests</h2>
-    <p class="muted mb-0">
-      Rotor and wing aerodynamics · blade-element and vortex methods · low-Reynolds-number stall ·
-      surrogate-assisted design optimisation · CFD verification and validation · wind-turbine rotor
-      design and performance prediction · ground-effect and underbody aerodynamics.
-    </p>
+    <h2>Projects and competitions</h2>
+
+    <div class="cv-entry">
+      <div class="cv-entry-head">
+        <h3>Final-Year Project, ENP Algiers — Web Application for Wind Turbine Simulation (RIYAH)</h3>
+        <span class="when">2026</span>
+      </div>
+      <ul>
+        <li>Developed a Python BEM solver with selectable corrections.</li>
+        <li>Integrated three airfoil polar routes (panel method, XFOIL, NeuralFoil) with Viterna–Corrigan extrapolation to ±180°.</li>
+        <li>Built a Schmitz design module and Differential Evolution optimisation of chord and twist.</li>
+        <li>Validated against MEXICO and NREL UAE Phase VI experimental data (C<sub>P</sub> RMSE of <strong>0.028</strong> and <strong>0.038</strong>); deployed on Streamlit Community Cloud.</li>
+      </ul>
+    </div>
+
+    <div class="cv-entry">
+      <div class="cv-entry-head">
+        <h3>Head of Aerodynamics Department, Formula Student Team</h3>
+        <span class="when">2025 – 2026</span>
+      </div>
+      <p class="org">FSUK Best Newcomer Award</p>
+      <ul>
+        <li>Led the design of the car's aerodynamic package (front wing, rear wing, bodywork); screened airfoils with XFOIL, refined them with 2D CFD in ANSYS Fluent, and optimised shapes with particle swarm optimisation and Bézier editing.</li>
+        <li>Ran full-vehicle CFD in SimScale: wings raised downforce from near zero to <strong>460 N for 296 N of drag</strong>; diffusers with underbody walls added <strong>25% in lift coefficient</strong> at essentially unchanged drag.</li>
+        <li>Lap-time simulation estimated a <strong>2.12 s (2.4%)</strong> gain over the baseline on an FSG endurance track.</li>
+        <li>Authored the 53-page aerodynamics technical report documenting methods, results and limitations.</li>
+      </ul>
+    </div>
+
+    <div class="cv-entry">
+      <div class="cv-entry-head">
+        <h3>Simulation Team Member, EUROAVIA Lyon</h3>
+        <span class="when">2026 – Present</span>
+      </div>
+      <p class="org">British Model Flying Association competition</p>
+      <ul>
+        <li>Perform CFD of aerodynamic performance (lift, drag, stability) and FEA of the airframe (strength, weight) to support design decisions.</li>
+      </ul>
+    </div>
+
+    <div class="cv-entry">
+      <div class="cv-entry-head">
+        <h3>Design and Simulation Department, Rocketry Team</h3>
+        <span class="when">2025 – 2026</span>
+      </div>
+      <ul>
+        <li>Performed transonic aerodynamic CFD of the rocket body using ANSYS Fluent.</li>
+        <li>Performed FEA of composite sandwich fin structures using ANSYS ACP and Static Structural.</li>
+        <li>Assisted in composite manufacturing using hand lay-up techniques.</li>
+      </ul>
+    </div>
   </section>
 
   <section class="cv-section">
-    <h2>Selected outputs</h2>
-    <ul class="muted" style="font-size:.92rem">
-      <li><strong>Formula Student Aerodynamics — Design and CFD evaluation of a downforce-driven aero package for a low-speed race car.</strong> Technical report, 53 pp., ENP Racing Team, October 2026. Sole author.</li>
-      <li><strong>Riyah</strong> — horizontal-axis wind-turbine design and performance-prediction application (Python/Streamlit).</li>
-      <li>Engineering portfolio with documented methods, results and limitations:
-        <a href="https://github.com/abdoubunaido-maker/haithem-engineering-portfolio">github.com/abdoubunaido-maker/haithem-engineering-portfolio</a></li>
-    </ul>
+    <h2>Industrial internships (Algeria)</h2>
+
+    <div class="cv-entry compact">
+      <div class="cv-entry-head">
+        <h3>Technonum ACMP — Manufacturing Intern</h3>
+        <span class="when">Jun – Jul 2025</span>
+      </div>
+      <ul>
+        <li>SolidWorks manufacturing models and drawings; CNC machining (2/3-axis); CAMWorks programming.</li>
+      </ul>
+    </div>
+
+    <div class="cv-entry compact">
+      <div class="cv-entry-head">
+        <h3>Arab Metals — Production Intern</h3>
+        <span class="when">Sep – Oct 2024</span>
+      </div>
+      <ul>
+        <li>CNC machining (2-axis), maintenance, copper production and quality control.</li>
+      </ul>
+    </div>
+
+    <div class="cv-entry compact">
+      <div class="cv-entry-head">
+        <h3>SNC BF Machinerie — Manufacturing Intern</h3>
+        <span class="when">Mar – Apr 2024</span>
+      </div>
+      <ul>
+        <li>Manufacturing operations and calibration of measuring instruments.</li>
+      </ul>
+    </div>
+
+    <div class="cv-entry compact">
+      <div class="cv-entry-head">
+        <h3>Société des Produits Rouges — Maintenance Intern</h3>
+        <span class="when">Sep – Oct 2023</span>
+      </div>
+      <ul>
+        <li>Maintenance, part fabrication and quality documentation.</li>
+      </ul>
+    </div>
   </section>
 
   <section class="cv-section">
     <h2>Additional</h2>
     <dl class="cv-skills">
-      <dt>Languages</dt>
-      <dd><span class="fill">to add — e.g. Arabic, French, English, with levels</span></dd>
       <dt>Availability</dt>
-      <dd><span class="fill">to add — start date and duration sought</span></dd>
+      <dd>6-month research end-of-studies internship (PFE) from April 2027 · open to continuation as a PhD</dd>
+      <dt>Portfolio</dt>
+      <dd><a href="https://abdoubunaido-maker.github.io/haithem-engineering-portfolio/">abdoubunaido-maker.github.io/haithem-engineering-portfolio</a> — full case studies with methods, figures and stated limitations</dd>
       <dt>References</dt>
       <dd>Available on request.</dd>
     </dl>
   </section>
 
   <p class="dim" style="font-size:.8rem;margin-top:24px">
-    All quantitative results listed above are numerical simulation results, not experimental or
-    on-track measurements. Full methods, assumptions and limitations are documented in the portfolio.
+    Formula Student and rocketry figures are numerical simulation results, not on-track or flight
+    measurements. Riyah RMSE values are comparisons against published experimental datasets.
   </p>
 
 </main>
@@ -259,6 +273,7 @@
       <a href="index.html">Portfolio</a>
       <a href="projects/formula-student.html">Formula Student</a>
       <a href="projects/riyah.html">Riyah</a>
+      <a href="https://www.linkedin.com/in/haithembenaida" rel="noopener">LinkedIn</a>
     </div>
   </div>
 </footer>

@@ -1,17 +1,18 @@
-# Haithem Benaida — Engineering Portfolio
+# Haithem Abd Allah Benaida — Engineering Portfolio
 
 **Aerodynamics · CFD · Wind Energy · Design Optimisation · Engineering Software**
 
-Mechanical engineer and M2 student in Fluid Mechanics and Energy at Université Claude Bernard Lyon 1.
-I build simulation-driven designs and the software that makes them usable — from a Formula Student
-aero package developed from a power budget upwards, to **Riyah**, a wind-turbine design and
-performance-prediction application.
+Mechanical engineer and Master's student in Fluid Mechanics and Energy at Université Claude Bernard
+Lyon 1 / École Centrale de Lyon. I build simulation-driven designs and the software that makes them
+usable — from a Formula Student aero package developed from a power budget upwards, to **Riyah**, a
+wind-turbine design and performance-prediction application.
 
 **→ Live portfolio:** `https://abdoubunaido-maker.github.io/haithem-engineering-portfolio/`
 **→ Print-ready CV:** [`cv.html`](cv.html)
 
-> **Open to a research internship or PhD position** in aerodynamics, CFD, wind energy or design
-> optimisation.
+> **Seeking a 6-month research end-of-studies internship (stage de fin d'études / PFE) from
+> April 2027**, in aerodynamics, CFD, wind energy or design optimisation — **with possible
+> continuation into a PhD**.
 
 ---
 
@@ -20,7 +21,7 @@ performance-prediction application.
 | Project | Role / type | Methods | Headline result |
 |---|---|---|---|
 | [**Formula Student aero package**](projects/formula-student-aerodynamics/README.md) | Head of Aerodynamics, ENP Racing Team | Drag-power budget · XFOIL · 2D/3D CFD · PSO airfoils · lap simulation | **460 N** downforce / **296 N** drag; **C<sub>L</sub> 3.35** at C<sub>D</sub> ≈ 1.7; **−2.4%** lap time |
-| [**Riyah** — HAWT design tool](projects/riyah-hawt-design/README.md) | Author, engineering web application | BEM · polar extrapolation · differential evolution | Reproduces NREL 5-MW optimum **C<sub>P</sub> ≈ 0.482 at λ ≈ 7.55** |
+| [**Riyah** — HAWT design tool](projects/riyah-hawt-design/README.md) | Author, engineering web application | BEM · polar extrapolation · differential evolution | Validated against experiment: **C<sub>P</sub> RMSE 0.028** (MEXICO), **0.038** (NREL UAE Phase VI) |
 | [**Rocketry** — two fin studies](projects/rocketry-cad-cfd-structural/README.md) | Analyst | CAD · compressible CFD · composite FEA | Two separate models, one unreconciled stress result flagged |
 | [**CFD & fluid-mechanics notes**](projects/cfd-studies/README.md) | Author | Verification · near-wall modelling · convergence | The checks behind the results above |
 
@@ -79,7 +80,7 @@ separated; no ride-height/pitch/roll sensitivity study; point-mass lap model wit
 friction and a generic powertrain; no physical validation. Real gains are likely smaller.
 
 **Team context:** ENP Racing Team represented Algeria at Formula Student UK and received the
-**Newcomers Award**.
+**Best Newcomer Award**.
 
 **[→ Full case study](projects/formula-student-aerodynamics/README.md)** ·
 **[→ Web version with figures and interactive charts](projects/formula-student.html)**
@@ -95,21 +96,23 @@ fast enough but needs a lot of unglamorous machinery assembled first. Riyah clos
 
 - **BEM solver** with Prandtl tip and hub losses and an empirical high-induction correction for the
   turbulent-wake state (a ≳ 0.4), where plain momentum theory becomes non-physical.
-- **Airfoil-polar pipeline** — local database, fetched data or user upload; generation with XFOIL or
-  prediction with NeuralFoil where available; **extrapolation to ±180°** so the solver never walks
-  off the end of a table at start-up or low tip-speed ratio.
-- **Preliminary blade design** — chord and twist distributions from the optimum-rotor relations,
-  with 3D blade visualisation to catch geometry that won't manufacture.
+- **Airfoil-polar pipeline** — local database, fetched data or user upload; three interchangeable
+  routes (a built-in **panel method**, **XFOIL**, or **NeuralFoil** prediction); **Viterna–Corrigan
+  extrapolation to ±180°** so the solver never walks off the end of a table at start-up or low
+  tip-speed ratio.
+- **Preliminary blade design** — chord and twist distributions from the **Schmitz** optimum-rotor
+  relations, with 3D blade visualisation to catch geometry that won't manufacture.
 - **Differential-evolution optimisation** — derivative-free search suits the non-smooth objective
   (interpolated polars, correction branch switches, stall kinks) and BEM keeps evaluations cheap.
-- **Benchmarked** against the NREL 5-MW reference turbine and the NREL Phase VI (UAE) rotor. The
-  5-MW definition report publishes C<sub>P,max</sub> = **0.482 at λ = 7.55**; a value recorded during
-  development reproduced **≈0.482 near λ ≈ 7.55**, matching both magnitude and location.
+- **Validated against experimental data** with built-in cases: the **MEXICO** rotor (C<sub>P</sub>
+  **RMSE 0.028**) and the **NREL UAE Phase VI** rotor (**RMSE 0.038**). Scoring the whole power
+  coefficient curve rather than a single peak is what makes the comparison meaningful; the larger
+  error on Phase VI reflects stalled flow being harder to predict.
 
-**Honest scope:** matching one operating point is not validation of the whole model. BEM assumes
-independent annuli, steady axial inflow and a rigid blade; deep-stall answers depend on the
-extrapolation model chosen. The source repository is currently private, so there is no public demo
-yet.
+**Honest scope:** these are comparisons against published experimental datasets, not measurements
+taken with Riyah. BEM assumes independent annuli, steady axial inflow and a rigid blade; deep-stall
+answers depend on the extrapolation model chosen. Riyah is **deployed on Streamlit Community Cloud**;
+the source repository is not public.
 
 **[→ Full case study](projects/riyah-hawt-design/README.md)** ·
 **[→ Web version with method derivation](projects/riyah.html)**
@@ -197,10 +200,11 @@ GitHub Pages as-is, offline, and prints cleanly.
 
 ## Contact
 
+- **Email:** [haithem.abdallah.benaida@gmail.com](mailto:haithem.abdallah.benaida@gmail.com)
+- **Phone:** +33 7 59 49 45 03
+- **LinkedIn:** [linkedin.com/in/haithembenaida](https://www.linkedin.com/in/haithembenaida)
 - **GitHub:** [@abdoubunaido-maker](https://github.com/abdoubunaido-maker)
 - **Location:** Lyon, France
-- **LinkedIn:** *add profile URL before sharing*
-- **Email:** *add a professional address if you want it public*
 
-For a research internship, a PhD opening, or a technical discussion about any of these studies —
-including where you think the modelling is wrong.
+For a **6-month research PFE from April 2027** (with possible PhD continuation), or a technical
+discussion about any of these studies — including where you think the modelling is wrong.

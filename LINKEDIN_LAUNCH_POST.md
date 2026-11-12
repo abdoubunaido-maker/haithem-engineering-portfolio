@@ -1,7 +1,7 @@
 # LinkedIn launch post
 
-Replace `[URL]` with your GitHub Pages address before posting. Attach one figure — the full-car
-pressure contour or the CAD side view both read well as a thumbnail.
+The live portfolio URL is already filled in below. Attach one figure — the full-car pressure
+contour or the CAD side view both read well as a thumbnail.
 
 ---
 
@@ -26,10 +26,11 @@ Written up as a 53-page technical report.
 
 🌬️ Riyah — a wind-turbine design tool
 A Python/Streamlit application built on blade-element momentum theory, with the parts that usually
-make BEM awkward to use handled for you: airfoil-polar acquisition and post-stall extrapolation,
-tip/hub and high-induction corrections, chord and twist design, a 3D blade view, and
-differential-evolution optimisation. As a check, it reproduces the NREL 5-MW reference optimum of
-Cp ≈ 0.482 at a tip-speed ratio of ≈ 7.55.
+make BEM awkward to use handled for you: three polar routes (panel method, XFOIL, NeuralFoil),
+Viterna-Corrigan post-stall extrapolation to ±180°, tip/hub and high-induction corrections, Schmitz
+chord and twist design, a 3D blade view, and differential-evolution optimisation. It ships with
+built-in validation against experimental data: a power-coefficient RMSE of 0.028 against the MEXICO
+rotor and 0.038 against the NREL UAE Phase VI rotor. Deployed on Streamlit Community Cloud.
 
 🚀 Rocketry — two composite-fin studies
 CAD, quarter-domain compressible CFD, and composite-fin structural analysis in ANSYS ACP. Kept
@@ -40,14 +41,15 @@ The thing I tried to be consistent about: publishing the assumption next to the 
 simulation results, not track or wind-tunnel measurements, and each page says what the model does
 not establish. I'd rather a reader disagree with a stated assumption than trust an inflated claim.
 
-I'm currently looking for a research internship or PhD position in aerodynamics, CFD, wind energy or
-design optimisation — if that overlaps with your group, I'd be glad to talk.
+I'm currently looking for a 6-month research end-of-studies internship (stage de fin d'études / PFE)
+starting April 2027, in aerodynamics, CFD, wind energy or design optimisation — with the possibility
+of continuing into a PhD. If that overlaps with your group, I'd be glad to talk.
 
-Portfolio: [URL]
+Portfolio: https://abdoubunaido-maker.github.io/haithem-engineering-portfolio/
 
 Feedback and technical criticism genuinely welcome.
 
-#aerodynamics #CFD #windenergy #FormulaStudent #python #engineering #PhD
+#aerodynamics #CFD #windenergy #FormulaStudent #python #engineering #PFE #internship
 ```
 
 ---
@@ -61,16 +63,17 @@ the results.
 • Formula Student aero package (Head of Aero, ENP Racing Team): drag-power budget → 24 airfoils
   screened in XFOIL → 27 2D CFD runs → PSO custom airfoils → 3D full-vehicle CFD. In simulation,
   460 N downforce for 296 N drag, and a 2.4% lap-time gain.
-• Riyah: a Python/Streamlit wind-turbine design app built on blade-element momentum theory,
-  reproducing the NREL 5-MW optimum of Cp ≈ 0.482 at λ ≈ 7.55.
+• Riyah: a Python/Streamlit wind-turbine design app built on blade-element momentum theory, validated
+  against MEXICO and NREL UAE Phase VI experiments (Cp RMSE 0.028 and 0.038). Live on Streamlit
+  Community Cloud.
 • Two rocketry studies: compressible CFD and composite-fin structural analysis in ANSYS ACP.
 
 All simulation results, with the assumptions and limits stated next to them.
 
-Open to research internships and PhD positions in aerodynamics, CFD, wind energy or design
-optimisation.
+Seeking a 6-month research end-of-studies internship (PFE) from April 2027 in aerodynamics, CFD, wind
+energy or design optimisation, with possible continuation into a PhD.
 
-[URL]
+https://abdoubunaido-maker.github.io/haithem-engineering-portfolio/
 
 #aerodynamics #CFD #windenergy #engineering
 ```

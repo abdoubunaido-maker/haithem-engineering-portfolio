@@ -1,7 +1,7 @@
 # LinkedIn Kit — copy, paste, personalise
 
 Ready-to-use text for turning this portfolio into a LinkedIn profile that reads well to a **lab
-recruiter, hiring manager or prospective PhD supervisor**.
+recruiter, hiring manager or prospective PFE/PhD supervisor**.
 
 Everything here is grounded in the documented projects. Replace anything in `[brackets]` before
 publishing, and keep the simulation-vs-measurement distinction — it is what makes the profile
@@ -15,17 +15,17 @@ Pick one. The first is the strongest for research roles.
 
 **A — research-focused (recommended)**
 ```
-Mechanical Engineer | Aerodynamics & CFD | M2 Fluid Mechanics & Energy, Lyon 1 | Wind-Turbine Design (BEM) | Seeking Research Internship / PhD
+Mechanical Engineer | Aerodynamics & CFD | Master's Fluid Mechanics & Energy, Lyon 1 / Centrale Lyon | Wind-Turbine Design (BEM) | Seeking 6-month Research PFE, Apr 2027
 ```
 
 **B — motorsport/industry-facing**
 ```
-Aerodynamics Engineer | Head of Aero, ENP Racing Team (Formula Student) | CFD: ANSYS Fluent & SimScale | Python | M2 Fluid Mechanics & Energy
+Aerodynamics Engineer | Head of Aero, ENP Racing Team (Formula Student) | CFD: ANSYS Fluent & SimScale | Python | Master's Fluid Mechanics & Energy
 ```
 
 **C — software/energy-facing**
 ```
-Mechanical Engineer building simulation tools | Aerodynamics · CFD · Wind Energy | Python & BEM | M2 Fluid Mechanics & Energy, Lyon 1
+Mechanical Engineer building simulation tools | Aerodynamics · CFD · Wind Energy | Python & BEM | Master's Fluid Mechanics & Energy, Lyon 1
 ```
 
 ---
@@ -33,8 +33,8 @@ Mechanical Engineer building simulation tools | Aerodynamics · CFD · Wind Ener
 ## 2. About section (2,600 character limit)
 
 ```
-I'm a mechanical engineer completing an M2 in Fluid Mechanics and Energy at Université Claude
-Bernard Lyon 1. My work sits where aerodynamic modelling meets design automation: using fast,
+I'm a mechanical engineer completing a Master's in Fluid Mechanics and Energy at Université Claude
+Bernard Lyon 1 / École Centrale de Lyon. My work sits where aerodynamic modelling meets design automation: using fast,
 physics-based models to explore a design space, and higher-fidelity CFD to check what the fast
 models claim.
 
@@ -58,18 +58,21 @@ friction.
 I also built Riyah, a Python/Streamlit application for horizontal-axis wind-turbine design and
 performance prediction. It wraps blade-element momentum theory in the parts that usually stop people
 using it: airfoil-polar acquisition and post-stall extrapolation, tip/hub and high-induction
-corrections, blade geometry generation, 3D visualisation and differential-evolution optimisation. It
-reproduces the NREL 5-MW reference optimum of Cp ≈ 0.482 at a tip-speed ratio of ≈ 7.55.
+corrections, Schmitz blade geometry generation, 3D visualisation and differential-evolution
+optimisation. It ships with built-in validation cases against experimental data: a power-coefficient
+RMSE of 0.028 against the MEXICO rotor and 0.038 against the NREL UAE Phase VI rotor. It's deployed on
+Streamlit Community Cloud.
 
 What I care about is that a result can be defended. I try to publish the assumption next to the
 number — reference area, sign convention, mesh resolution, and the limits of the model — because a
 reader who disagrees with an assumption can still use the result.
 
-I'm looking for a research internship or PhD position in aerodynamics, CFD, wind energy or design
-optimisation.
+I'm looking for a 6-month research end-of-studies internship (stage de fin d'études / PFE) starting
+April 2027, in aerodynamics, CFD, wind energy or design optimisation — ideally with the possibility of
+continuing into a PhD.
 
-Portfolio: https://github.com/abdoubunaido-maker/haithem-engineering-portfolio
-[Add your live GitHub Pages URL once deployed]
+Portfolio: https://abdoubunaido-maker.github.io/haithem-engineering-portfolio/
+Source: https://github.com/abdoubunaido-maker/haithem-engineering-portfolio
 ```
 
 ---
@@ -98,7 +101,7 @@ aerodynamics technical report.
   2012 endurance layout, with the gain concentrated in medium and fast corners.
 • Designed two rib-and-mount rear-wing structural concepts against rulebook deflection limits.
 
-The team represented Algeria at Formula Student UK and received the Newcomers Award.
+The team represented Algeria at Formula Student UK and received the Best Newcomer Award.
 All results are simulation results; no wind-tunnel or on-track validation was carried out.
 ```
 
@@ -110,7 +113,7 @@ LinkedIn's **Projects** section lets you attach a URL to each entry — link eac
 case-study page.
 
 ### Formula Student Aerodynamics — ENP Racing Team
-**URL:** `[Pages URL]/projects/formula-student.html`
+**URL:** `https://abdoubunaido-maker.github.io/haithem-engineering-portfolio/projects/formula-student.html`
 ```
 Design and CFD evaluation of a downforce-driven aero package for a low-speed, corner-dominated race
 car. The car is traction-limited (wide-open throttle only 15–20% of a lap), so the study prioritises
@@ -126,23 +129,26 @@ non-final geometry, unseparated underbody contributions, and a constant-friction
 ```
 
 ### Riyah — Wind-Turbine Design and Performance Prediction
-**URL:** `[Pages URL]/projects/riyah.html`
+**URL:** `https://abdoubunaido-maker.github.io/haithem-engineering-portfolio/projects/riyah.html`
 ```
 A Python/Streamlit application for horizontal-axis wind-turbine aerodynamic design and performance
 prediction, built on blade-element momentum theory.
 
-• Airfoil-polar pipeline: local database, fetched data or user upload; XFOIL generation or NeuralFoil
-  prediction; extrapolation to ±180° so the solver never runs off the end of a table.
+• Airfoil-polar pipeline: local database, fetched data or user upload; three interchangeable routes
+  (panel method, XFOIL, NeuralFoil); Viterna-Corrigan extrapolation to ±180° so the solver never runs
+  off the end of a table.
 • Loss corrections: Prandtl tip and hub losses, plus an empirical high-induction correction for the
   turbulent-wake state.
-• Preliminary blade design (chord and twist distributions), 3D blade visualisation, and
+• Preliminary blade design (Schmitz chord and twist distributions), 3D blade visualisation, and
   differential-evolution optimisation over a non-smooth objective.
-• Benchmarked against the NREL 5-MW reference turbine and the NREL Phase VI rotor; reproduces the
-  published 5-MW optimum of Cp ≈ 0.482 at tip-speed ratio ≈ 7.55.
+• Validated against experimental data with built-in cases: power-coefficient RMSE of 0.028 against
+  the MEXICO rotor and 0.038 against the NREL UAE Phase VI rotor — scored across the whole curve
+  rather than at a single operating point.
+• Deployed on Streamlit Community Cloud.
 ```
 
 ### Rocketry — Composite Fin Multiphysics Studies
-**URL:** `[Pages URL]/projects/rocketry.html`
+**URL:** `https://abdoubunaido-maker.github.io/haithem-engineering-portfolio/projects/rocketry.html`
 ```
 Two independent rocket models taken through CAD and shell idealisation, quarter-domain compressible
 external-flow CFD (ANSYS Fluent, density-based solver, k-omega SST, energy equation, Pressure
@@ -193,9 +199,9 @@ who worked on the project carry weight.
 
 Add these in order, so the first thing a visitor sees is the strongest work:
 
-1. **The portfolio site** — `[Pages URL]` (title: "Engineering Portfolio — Aerodynamics, CFD & Wind Energy")
-2. **Formula Student case study** — `[Pages URL]/projects/formula-student.html`
-3. **Riyah case study** — `[Pages URL]/projects/riyah.html`
+1. **The portfolio site** — `https://abdoubunaido-maker.github.io/haithem-engineering-portfolio` (title: "Engineering Portfolio — Aerodynamics, CFD & Wind Energy")
+2. **Formula Student case study** — `https://abdoubunaido-maker.github.io/haithem-engineering-portfolio/projects/formula-student.html`
+3. **Riyah case study** — `https://abdoubunaido-maker.github.io/haithem-engineering-portfolio/projects/riyah.html`
 4. **The launch post** below, once published.
 
 Use a figure as the thumbnail — the full-car pressure contour or the CAD side view both read well at
@@ -262,12 +268,15 @@ but using it properly means assembling polars at the right Reynolds numbers, ext
 stall, and adding tip, hub and high-induction corrections. That setup work is what stops people using
 BEM.
 
-Riyah wraps the whole chain in a Streamlit app: polar acquisition (database, upload, XFOIL or
-NeuralFoil), ±180° extrapolation, loss-corrected BEM, chord and twist design, a 3D blade view, and
-differential-evolution optimisation.
+Riyah wraps the whole chain in a Streamlit app: polar acquisition (database, upload, panel method,
+XFOIL or NeuralFoil), Viterna-Corrigan ±180° extrapolation, loss-corrected BEM, Schmitz chord and twist
+design, a 3D blade view, and differential-evolution optimisation. It's deployed on Streamlit Community
+Cloud.
 
-As a check, it reproduces the NREL 5-MW reference turbine's published optimum: Cp ≈ 0.482 at a
-tip-speed ratio of ≈ 7.55. Matching one point isn't full validation, and the write-up says so.
+It ships with built-in validation against experimental data: power-coefficient RMSE of 0.028 against
+the MEXICO rotor and 0.038 against the NREL UAE Phase VI rotor. I score the whole curve, not a single
+peak — matching one point can be tuned, and the larger error in stalled flow is exactly what you'd
+expect.
 
 Details: [link]
 
@@ -278,15 +287,15 @@ Details: [link]
 
 ## 10. Outreach templates
 
-### To a professor / lab — research internship or PhD interest
+### To a professor / lab — research PFE (April 2027), possible PhD continuation
 
-**Subject:** M2 Fluid Mechanics & Energy — internship/PhD interest in `[specific topic]`
+**Subject:** Research PFE from April 2027 — Master's Fluid Mechanics & Energy — `[specific topic]`
 
 ```
 Dear Professor `[Name]`,
 
-I'm a mechanical engineer completing an M2 in Fluid Mechanics and Energy at Université Claude
-Bernard Lyon 1. I'm writing about `[the specific paper or project of theirs]`, which connects closely
+I'm a mechanical engineer completing a Master's in Fluid Mechanics and Energy at Université Claude
+Bernard Lyon 1 / École Centrale de Lyon. I'm writing about `[the specific paper or project of theirs]`, which connects closely
 to work I've been doing on `[the shared method or problem — be specific]`.
 
 Briefly, my background:
@@ -294,12 +303,14 @@ Briefly, my background:
   drag-power budget through XFOIL screening, 27 parametric 2D CFD cases, PSO-designed custom airfoils
   and 3D full-vehicle CFD, and documented it in a 53-page report.
 • I built Riyah, a Python/Streamlit blade-element momentum application for wind-turbine design, with
-  polar extrapolation, loss corrections and differential-evolution optimisation, benchmarked against
-  the NREL 5-MW reference turbine.
+  Viterna-Corrigan polar extrapolation, loss corrections and differential-evolution optimisation,
+  validated against MEXICO and NREL UAE Phase VI experimental data (power-coefficient RMSE 0.028 and
+  0.038). It is deployed on Streamlit Community Cloud.
 
-Portfolio with methods, figures and stated limitations: `[URL]`
+Portfolio with methods, figures and stated limitations: https://abdoubunaido-maker.github.io/haithem-engineering-portfolio/
 
-I'm looking for `[a research internship of X months from DATE / a PhD position]`. If your group has an
+I'm looking for a 6-month research end-of-studies internship (PFE) starting April 2027, ideally with
+the possibility of continuing into a PhD in your group. If your group has an
 opening, I'd welcome the chance to discuss how I could contribute — particularly on `[a concrete
 angle: e.g. surrogate-assisted rotor optimisation, or CFD verification of BEM predictions]`.
 
@@ -307,7 +318,7 @@ My CV is attached. Thank you for your time.
 
 Best regards,
 Haithem Abd Allah Benaida
-`[email]` · `[phone]` · `[LinkedIn]`
+haithem.abdallah.benaida@gmail.com · +33 7 59 49 45 03 · linkedin.com/in/haithembenaida
 ```
 
 **Why this works:** it names their work, states a concrete methodological overlap, gives two
@@ -319,31 +330,32 @@ the first paragraph must be genuinely specific to the recipient.
 ```
 Hello `[Name]`,
 
-I'm a mechanical engineer finishing an M2 in Fluid Mechanics and Energy at Lyon 1, with hands-on
+I'm a mechanical engineer finishing a Master's in Fluid Mechanics and Energy at Lyon 1 / Centrale
+Lyon, with hands-on
 aerodynamic development experience: I led aerodynamics for a Formula Student team (XFOIL, ANSYS
 Fluent, SimScale, custom airfoil optimisation) and built a Python wind-turbine design application
 around blade-element momentum theory.
 
 I saw `[role]` at `[company]` and think the `[specific requirement]` part maps directly to that work.
-My portfolio documents the methods and results, including limitations: `[URL]`
+My portfolio documents the methods and results, including limitations: https://abdoubunaido-maker.github.io/haithem-engineering-portfolio/
 
 Would you be open to a short conversation?
 
 Best regards,
-Haithem Benaida · `[email]`
+Haithem Abd Allah Benaida · haithem.abdallah.benaida@gmail.com · +33 7 59 49 45 03
 ```
 
 ---
 
 ## 11. Pre-publish checklist
 
-- [ ] Deploy GitHub Pages and replace every `[Pages URL]` in this file and the README.
-- [ ] Add LinkedIn URL and professional email to `README.md`, `index.html` and `cv.html`.
-- [ ] Fill the highlighted fields in `cv.html`, then Print → Save as PDF for applications.
-- [ ] Add exact education and role dates to `cv.html` and the LinkedIn entries.
-- [ ] Add languages and availability to the CV.
+- [x] GitHub Pages deployed; the live Pages URL is used throughout this file and the README.
+- [x] LinkedIn URL, email and phone added to `README.md`, `index.html` and `cv.html`.
+- [x] `cv.html` filled from the resume, with education/role dates, languages and availability.
+- [ ] Open `cv.html` → Print → Save as PDF for applications.
+- [ ] Paste the About text and experience entries into LinkedIn, and set the headline.
 - [ ] Confirm with ENP Racing Team that the figures and results are cleared for public sharing.
-- [ ] Make the Riyah repository public (or keep the "private" note) and add the demo link if you have one.
+- [ ] Optional: add the Streamlit Community Cloud app URL next to the Riyah case study.
 - [ ] Set a custom Open Graph thumbnail if you want a specific preview image on LinkedIn.
 - [ ] Pin the portfolio repository on your GitHub profile.
 - [ ] Ask 2–3 teammates or supervisors to endorse your top three skills.

@@ -64,23 +64,23 @@
         </p>
         <ol class="steps">
           <li>
-            <h4>CAD and model idealisation</h4>
+            <h3>CAD and model idealisation</h3>
             <p>Nose cone, cylindrical body and fin assembly modelled in SolidWorks. For the structural model the fin and root were reduced to <strong>midsurfaces</strong>, giving a shell model rather than a solid one — appropriate for a thin laminate and far cheaper to solve.</p>
           </li>
           <li>
-            <h4>Fluid domain by Boolean subtraction</h4>
+            <h3>Fluid domain by Boolean subtraction</h3>
             <p>An external enclosure was created around the rocket and the body subtracted from it. The geometric symmetry of the vehicle was then exploited to simulate <strong>one quarter of the domain</strong> with symmetry boundary conditions.</p>
           </li>
           <li>
-            <h4>Compressible external CFD</h4>
+            <h3>Compressible external CFD</h3>
             <p>Density-based solver for compressible flow, k–ω SST turbulence model, energy equation enabled, and a <strong>Pressure Far-Field</strong> boundary specifying freestream Mach number, static pressure and static temperature at the selected maximum-velocity ascent condition.</p>
           </li>
           <li>
-            <h4>Convergence assessment</h4>
+            <h3>Convergence assessment</h3>
             <p>Residual target of <strong>1×10⁻⁵</strong> for continuity and energy, together with a stable drag-coefficient plateau — residuals alone are not treated as proof of convergence.</p>
           </li>
           <li>
-            <h4>Composite fin structural analysis</h4>
+            <h3>Composite fin structural analysis</h3>
             <p>Static structural analysis in ANSYS Workbench. The fin root constrained to represent the body attachment, aerodynamic loads applied to the fin surfaces, mesh refined at the root and edges where stress concentrations are expected. Laminate layers assigned through <strong>ACP Mechanical</strong> using fibre-datasheet properties.</p>
           </li>
         </ol>
@@ -293,6 +293,7 @@
       <a href="formula-student.html">Formula Student</a>
       <a href="riyah.html">Riyah</a>
       <a href="../cv.html">CV</a>
+      <a href="https://www.linkedin.com/in/haithembenaida" rel="noopener">LinkedIn</a>
     </div>
   </div>
 </footer>
