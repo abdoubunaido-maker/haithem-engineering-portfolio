@@ -1,6 +1,12 @@
 # CFD and Fluid-Mechanics Studies
 
+**[→ Web version: verification methodology and notes](../cfd-notes.html)** · **[→ Back to portfolio](../../README.md)**
+
 This section collects smaller numerical studies, derivations, and engineering notes that do not warrant a standalone repository yet.
+
+The web version documents the checks already applied in the projects — near-wall/y⁺ targets, iterative
+versus discretisation convergence, domain sizing, turbulence-model choice, and how force coefficients
+should be reported so they can be reused.
 
 ## Planned topics
 
