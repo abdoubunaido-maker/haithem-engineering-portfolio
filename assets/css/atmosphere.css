@@ -98,12 +98,13 @@ body:is(.formula-page, .riyah-page, .rocketry-page, .cfd-page, .cv-page) {
   width: 100%;
   height: auto;
   min-height: 0;
-  aspect-ratio: 967 / 519;
+  aspect-ratio: auto;
   object-fit: contain;
   background: transparent;
-  mix-blend-mode: multiply;
-  -webkit-mask-image: radial-gradient(ellipse 75% 70% at 50% 48%, #000 35%, rgba(0,0,0,.84) 57%, transparent 84%);
-  mask-image: radial-gradient(ellipse 75% 70% at 50% 48%, #000 35%, rgba(0,0,0,.84) 57%, transparent 84%);
+  mix-blend-mode: normal;
+  filter: drop-shadow(0 22px 18px rgba(19, 32, 50, .12));
+  -webkit-mask-image: none;
+  mask-image: none;
 }
 .home-page .hero-figure figcaption {
   position: relative;
@@ -241,7 +242,16 @@ body:is(.formula-page, .riyah-page, .rocketry-page, .cfd-page, .cv-page) {
   background-color: color-mix(in srgb, var(--panel) 93%, transparent);
 }
 .home-page .project.featured .project-thumb {
+  overflow: visible;
+  border: 0;
   background: transparent;
+}
+.home-page .project.featured .project-thumb img {
+  object-fit: contain;
+  padding: clamp(18px, 3vw, 38px);
+  background: transparent;
+  mix-blend-mode: normal;
+  filter: drop-shadow(0 16px 16px rgba(19, 32, 50, .10));
 }
 
 /* Case-study mastheads receive subject-specific, softly masked engineering art. */
@@ -339,9 +349,15 @@ body:is(.formula-page, .rocketry-page, .cfd-page) .hero > .wrap { position: rela
   opacity: .09;
 }
 [data-theme="dark"] .home-page .hero-figure img {
-  opacity: .72;
-  -webkit-mask-image: radial-gradient(ellipse 72% 68% at 50% 48%, #000 24%, rgba(0,0,0,.7) 52%, transparent 82%);
-  mask-image: radial-gradient(ellipse 72% 68% at 50% 48%, #000 24%, rgba(0,0,0,.7) 52%, transparent 82%);
+  opacity: .96;
+  mix-blend-mode: normal;
+  filter: drop-shadow(0 22px 20px rgba(0, 0, 0, .36));
+  -webkit-mask-image: none;
+  mask-image: none;
+}
+[data-theme="dark"] .home-page .project.featured .project-thumb img {
+  mix-blend-mode: normal;
+  filter: drop-shadow(0 16px 16px rgba(0, 0, 0, .28));
 }
 [data-theme="dark"] .home-page .hero-figure figcaption { color: var(--muted); }
 
@@ -350,7 +366,7 @@ body:is(.formula-page, .rocketry-page, .cfd-page) .hero > .wrap { position: rela
   .home-page .hero-home::before { width: 100vw; right: -38%; opacity: .22; }
   .home-page .hero-home::after { width: 75vw; right: -18%; opacity: .07; }
   .home-page .hero-figure { width: 106%; margin-left: -3%; }
-  .home-page .hero-figure img { -webkit-mask-image: radial-gradient(ellipse 78% 70% at 50% 47%, #000 35%, rgba(0,0,0,.78) 58%, transparent 87%); mask-image: radial-gradient(ellipse 78% 70% at 50% 47%, #000 35%, rgba(0,0,0,.78) 58%, transparent 87%); }
+  .home-page .hero-figure img { max-height: 68vh; object-fit: contain; }
 }
 @media (max-width: 760px) {
   .home-page .hero-home { padding-top: 34px; }

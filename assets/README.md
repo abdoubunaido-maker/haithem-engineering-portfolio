@@ -23,6 +23,10 @@ assets/
   XFOIL polars, ANSYS Fluent contours, SimScale meshes and y⁺ maps, CAD, custom airfoil profiles, and
   OptimumLap output. Third-party images used in the report for literature review (other teams' cars,
   rulebook diagrams, published figures from McBeath/Katz) are **deliberately not included**.
+- `cad-yellow-cutout.png` and `cad-dark-cutout.png` are the author's supplied SolidWorks car renders
+  with the pale screenshot backdrop removed for transparent composition. The CAD pixels/geometry are
+  retained; the background matte is only a display treatment. The case-study figures and analysis
+  images remain unmodified.
 - Name figures for what they show, not for their figure number in the source document — e.g.
   `cfd2d-pressure-c3.png`, `yplus-map.png`, `lap-speed-trace.png`.
 - Every figure on a web page needs meaningful `alt` text and a `<figcaption>` stating what it shows
