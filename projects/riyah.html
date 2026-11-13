@@ -1,5 +1,5 @@
 <!doctype html>
-<html lang="en" data-theme="dark">
+<html lang="en" data-theme="light">
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
@@ -9,7 +9,7 @@
 <meta property="og:title" content="Riyah — HAWT design and performance prediction">
 <meta property="og:description" content="Blade-element momentum theory wrapped in a usable design tool: four polar routes including automated SU2 RANS, loss corrections, blade geometry and optimisation. C_P RMSE 0.028 against MEXICO and 0.038 against NREL UAE Phase VI.">
 <link rel="stylesheet" href="../assets/css/site.css">
-<link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'><rect width='32' height='32' rx='8' fill='%235eead4'/><text x='16' y='22' font-family='monospace' font-size='16' font-weight='bold' text-anchor='middle' fill='%2304211d'>HB</text></svg>">
+<link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'><rect width='32' height='32' rx='8' fill='%232459c4'/><text x='16' y='22' font-family='monospace' font-size='16' font-weight='bold' text-anchor='middle' fill='%23ffffff'>HB</text></svg>">
 </head>
 <body>
 <a class="skip" href="#main">Skip to content</a>
@@ -70,17 +70,17 @@
       <svg viewBox="0 0 460 300" role="img" aria-label="Schematic of a three-bladed horizontal-axis wind turbine rotor with the incoming wind profile, blade element stations and the rotor swept area marked.">
         <defs>
           <linearGradient id="rg" x1="0" y1="0" x2="1" y2="1">
-            <stop offset="0" stop-color="#5eead4"/><stop offset="1" stop-color="#7dd3fc"/>
+            <stop offset="0" stop-color="#5278bd"/><stop offset="1" stop-color="#8298b5"/>
           </linearGradient>
         </defs>
-        <g stroke="#7dd3fc" stroke-width="1.3" opacity=".45" stroke-linecap="round">
+        <g stroke="#8298b5" stroke-width="1.3" opacity=".45" stroke-linecap="round">
           <path d="M20 70h74M20 96h62M20 122h74M20 148h62M20 174h74M20 200h62"/>
           <path d="M86 65l9 5-9 5M74 91l9 5-9 5M86 117l9 5-9 5M74 143l9 5-9 5M86 169l9 5-9 5M74 195l9 5-9 5" fill="none"/>
         </g>
-        <text x="20" y="52" font-family="monospace" font-size="11" fill="#7387a3">U∞</text>
-        <circle cx="268" cy="140" r="104" fill="none" stroke="#22304f" stroke-width="1" stroke-dasharray="4 5"/>
-        <text x="352" y="60" font-family="monospace" font-size="10" fill="#7387a3">R</text>
-        <line x1="268" y1="140" x2="352" y2="72" stroke="#22304f" stroke-width="1"/>
+        <text x="20" y="52" font-family="monospace" font-size="11" fill="#758190">U∞</text>
+        <circle cx="268" cy="140" r="104" fill="none" stroke="#d5dce5" stroke-width="1" stroke-dasharray="4 5"/>
+        <text x="352" y="60" font-family="monospace" font-size="10" fill="#758190">R</text>
+        <line x1="268" y1="140" x2="352" y2="72" stroke="#d5dce5" stroke-width="1"/>
         <g fill="url(#rg)" opacity=".93">
           <path d="M268 140 C282 92 288 54 279 36 C266 46 254 92 255 136 Z"/>
           <path d="M268 140 C310 164 344 184 361 178 C354 162 312 142 272 129 Z"/>
@@ -89,15 +89,15 @@
         <g stroke="#0b1120" stroke-width=".8" opacity=".5">
           <path d="M262 112l14 4M259 86l14 4M257 62l13 4M292 152l6-12M316 163l6-12M340 173l5-11M244 152l-6-12M220 163l-6-12M196 173l-5-11"/>
         </g>
-        <circle cx="268" cy="140" r="13" fill="#101a2d" stroke="#5eead4" stroke-width="2.5"/>
-        <rect x="262" y="150" width="12" height="106" rx="4" fill="#22304f"/>
-        <rect x="234" y="252" width="68" height="7" rx="3.5" fill="#22304f"/>
-        <g font-family="monospace" font-size="10" fill="#5eead4">
+        <circle cx="268" cy="140" r="13" fill="#101a2d" stroke="#5278bd" stroke-width="2.5"/>
+        <rect x="262" y="150" width="12" height="106" rx="4" fill="#d5dce5"/>
+        <rect x="234" y="252" width="68" height="7" rx="3.5" fill="#d5dce5"/>
+        <g font-family="monospace" font-size="10" fill="#5278bd">
           <text x="292" y="100">dr</text>
           <text x="386" y="140">Ω</text>
         </g>
-        <path d="M370 118 a26 26 0 0 1 14 22" fill="none" stroke="#5eead4" stroke-width="1.3"/>
-        <path d="M380 136l4 6 5-5" fill="none" stroke="#5eead4" stroke-width="1.3"/>
+        <path d="M370 118 a26 26 0 0 1 14 22" fill="none" stroke="#5278bd" stroke-width="1.3"/>
+        <path d="M380 136l4 6 5-5" fill="none" stroke="#5278bd" stroke-width="1.3"/>
       </svg>
       <figcaption>Blade-element discretisation of a HAWT rotor — the model Riyah solves.</figcaption>
     </figure>
@@ -190,74 +190,74 @@
             <svg viewBox="0 0 880 400" role="img" aria-label="Architecture diagram: rotor inputs and four airfoil data sources including an automated SU2 RANS pipeline feed polar preparation, which feeds the BEM solver with loss corrections, producing performance outputs; the optimiser wraps the solver in a search loop and the blade view renders the geometry.">
               <defs>
                 <marker id="ar" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto">
-                  <path d="M0 0 L10 5 L0 10 z" fill="#5eead4"/>
+                  <path d="M0 0 L10 5 L0 10 z" fill="#5278bd"/>
                 </marker>
                 <marker id="ar2" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto">
-                  <path d="M0 0 L10 5 L0 10 z" fill="#7dd3fc"/>
+                  <path d="M0 0 L10 5 L0 10 z" fill="#8298b5"/>
                 </marker>
               </defs>
               <g font-family="ui-monospace, monospace" font-size="12">
                 <!-- inputs -->
-                <rect x="16" y="24" width="182" height="82" rx="10" fill="#16223c" stroke="#22304f"/>
-                <text x="32" y="48" fill="#5eead4" font-size="11">ROTOR INPUTS</text>
+                <rect x="16" y="24" width="182" height="82" rx="10" fill="#16223c" stroke="#d5dce5"/>
+                <text x="32" y="48" fill="#5278bd" font-size="11">ROTOR INPUTS</text>
                 <text x="32" y="70" fill="#9db0cb" font-size="11">R, B, hub, pitch</text>
                 <text x="32" y="88" fill="#9db0cb" font-size="11">U∞, Ω / λ, ρ, ν</text>
 
-                <rect x="16" y="140" width="182" height="124" rx="10" fill="#16223c" stroke="#22304f"/>
-                <text x="32" y="164" fill="#5eead4" font-size="11">AIRFOIL DATA</text>
+                <rect x="16" y="140" width="182" height="124" rx="10" fill="#16223c" stroke="#d5dce5"/>
+                <text x="32" y="164" fill="#5278bd" font-size="11">AIRFOIL DATA</text>
                 <text x="32" y="186" fill="#9db0cb" font-size="11">local database</text>
                 <text x="32" y="204" fill="#9db0cb" font-size="11">fetch / upload</text>
                 <text x="32" y="222" fill="#9db0cb" font-size="11">panel · XFOIL · NeuralFoil</text>
-                <text x="32" y="240" fill="#7dd3fc" font-size="11">SU2 RANS + auto-mesh</text>
+                <text x="32" y="240" fill="#8298b5" font-size="11">SU2 RANS + auto-mesh</text>
 
                 <!-- polar prep -->
-                <rect x="248" y="140" width="180" height="104" rx="10" fill="#16223c" stroke="#5eead4" stroke-opacity=".5"/>
-                <text x="264" y="164" fill="#5eead4" font-size="11">POLAR PREP</text>
+                <rect x="248" y="140" width="180" height="104" rx="10" fill="#16223c" stroke="#5278bd" stroke-opacity=".5"/>
+                <text x="264" y="164" fill="#5278bd" font-size="11">POLAR PREP</text>
                 <text x="264" y="186" fill="#9db0cb" font-size="11">Re interpolation</text>
                 <text x="264" y="204" fill="#9db0cb" font-size="11">±180° extrapolation</text>
                 <text x="264" y="222" fill="#9db0cb" font-size="11">Cl, Cd tables</text>
 
                 <!-- solver -->
-                <rect x="478" y="86" width="196" height="158" rx="10" fill="#101a2d" stroke="#5eead4"/>
-                <text x="494" y="110" fill="#5eead4" font-size="11">BEM SOLVER</text>
+                <rect x="478" y="86" width="196" height="158" rx="10" fill="#101a2d" stroke="#5278bd"/>
+                <text x="494" y="110" fill="#5278bd" font-size="11">BEM SOLVER</text>
                 <text x="494" y="134" fill="#9db0cb" font-size="11">per-element iteration</text>
                 <text x="494" y="152" fill="#9db0cb" font-size="11">on a, a′</text>
-                <line x1="494" y1="164" x2="658" y2="164" stroke="#22304f"/>
-                <text x="494" y="184" fill="#7dd3fc" font-size="11">+ Prandtl tip / hub</text>
-                <text x="494" y="202" fill="#7dd3fc" font-size="11">+ high-induction</text>
-                <text x="494" y="220" fill="#7dd3fc" font-size="11">+ drag in wake</text>
+                <line x1="494" y1="164" x2="658" y2="164" stroke="#d5dce5"/>
+                <text x="494" y="184" fill="#8298b5" font-size="11">+ Prandtl tip / hub</text>
+                <text x="494" y="202" fill="#8298b5" font-size="11">+ high-induction</text>
+                <text x="494" y="220" fill="#8298b5" font-size="11">+ drag in wake</text>
 
                 <!-- outputs -->
-                <rect x="724" y="24" width="140" height="104" rx="10" fill="#16223c" stroke="#22304f"/>
-                <text x="740" y="48" fill="#5eead4" font-size="11">OUTPUTS</text>
+                <rect x="724" y="24" width="140" height="104" rx="10" fill="#16223c" stroke="#d5dce5"/>
+                <text x="740" y="48" fill="#5278bd" font-size="11">OUTPUTS</text>
                 <text x="740" y="70" fill="#9db0cb" font-size="11">C_P–λ, C_T–λ</text>
                 <text x="740" y="88" fill="#9db0cb" font-size="11">power curve</text>
                 <text x="740" y="106" fill="#9db0cb" font-size="11">spanwise loads</text>
 
-                <rect x="724" y="164" width="140" height="80" rx="10" fill="#16223c" stroke="#22304f"/>
-                <text x="740" y="188" fill="#5eead4" font-size="11">BLADE VIEW</text>
+                <rect x="724" y="164" width="140" height="80" rx="10" fill="#16223c" stroke="#d5dce5"/>
+                <text x="740" y="188" fill="#5278bd" font-size="11">BLADE VIEW</text>
                 <text x="740" y="210" fill="#9db0cb" font-size="11">chord &amp; twist</text>
                 <text x="740" y="228" fill="#9db0cb" font-size="11">3D render</text>
 
                 <!-- optimiser -->
-                <rect x="330" y="304" width="344" height="72" rx="10" fill="#16223c" stroke="#7dd3fc" stroke-dasharray="5 4"/>
-                <text x="348" y="328" fill="#7dd3fc" font-size="11">DIFFERENTIAL EVOLUTION</text>
+                <rect x="330" y="304" width="344" height="72" rx="10" fill="#16223c" stroke="#8298b5" stroke-dasharray="5 4"/>
+                <text x="348" y="328" fill="#8298b5" font-size="11">DIFFERENTIAL EVOLUTION</text>
                 <text x="348" y="350" fill="#9db0cb" font-size="11">chord / twist / λ design → objective + constraints</text>
 
                 <!-- arrows -->
-                <g stroke="#5eead4" stroke-width="1.6" fill="none" marker-end="url(#ar)">
+                <g stroke="#5278bd" stroke-width="1.6" fill="none" marker-end="url(#ar)">
                   <path d="M198 66 H226 Q240 66 240 82 V124 Q240 140 254 140 H244"/>
                   <path d="M198 192 H244"/>
                   <path d="M428 192 H452 Q466 192 466 178 V170 H474"/>
                   <path d="M674 140 H700 Q714 140 714 124 V90 Q714 76 720 76"/>
                   <path d="M674 204 H720"/>
                 </g>
-                <g stroke="#7dd3fc" stroke-width="1.6" fill="none" marker-end="url(#ar2)" stroke-dasharray="5 4">
+                <g stroke="#8298b5" stroke-width="1.6" fill="none" marker-end="url(#ar2)" stroke-dasharray="5 4">
                   <path d="M794 128 V150 Q794 160 780 160 H700 Q686 160 686 300"/>
                   <path d="M400 304 V276 Q400 262 414 262 H560 Q576 262 576 248"/>
                 </g>
-                <text x="700" y="286" fill="#7387a3" font-size="10">objective</text>
-                <text x="410" y="290" fill="#7387a3" font-size="10">new design</text>
+                <text x="700" y="286" fill="#758190" font-size="10">objective</text>
+                <text x="410" y="290" fill="#758190" font-size="10">new design</text>
               </g>
             </svg>
           </div>
