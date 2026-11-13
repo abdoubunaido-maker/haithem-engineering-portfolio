@@ -89,7 +89,7 @@ friction and a generic powertrain; no physical validation. Real gains are likely
 
 ## 2. Riyah — wind-turbine design and performance prediction
 
-**Type:** Engineering web application · Python + Streamlit
+**Type:** Engineering web application · bespoke HTML/CSS front end
 
 Rotor design has an awkward gap: CFD is too expensive to run inside a design search, while BEM is
 fast enough but needs a lot of unglamorous machinery assembled first. Riyah closes that gap.
@@ -118,8 +118,8 @@ fast enough but needs a lot of unglamorous machinery assembled first. Riyah clos
 
 **Honest scope:** these are comparisons against published experimental datasets, not measurements
 taken with Riyah. BEM assumes independent annuli, steady axial inflow and a rigid blade; deep-stall
-answers depend on the extrapolation model chosen. Riyah is **deployed on Streamlit Community Cloud**;
-the source repository is not public.
+answers depend on the extrapolation model chosen. Riyah runs as a **web application with a bespoke
+HTML/CSS front end**; the source repository is not public.
 
 **[→ Full case study](projects/riyah-hawt-design/README.md)** ·
 **[→ Web version with method derivation](projects/riyah.html)**
@@ -162,7 +162,7 @@ They are kept in separate folders because they are separate models, not design i
 
 ## Tools and methods
 
-`Python` · `Streamlit` · `SciPy` · `Plotly` · `MATLAB` · `ANSYS Fluent` · `SimScale` ·
+`Python` · `HTML/CSS` · `SciPy` · `SU2` · `OpenFOAM` · `MATLAB` · `ANSYS Fluent` · `SimScale` ·
 `ANSYS Mechanical` · `ACP Mechanical` · `XFOIL` · `XFLR5` · `NeuralFoil` · `SolidWorks` ·
 `OptimumLap` · `LaTeX` · `Git`
 

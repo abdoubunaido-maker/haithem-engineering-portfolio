@@ -25,7 +25,7 @@ the downforce coefficient a further 25% at essentially unchanged drag — effici
 Written up as a 53-page technical report.
 
 🌬️ Riyah — a wind-turbine design tool
-A Python/Streamlit application built on blade-element momentum theory, with the parts that usually
+A web application built on blade-element momentum theory, with the parts that usually
 make BEM awkward to use handled for you: four polar routes (panel method, XFOIL, NeuralFoil, and a
 parametric SU2 RANS pipeline with automated meshing), Viterna-Corrigan post-stall extrapolation to
 ±180°, tip/hub and high-induction corrections, Schmitz chord and twist design, a 3D blade view, and
@@ -33,7 +33,8 @@ differential-evolution optimisation. The SU2 route is the part I enjoyed most: a
 and the sweep so a RANS polar comes out of one command, with convergence checked before any point is
 accepted. It ships with
 built-in validation against experimental data: a power-coefficient RMSE of 0.028 against the MEXICO
-rotor and 0.038 against the NREL UAE Phase VI rotor. Deployed on Streamlit Community Cloud.
+rotor and 0.038 against the NREL UAE Phase VI rotor. I rebuilt the interface as a bespoke HTML/CSS
+front end so the layout and visualisation are fully under my control.
 
 🚀 Rocketry — two composite-fin studies
 CAD, quarter-domain compressible CFD, and composite-fin structural analysis in ANSYS ACP. Kept
@@ -66,10 +67,10 @@ the results.
 • Formula Student aero package (Head of Aero, ENP Racing Team): drag-power budget → 24 airfoils
   screened in XFOIL → 27 2D CFD runs → PSO custom airfoils → 3D full-vehicle CFD. In simulation,
   460 N downforce for 296 N drag, and a 2.4% lap-time gain.
-• Riyah: a Python/Streamlit wind-turbine design app built on blade-element momentum theory, with a
+• Riyah: a wind-turbine design web app built on blade-element momentum theory, with a
   parametric SU2 RANS polar pipeline (automated meshing) alongside XFOIL and NeuralFoil. Validated
-  against MEXICO and NREL UAE Phase VI experiments (Cp RMSE 0.028 and 0.038). Live on Streamlit
-  Community Cloud.
+  against MEXICO and NREL UAE Phase VI experiments (Cp RMSE 0.028 and 0.038). Bespoke HTML/CSS
+  front end.
 • Two rocketry studies: compressible CFD and composite-fin structural analysis in ANSYS ACP.
 
 All simulation results, with the assumptions and limits stated next to them.

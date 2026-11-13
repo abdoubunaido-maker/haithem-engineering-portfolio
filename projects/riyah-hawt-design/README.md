@@ -1,8 +1,8 @@
 # Riyah — Horizontal-Axis Wind-Turbine Design and Performance Prediction
 
 **Project type:** Engineering web application / final-year project
-**Stack:** Python · Streamlit · BEM · panel method / XFOIL / NeuralFoil / SU2 · differential evolution
-**Status:** Deployed on Streamlit Community Cloud; also runs locally
+**Stack:** HTML/CSS front end · Python · BEM · panel method / XFOIL / NeuralFoil / SU2 · differential evolution
+**Status:** Web application with a bespoke HTML/CSS interface
 
 **[→ Web case study with method derivation and interactive theory](../riyah.html)** · **[→ Back to portfolio](../../README.md)**
 
@@ -38,7 +38,7 @@ tunnel reached, plus tip, hub and high-induction corrections.
 analysed, reshaped and optimised without leaving the tool. It is built to be used by someone who wants
 an answer, not by someone who wants to write a BEM solver. It ships with built-in validation against
 **MEXICO** and **NREL UAE Phase VI** experimental data (C<sub>P</sub> RMSE **0.028** and **0.038**), and
-is **deployed on Streamlit Community Cloud**.
+delivers all of this through a **bespoke HTML/CSS front end**.
 
 ---
 
@@ -413,9 +413,9 @@ physics. A BEM code can look excellent in attached flow and still be badly wrong
 
 ## Access
 
-Riyah is **deployed on Streamlit Community Cloud** and also runs locally as a standard Streamlit
-application. The source repository is not public, so this page documents the method and capabilities
-rather than the code.
+Riyah runs as a **web application with a bespoke HTML/CSS front end**, rebuilt from the original
+prototype so the layout and result visualisation are fully controlled. The source repository is not
+public, so this page documents the method and capabilities rather than the code.
 
 For a walkthrough of the running app or a discussion of the modelling, see the
 [contact section](../../README.md#contact).

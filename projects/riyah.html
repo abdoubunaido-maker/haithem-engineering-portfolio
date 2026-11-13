@@ -4,10 +4,10 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>Riyah — Wind-Turbine Design &amp; Performance Prediction | Haithem Benaida</title>
-<meta name="description" content="Riyah: a Python/Streamlit application for horizontal-axis wind-turbine aerodynamic design and performance prediction, built on blade-element momentum theory with polar extrapolation, differential-evolution optimisation and NREL reference-turbine benchmarks.">
+<meta name="description" content="Riyah: a web application for horizontal-axis wind-turbine aerodynamic design and performance prediction, built on blade-element momentum theory with four polar routes including parametric SU2 RANS, Viterna-Corrigan extrapolation and differential-evolution optimisation. Validated against MEXICO and NREL UAE Phase VI experimental data.">
 <meta name="author" content="Haithem Abd Allah Benaida">
 <meta property="og:title" content="Riyah — HAWT design and performance prediction">
-<meta property="og:description" content="Blade-element momentum theory wrapped in a usable design tool: airfoil polars, loss corrections, blade geometry, optimisation and NREL benchmarks.">
+<meta property="og:description" content="Blade-element momentum theory wrapped in a usable design tool: four polar routes including automated SU2 RANS, loss corrections, blade geometry and optimisation. C_P RMSE 0.028 against MEXICO and 0.038 against NREL UAE Phase VI.">
 <link rel="stylesheet" href="../assets/css/site.css">
 <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'><rect width='32' height='32' rx='8' fill='%235eead4'/><text x='16' y='22' font-family='monospace' font-size='16' font-weight='bold' text-anchor='middle' fill='%2304211d'>HB</text></svg>">
 </head>
@@ -44,12 +44,12 @@
         extrapolation, loss corrections, blade geometry generation and result visualisation —
         including a <strong>parametric SU2 RANS pipeline with automated meshing</strong> for polars
         beyond the reach of the cheap models. Validated against <strong>MEXICO</strong> and
-        <strong>NREL UAE Phase VI</strong> experimental data, and deployed on
-        <strong>Streamlit Community Cloud</strong>.
+        <strong>NREL UAE Phase VI</strong> experimental data, and delivered through a
+        <strong>bespoke HTML/CSS front end</strong>.
       </p>
       <div class="chips">
-        <span class="chip chip-accent">Python</span>
-        <span class="chip">Streamlit</span>
+        <span class="chip chip-accent">Web application</span>
+        <span class="chip">HTML / CSS front end</span>
         <span class="chip">BEM</span>
         <span class="chip">Panel / XFOIL / NeuralFoil</span>
         <span class="chip chip-accent">SU2 RANS polars</span>
@@ -734,8 +734,8 @@
         <h2 style="margin-top:.55rem">Built with</h2>
         <div class="skill-grid">
           <div class="skill-card">
-            <h3>Language &amp; UI</h3>
-            <ul><li>Python</li><li>Streamlit application interface</li><li>Interactive parameter workflows</li></ul>
+            <h3>Interface</h3>
+            <ul><li>Bespoke HTML/CSS front end</li><li>Interactive parameter workflows</li><li>Custom layout and result visualisation</li></ul>
           </div>
           <div class="skill-card">
             <h3>Aerodynamics</h3>
@@ -754,9 +754,10 @@
         <div class="callout">
           <span class="callout-title">Access</span>
           <p class="mb-0">
-            Riyah is <strong>deployed on Streamlit Community Cloud</strong> and also runs locally as a
-            standard Streamlit application. The source repository is not public, so this page
-            documents the method and capabilities rather than the code. If you would like a
+            Riyah runs as a <strong>web application with a bespoke HTML/CSS front end</strong>,
+            rebuilt from the original prototype so the layout and result visualisation are fully
+            controlled. The source repository is not public, so this page documents the method and
+            capabilities rather than the code. If you would like a
             walkthrough of the running app or a discussion of the modelling, please
             <a href="../index.html#contact">get in touch</a>.
           </p>
