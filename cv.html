@@ -159,7 +159,8 @@
       </div>
       <ul>
         <li>Developed a Python BEM solver with selectable corrections.</li>
-        <li>Integrated three airfoil polar routes (panel method, XFOIL, NeuralFoil) with Viterna–Corrigan extrapolation to ±180°.</li>
+        <li>Integrated four airfoil polar routes (panel method, XFOIL, NeuralFoil, SU2) with Viterna–Corrigan extrapolation to ±180°.</li>
+        <li>Built a parametric SU2 RANS polar-generation pipeline with automated meshing, driven from Python with per-case convergence checks before forces are accepted into the polar.</li>
         <li>Built a Schmitz design module and Differential Evolution optimisation of chord and twist.</li>
         <li>Validated against MEXICO and NREL UAE Phase VI experimental data (C<sub>P</sub> RMSE of <strong>0.028</strong> and <strong>0.038</strong>); deployed on Streamlit Community Cloud.</li>
       </ul>
