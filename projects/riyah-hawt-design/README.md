@@ -1,7 +1,7 @@
 # Riyah — Horizontal-Axis Wind-Turbine Design and Performance Prediction
 
 **Project type:** Engineering web application / final-year project
-**Stack:** Python · Streamlit · BEM · panel method / XFOIL / NeuralFoil · differential evolution
+**Stack:** Python · Streamlit · BEM · panel method / XFOIL / NeuralFoil / SU2 · differential evolution
 **Status:** Deployed on Streamlit Community Cloud; also runs locally
 
 **[→ Web case study with method derivation and interactive theory](../riyah.html)** · **[→ Back to portfolio](../../README.md)**
@@ -16,12 +16,13 @@
 4. [Method — BEM](#4-method--bem)
 5. [Corrections](#5-corrections)
 6. [Airfoil-polar pipeline](#6-airfoil-polar-pipeline)
-7. [Blade design](#7-blade-design)
-8. [Optimisation](#8-optimisation)
-9. [Validation](#9-validation)
-10. [Limitations and reproducibility](#10-limitations-and-reproducibility)
-11. [Roadmap](#11-roadmap)
-12. [References](#12-references)
+7. [CFD polar generation with SU2](#7-cfd-polar-generation-with-su2)
+8. [Blade design](#8-blade-design)
+9. [Optimisation](#9-optimisation)
+10. [Validation](#10-validation)
+11. [Limitations and reproducibility](#11-limitations-and-reproducibility)
+12. [Roadmap](#12-roadmap)
+13. [References](#13-references)
 
 ---
 
@@ -47,7 +48,7 @@ is **deployed on Streamlit Community Cloud**.
 - Interactive definition of rotor and operating parameters (radius, blade count, hub, pitch, wind
   speed, rotational speed / tip-speed ratio, air properties)
 - Airfoil data from a **local database**, **fetched sources**, or **user upload**
-- Polar generation via three interchangeable routes: a **panel method**, **XFOIL**, or **NeuralFoil** prediction
+- Polar generation via four interchangeable routes: a **panel method**, **XFOIL**, **NeuralFoil** prediction, or **parametric SU2 RANS CFD with automated meshing**
 - **Viterna–Corrigan extrapolation** of lift and drag to ±180°
 
 ### Analysis and design
@@ -75,7 +76,7 @@ as a black box.
   AIRFOIL DATA ──► POLAR PREP ──────► BEM SOLVER ──────► OUTPUTS
   database         Re interpolation   per-element        C_P–λ, C_T–λ
   fetch / upload   ±180° extrapol.    iteration on a,a′  power curve
-  panel/XFOIL/NeuralFoil            + Prandtl tip/hub  spanwise loads
+  panel/XFOIL/NeuralFoil/SU2        + Prandtl tip/hub  spanwise loads
                                       + high-induction        │
                                       + drag in wake          ▼
                                           ▲              BLADE VIEW
@@ -171,17 +172,18 @@ simple theory breaks down, which is exactly where the empirical correction takes
 
 ## 6. Airfoil-polar pipeline
 
-A BEM code is only as good as its C<sub>l</sub>(α, Re) and C<sub>d</sub>(α, Re) tables. Three routes are
+A BEM code is only as good as its C<sub>l</sub>(α, Re) and C<sub>d</sub>(α, Re) tables. Four routes are
 supported because no single source is always available:
 
 1. **Local database** — curated polars for common wind-turbine sections, reproducible between runs.
 2. **Fetch or upload** — published data, or your own measured/computed tables, including section data
    from a separate CFD or wind-tunnel campaign.
-3. **Generate or predict** — three interchangeable routes: a built-in **panel method**, **XFOIL** at
-   the required Reynolds number, or **NeuralFoil** for a fast learned estimate. This is the same
-   batch-XFOIL instinct used in the
+3. **Generate or predict** — four interchangeable routes spanning three fidelity levels: a built-in
+   **panel method**, **XFOIL** at the required Reynolds number, **NeuralFoil** for a fast learned
+   estimate, or **parametric RANS CFD in SU2** with automated meshing
+   ([section 7](#7-cfd-polar-generation-with-su2)). This is the same batch-XFOIL instinct used in the
    [Formula Student airfoil campaign](../formula-student-aerodynamics/README.md#4-step-2a--airfoil-screening),
-   applied to rotor sections.
+   applied to rotor sections and extended one fidelity level higher.
 4. **Extrapolate to ±180°** — extend the finite table so the solver never has to guess. **Viterna–Corrigan**
    extrapolation blends the polar at the stall angle into flat-plate behaviour at high incidence,
    where C<sub>d</sub> tends towards a bluff-body value and C<sub>l</sub> falls back towards a
@@ -195,7 +197,81 @@ supported because no single source is always available:
 
 ---
 
-## 7. Blade design
+## 7. CFD polar generation with SU2
+
+XFOIL and NeuralFoil are fast because they are cheap models: a viscous–inviscid panel formulation and a
+learned surrogate of it. Both are excellent in attached flow and both degrade where rotor sections
+spend their off-design life — near and beyond stall, where the boundary layer separates and the
+integral formulation stops describing the flow well.
+
+The fourth route replaces the model with a field solution. A **parametric SU2 pipeline** sweeps the
+section through incidence, solving RANS at each point and assembling the forces into the same
+C<sub>l</sub>(α), C<sub>d</sub>(α) table format the BEM solver already consumes. The important part is
+not that SU2 can do this — it is that the **meshing is automated**, so a polar is produced by one
+command rather than by hand-building a case per angle of attack.
+
+> **Why the automation is the contribution.** Running one CFD case is a solved problem. Running a
+> *sweep* of them unattended is an engineering problem: geometry regenerated per incidence, a mesh
+> that comes out valid every time without manual repair, cases written, solved, checked for
+> convergence and parsed — and a single diverged point must not silently poison the polar. That
+> plumbing is what turns a solver into a design tool.
+
+### The pipeline
+
+1. **Parametrise the section and the sweep** — airfoil coordinates, target Reynolds number, and the
+   incidence list. Each incidence is an independent case, so the sweep is restartable and individual
+   points can be re-run without redoing the polar.
+2. **Generate the mesh automatically** — domain and discretisation built programmatically per case,
+   with boundary-layer refinement at the wall. This removes the manual step that normally makes CFD
+   polars impractical, and keeps discretisation consistent across the sweep so differences between
+   points are physics rather than meshing luck.
+3. **Write the case and solve** — emit the SU2 configuration per incidence (freestream, angle of
+   attack, solver and convergence settings) and run it, driven from Python rather than a GUI.
+4. **Check convergence, then extract forces** — read residual history and the force breakdown, and
+   treat a non-converged case as a failed point rather than a number. Separated cases near stall are
+   exactly where a solver can stall out or oscillate.
+5. **Assemble the polar and hand it to the solver** — collect converged points into the shared table
+   format, then through the identical Viterna–Corrigan ±180° extrapolation into BEM. Because the
+   interface is shared, a CFD polar and an XFOIL polar are drop-in replacements, which is what makes a
+   like-for-like fidelity comparison possible.
+
+### The four routes compared
+
+| Route | Model | Cost per polar | Where it earns its place |
+|---|---|---|---|
+| **Panel method** | Inviscid, built in | ~instant | Sanity checks and first geometry passes, no external dependency |
+| **NeuralFoil** | Learned surrogate | ~instant | Large sweeps inside an optimisation loop |
+| **XFOIL** | Viscous–inviscid integral | seconds | The workhorse in attached flow at the correct Reynolds number |
+| **SU2 RANS** | Field solution, automated mesh | orders of magnitude higher | Separated flow near stall, and an independent check on the cheap models |
+
+Costs are relative orders of magnitude, not measured timings. RANS is not "more correct" by default —
+it trades an integral boundary-layer model for a turbulence model, and inherits that model's
+weaknesses in strong separation.
+
+### What this buys, and what it does not
+
+**Buys:** a cross-fidelity check inside one tool (same section through XFOIL and RANS, polars
+overlaid, disagreement visible instead of assumed away); sections outside the cheap models' comfort
+zone, such as thick rotor roots and near-stall incidence; repeatability, since one command reproduces
+a whole polar with consistent discretisation; and a drop-in interface into BEM.
+
+**Does not establish:** RANS answers depend on the **turbulence model**, and two-equation models are
+weakest in exactly the separated regime this route targets. An automated mesh is not automatically a
+**good** mesh — near-wall resolution and grid sensitivity still have to be demonstrated per section.
+Steady RANS does not capture **unsteady separation** or vortex shedding past stall. And none of this
+is experimental validation; the experimental anchor remains
+[MEXICO and NREL UAE Phase VI](#10-validation).
+
+> **Verification status — stated plainly.** This section documents the **capability and pipeline
+> architecture**. Per-section solver settings, turbulence model, near-wall resolution,
+> grid-convergence study and XFOIL-versus-RANS polar comparisons belong with the project report and
+> are not published here yet. No accuracy claim is made for this route until those exist — a CFD
+> pipeline whose grid sensitivity has not been checked is a way of producing numbers, not yet a way
+> of producing evidence.
+
+---
+
+## 8. Blade design
 
 For preliminary design, the **Schmitz** optimum-rotor result gives a starting geometry directly.
 Choosing a design tip-speed ratio and design angle of attack fixes the inflow angle at every station,
@@ -219,7 +295,7 @@ manufacture, or a non-monotonic taper that came out of an unconstrained search.
 
 ---
 
-## 8. Optimisation
+## 9. Optimisation
 
 The rotor design objective is **not smooth**. Polars are interpolated tables, the high-induction
 correction switches branch, stall onset introduces kinks, and the loss factors are transcendental.
@@ -243,7 +319,7 @@ C<sub>P</sub> optimisation.
 
 ---
 
-## 9. Validation
+## 10. Validation
 
 A design tool that has never reproduced a measured answer is a random-number generator with a nice
 interface. Riyah ships with **built-in validation cases** against two published experimental
@@ -281,7 +357,7 @@ physics. A BEM code can look excellent in attached flow and still be badly wrong
 
 ---
 
-## 10. Limitations and reproducibility
+## 11. Limitations and reproducibility
 
 ### Inherent model limitations
 
@@ -303,21 +379,22 @@ physics. A BEM code can look excellent in attached flow and still be badly wrong
 
 ---
 
-## 11. Roadmap
+## 12. Roadmap
 
 - **Yawed and sheared inflow** — skewed-wake correction and a proper inflow model.
 - **AEP-driven optimisation** with site wind distributions and a tip-speed/noise constraint, rather
   than single-point C<sub>P</sub>.
 - **Published benchmark plots** — the MEXICO and Phase VI comparison curves with versioned inputs,
   alongside the RMSE figures.
-- **Cross-fidelity check** — compare BEM against rotor CFD at selected operating points to quantify
-  where the fast model drifts.
+- **Published cross-fidelity comparisons** — the SU2 route already generates RANS polars; what is
+  still missing is the published XFOIL-versus-RANS overlay with a grid-convergence study, and a
+  rotor-level CFD comparison at selected operating points.
 - **Documentation and tests** — a documented module API and a regression suite around the built-in
   validation cases.
 
 ---
 
-## 12. References
+## 13. References
 
 - MEXICO — *Model rotor EXperiments In COntrolled conditions*; J. G. Schepers et al., instrumented
   three-bladed model-rotor measurement campaign.

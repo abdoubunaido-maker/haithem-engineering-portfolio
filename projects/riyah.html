@@ -41,15 +41,18 @@
         A wind-turbine design and performance-prediction application. Riyah takes
         blade-element momentum theory — fast enough to sit inside an optimisation loop — and wraps
         it in the parts that usually stop people using it: airfoil-polar acquisition, post-stall
-        extrapolation, loss corrections, blade geometry generation and result visualisation.
-        Validated against <strong>MEXICO</strong> and <strong>NREL UAE Phase VI</strong> experimental
-        data, and deployed on <strong>Streamlit Community Cloud</strong>.
+        extrapolation, loss corrections, blade geometry generation and result visualisation —
+        including a <strong>parametric SU2 RANS pipeline with automated meshing</strong> for polars
+        beyond the reach of the cheap models. Validated against <strong>MEXICO</strong> and
+        <strong>NREL UAE Phase VI</strong> experimental data, and deployed on
+        <strong>Streamlit Community Cloud</strong>.
       </p>
       <div class="chips">
         <span class="chip chip-accent">Python</span>
         <span class="chip">Streamlit</span>
         <span class="chip">BEM</span>
         <span class="chip">Panel / XFOIL / NeuralFoil</span>
+        <span class="chip chip-accent">SU2 RANS polars</span>
         <span class="chip">Viterna–Corrigan</span>
         <span class="chip">Schmitz design</span>
         <span class="chip">Differential evolution</span>
@@ -58,6 +61,7 @@
         <a class="btn btn-primary" href="#method">The method
           <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round"><path d="M5 12h14M13 6l6 6-6 6"/></svg>
         </a>
+        <a class="btn" href="#cfd-polars">SU2 CFD polars</a>
         <a class="btn" href="#validation">Experimental validation</a>
         <a class="btn" href="formula-student.html">Other case study</a>
       </div>
@@ -154,7 +158,7 @@
             <ul class="muted mb-0" style="font-size:.92rem">
               <li>Interactive definition of rotor and operating parameters</li>
               <li>Airfoil data from a local database, fetched sources, or user upload</li>
-              <li>Three polar routes: a panel method, XFOIL, or NeuralFoil prediction</li>
+              <li>Four polar routes: panel method, XFOIL, NeuralFoil, or SU2 RANS CFD</li>
               <li>Extrapolation beyond the supplied angle-of-attack range</li>
             </ul>
           </div>
@@ -183,7 +187,7 @@
         </p>
         <figure class="figure">
           <div class="figure-media" style="background:var(--panel-2);padding:18px 10px">
-            <svg viewBox="0 0 880 400" role="img" aria-label="Architecture diagram: rotor inputs and airfoil data sources feed polar preparation, which feeds the BEM solver with loss corrections, producing performance outputs; the optimiser wraps the solver in a search loop and the blade view renders the geometry.">
+            <svg viewBox="0 0 880 400" role="img" aria-label="Architecture diagram: rotor inputs and four airfoil data sources including an automated SU2 RANS pipeline feed polar preparation, which feeds the BEM solver with loss corrections, producing performance outputs; the optimiser wraps the solver in a search loop and the blade view renders the geometry.">
               <defs>
                 <marker id="ar" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto">
                   <path d="M0 0 L10 5 L0 10 z" fill="#5eead4"/>
@@ -199,11 +203,12 @@
                 <text x="32" y="70" fill="#9db0cb" font-size="11">R, B, hub, pitch</text>
                 <text x="32" y="88" fill="#9db0cb" font-size="11">U∞, Ω / λ, ρ, ν</text>
 
-                <rect x="16" y="140" width="182" height="104" rx="10" fill="#16223c" stroke="#22304f"/>
+                <rect x="16" y="140" width="182" height="124" rx="10" fill="#16223c" stroke="#22304f"/>
                 <text x="32" y="164" fill="#5eead4" font-size="11">AIRFOIL DATA</text>
                 <text x="32" y="186" fill="#9db0cb" font-size="11">local database</text>
                 <text x="32" y="204" fill="#9db0cb" font-size="11">fetch / upload</text>
                 <text x="32" y="222" fill="#9db0cb" font-size="11">panel · XFOIL · NeuralFoil</text>
+                <text x="32" y="240" fill="#7dd3fc" font-size="11">SU2 RANS + auto-mesh</text>
 
                 <!-- polar prep -->
                 <rect x="248" y="140" width="180" height="104" rx="10" fill="#16223c" stroke="#5eead4" stroke-opacity=".5"/>
@@ -392,7 +397,7 @@
         <h2 style="margin-top:.55rem">The part that decides whether the answer means anything</h2>
         <p>
           A BEM code is only as good as its C<sub>l</sub>(α, Re) and C<sub>d</sub>(α, Re) tables. Riyah
-          supports three routes to them, because no single source is always available:
+          supports four routes to them, because no single source is always available:
         </p>
         <ol class="steps">
           <li>
@@ -405,7 +410,7 @@
           </li>
           <li>
             <h3>Generate or predict</h3>
-            <p>Three interchangeable routes: a built-in <strong>panel method</strong>, <strong>XFOIL</strong> at the required Reynolds number, or <strong>NeuralFoil</strong> for a fast learned estimate. This is the same batch-XFOIL instinct used in the Formula Student airfoil campaign, applied to rotor sections.</p>
+            <p>Four interchangeable routes, spanning three fidelity levels: a built-in <strong>panel method</strong>, <strong>XFOIL</strong> at the required Reynolds number, <strong>NeuralFoil</strong> for a fast learned estimate, or <strong>parametric RANS CFD in SU2</strong> with automated meshing. This is the same batch-XFOIL instinct used in the Formula Student airfoil campaign, applied to rotor sections — and extended one fidelity level higher.</p>
           </li>
           <li>
             <h3>Extrapolate to ±180°</h3>
@@ -424,9 +429,134 @@
         </div>
       </section>
 
+      <!-- ---------- SU2 CFD polar generation ---------- -->
+      <section id="cfd-polars">
+        <div class="eyebrow">05 · CFD polar generation</div>
+        <h2 style="margin-top:.55rem">Automating SU2 into a polar generator</h2>
+        <p>
+          XFOIL and NeuralFoil are fast because they are cheap models: a viscous–inviscid panel
+          formulation and a learned surrogate of it. Both are excellent in attached flow and both
+          degrade where rotor sections actually spend their off-design life — near and beyond stall,
+          where the boundary layer separates and the integral formulation stops being a good
+          description of the flow.
+        </p>
+        <p>
+          The fourth route replaces the model with a field solution. A <strong>parametric SU2
+          pipeline</strong> sweeps the section through incidence, solving RANS at each point and
+          assembling the resulting forces into the same C<sub>l</sub>(α), C<sub>d</sub>(α) table format
+          the BEM solver already consumes. The important part is not that SU2 can do this — it is that
+          the <strong>meshing is automated</strong>, so a polar is produced by one command rather than
+          by hand-building a case per angle of attack.
+        </p>
+
+        <div class="callout result">
+          <span class="callout-title">Why the automation is the contribution</span>
+          <p class="mb-0">
+            Running one CFD case is a solved problem. Running a <em>sweep</em> of them unattended is
+            an engineering problem: geometry has to be regenerated per incidence, the mesh has to
+            come out valid every time without manual repair, cases have to be written, solved,
+            checked for convergence and parsed, and a single diverged point must not silently poison
+            the polar. That plumbing is what turns a solver into a design tool — the same instinct as
+            the batch-XFOIL campaign in the Formula Student work, one fidelity level up.
+          </p>
+        </div>
+
+        <h3>The pipeline</h3>
+        <ol class="steps">
+          <li>
+            <h3>Parametrise the section and the sweep</h3>
+            <p>Take the airfoil coordinates and the target Reynolds number, and define the incidence list to be solved. Each incidence becomes an independent case, so the sweep is restartable and individual points can be re-run without redoing the polar.</p>
+          </li>
+          <li>
+            <h3>Generate the mesh automatically</h3>
+            <p>Build the domain and discretisation around the section programmatically for every case, with boundary-layer refinement at the wall. Automating this is what removes the manual step that normally makes CFD polars impractical — and it keeps the discretisation consistent across the sweep, so differences between points are physics rather than meshing luck.</p>
+          </li>
+          <li>
+            <h3>Write the case and solve</h3>
+            <p>Emit the SU2 configuration for each incidence — freestream conditions, angle of attack, solver and convergence settings — and run the solve. Cases are driven from Python rather than the GUI, which is what makes an unattended sweep possible.</p>
+          </li>
+          <li>
+            <h3>Check convergence, then extract forces</h3>
+            <p>Read the residual history and the force breakdown, and treat a case that did not converge as a failed point rather than a number. Separated cases near stall are exactly where a solver can stall out or oscillate, so this check is what keeps a bad point from being interpolated straight into the rotor model.</p>
+          </li>
+          <li>
+            <h3>Assemble the polar and hand it to the solver</h3>
+            <p>Collect the converged points into the same table format as every other route, then pass it through the identical Viterna–Corrigan ±180° extrapolation and into BEM. Because the interface is shared, a CFD polar and an XFOIL polar are drop-in replacements — which is what makes a like-for-like fidelity comparison possible at all.</p>
+          </li>
+        </ol>
+
+        <div class="table-wrap">
+          <table>
+            <caption><span class="fig-num">Table 2</span>The four polar routes, and what each is actually for. Cost and fidelity trade against each other; the point of supporting all four is being able to choose per case.</caption>
+            <thead><tr><th>Route</th><th>Model</th><th>Cost per polar</th><th>Where it earns its place</th></tr></thead>
+            <tbody>
+              <tr>
+                <td><strong>Panel method</strong></td>
+                <td>Inviscid, built in</td>
+                <td class="num">~instant</td>
+                <td>Sanity checks and first geometry passes, with no external dependency.</td>
+              </tr>
+              <tr>
+                <td><strong>NeuralFoil</strong></td>
+                <td>Learned surrogate</td>
+                <td class="num">~instant</td>
+                <td>Large sweeps inside an optimisation loop, where thousands of evaluations are needed.</td>
+              </tr>
+              <tr>
+                <td><strong>XFOIL</strong></td>
+                <td>Viscous–inviscid integral</td>
+                <td class="num">seconds</td>
+                <td>The workhorse in attached flow at the correct Reynolds number.</td>
+              </tr>
+              <tr>
+                <td><strong>SU2 RANS</strong></td>
+                <td>Field solution, automated mesh</td>
+                <td class="num">orders of magnitude higher</td>
+                <td>Separated flow near stall, and as an independent check on what the cheap models claim.</td>
+              </tr>
+            </tbody>
+          </table>
+          <div class="table-note">Costs are relative orders of magnitude, not measured timings. RANS is not "more correct" by default — it trades an integral boundary-layer model for a turbulence model, and inherits that model's weaknesses in strong separation.</div>
+        </div>
+
+        <h3>What this buys, and what it does not</h3>
+        <div class="grid-2">
+          <div class="card">
+            <h3 class="mt-0">What it buys</h3>
+            <ul class="muted mb-0" style="font-size:.93rem">
+              <li><strong>A cross-fidelity check inside one tool.</strong> The same section can be run through XFOIL and through RANS and the polars overlaid, so the disagreement is visible instead of assumed away.</li>
+              <li><strong>Sections outside the cheap models' comfort zone</strong> — thick rotor root sections and near-stall incidence.</li>
+              <li><strong>Repeatability.</strong> One command reproduces a whole polar with consistent discretisation, rather than a folder of hand-built cases.</li>
+              <li><strong>A drop-in interface.</strong> CFD polars enter BEM through exactly the same path as every other source.</li>
+            </ul>
+          </div>
+          <div class="card">
+            <h3 class="mt-0">What it does not establish</h3>
+            <ul class="muted mb-0" style="font-size:.93rem">
+              <li>RANS answers depend on the <strong>turbulence model</strong>; two-equation models are known to be weakest in exactly the separated regime this route targets.</li>
+              <li>An automated mesh is not automatically a <strong>good</strong> mesh — near-wall resolution and grid sensitivity still have to be demonstrated per section, not assumed because the script ran.</li>
+              <li>Steady RANS does not capture <strong>unsteady separation</strong> or vortex shedding past stall.</li>
+              <li>None of this is experimental validation. The experimental anchor for Riyah remains <a href="#validation">MEXICO and NREL UAE Phase VI</a>.</li>
+            </ul>
+          </div>
+        </div>
+
+        <div class="callout warn">
+          <span class="callout-title">Verification status — stated plainly</span>
+          <p class="mb-0">
+            This section documents the <strong>capability and the pipeline architecture</strong>. The
+            per-section solver settings, turbulence model, near-wall resolution, grid-convergence
+            study and the XFOIL-versus-RANS polar comparisons belong with the project report and are
+            not published here yet. No accuracy claim is made for this route until those exist — a
+            CFD pipeline that has not had its grid sensitivity checked is a way of producing numbers,
+            not yet a way of producing evidence.
+          </p>
+        </div>
+      </section>
+
       <!-- ---------- Blade design ---------- -->
       <section id="design">
-        <div class="eyebrow">05 · Blade design</div>
+        <div class="eyebrow">06 · Blade design</div>
         <h2 style="margin-top:.55rem">From a target λ to a chord and twist distribution</h2>
         <p>
           The design module uses the classical <strong>Schmitz</strong> optimum-rotor result, which
@@ -457,7 +587,7 @@
 
       <!-- ---------- Optimisation ---------- -->
       <section id="optimisation">
-        <div class="eyebrow">06 · Optimisation</div>
+        <div class="eyebrow">07 · Optimisation</div>
         <h2 style="margin-top:.55rem">Why differential evolution</h2>
         <p>
           The rotor design objective is not smooth. Polars are interpolated tables, the
@@ -474,7 +604,7 @@
         </p>
         <div class="table-wrap">
           <table>
-            <caption><span class="fig-num">Table 2</span>Structure of the design search.</caption>
+            <caption><span class="fig-num">Table 3</span>Structure of the design search.</caption>
             <thead><tr><th>Element</th><th>Typical formulation</th></tr></thead>
             <tbody>
               <tr><td>Design variables</td><td>Chord and twist at spanwise control stations; design tip-speed ratio; pitch setting</td></tr>
@@ -493,7 +623,7 @@
 
       <!-- ---------- Validation ---------- -->
       <section id="validation">
-        <div class="eyebrow">07 · Validation</div>
+        <div class="eyebrow">08 · Validation</div>
         <h2 style="margin-top:.55rem">Checking the tool against experimental data</h2>
         <p>
           A design tool that has never reproduced a measured answer is just a random-number generator
@@ -562,7 +692,7 @@
 
       <!-- ---------- Reproducibility ---------- -->
       <section id="reproducibility">
-        <div class="eyebrow">08 · Reproducibility &amp; limits</div>
+        <div class="eyebrow">09 · Reproducibility &amp; limits</div>
         <h2 style="margin-top:.55rem">What BEM cannot tell you</h2>
         <div class="grid-2">
           <div class="card">
@@ -593,14 +723,14 @@
           <li><strong>Yawed and sheared inflow</strong> — skewed-wake correction and a proper inflow model.</li>
           <li><strong>AEP-driven optimisation</strong> with site wind distributions and a tip-speed/noise constraint, rather than single-point C<sub>P</sub>.</li>
           <li><strong>Published benchmark plots</strong> — the MEXICO and Phase VI comparison curves with versioned inputs, alongside the RMSE figures.</li>
-          <li><strong>Cross-fidelity check</strong> — compare BEM against rotor CFD at selected operating points to quantify where the fast model drifts.</li>
+          <li><strong>Published cross-fidelity comparisons</strong> — the SU2 route already generates RANS polars; what is still missing is the published XFOIL-versus-RANS overlay with a grid-convergence study, and a rotor-level CFD comparison at selected operating points.</li>
           <li><strong>Documentation and tests</strong> — a documented module API and a regression suite around the built-in validation cases.</li>
         </ul>
       </section>
 
       <!-- ---------- Stack ---------- -->
       <section id="stack">
-        <div class="eyebrow">09 · Stack &amp; access</div>
+        <div class="eyebrow">10 · Stack &amp; access</div>
         <h2 style="margin-top:.55rem">Built with</h2>
         <div class="skill-grid">
           <div class="skill-card">
@@ -609,7 +739,7 @@
           </div>
           <div class="skill-card">
             <h3>Aerodynamics</h3>
-            <ul><li>Blade-element momentum solver</li><li>Panel method / XFOIL / NeuralFoil polars</li><li>Viterna–Corrigan extrapolation</li><li>Prandtl / high-induction corrections</li></ul>
+            <ul><li>Blade-element momentum solver</li><li>Panel / XFOIL / NeuralFoil polars</li><li>SU2 RANS polar generation</li><li>Viterna–Corrigan extrapolation</li><li>Prandtl / high-induction corrections</li></ul>
           </div>
           <div class="skill-card">
             <h3>Numerics</h3>
@@ -660,6 +790,7 @@
         <li><a href="#architecture">Architecture</a></li>
         <li><a href="#method">BEM method</a></li>
         <li><a href="#polars">Airfoil polars</a></li>
+        <li><a href="#cfd-polars">CFD polars (SU2)</a></li>
         <li><a href="#design">Blade design</a></li>
         <li><a href="#optimisation">Optimisation</a></li>
         <li><a href="#validation">Validation</a></li>

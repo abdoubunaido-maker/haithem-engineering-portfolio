@@ -21,7 +21,7 @@ wind-turbine design and performance-prediction application.
 | Project | Role / type | Methods | Headline result |
 |---|---|---|---|
 | [**Formula Student aero package**](projects/formula-student-aerodynamics/README.md) | Head of Aerodynamics, ENP Racing Team | Drag-power budget · XFOIL · 2D/3D CFD · PSO airfoils · lap simulation | **460 N** downforce / **296 N** drag; **C<sub>L</sub> 3.35** at C<sub>D</sub> ≈ 1.7; **−2.4%** lap time |
-| [**Riyah** — HAWT design tool](projects/riyah-hawt-design/README.md) | Author, engineering web application | BEM · polar extrapolation · differential evolution | Validated against experiment: **C<sub>P</sub> RMSE 0.028** (MEXICO), **0.038** (NREL UAE Phase VI) |
+| [**Riyah** — HAWT design tool](projects/riyah-hawt-design/README.md) | Author, engineering web application | BEM · automated SU2 RANS polars · polar extrapolation · differential evolution | Validated against experiment: **C<sub>P</sub> RMSE 0.028** (MEXICO), **0.038** (NREL UAE Phase VI) |
 | [**Rocketry** — two fin studies](projects/rocketry-cad-cfd-structural/README.md) | Analyst | CAD · compressible CFD · composite FEA | Two separate models, one unreconciled stress result flagged |
 | [**CFD & fluid-mechanics notes**](projects/cfd-studies/README.md) | Author | Verification · near-wall modelling · convergence | The checks behind the results above |
 
@@ -96,10 +96,17 @@ fast enough but needs a lot of unglamorous machinery assembled first. Riyah clos
 
 - **BEM solver** with Prandtl tip and hub losses and an empirical high-induction correction for the
   turbulent-wake state (a ≳ 0.4), where plain momentum theory becomes non-physical.
-- **Airfoil-polar pipeline** — local database, fetched data or user upload; three interchangeable
-  routes (a built-in **panel method**, **XFOIL**, or **NeuralFoil** prediction); **Viterna–Corrigan
-  extrapolation to ±180°** so the solver never walks off the end of a table at start-up or low
-  tip-speed ratio.
+- **Airfoil-polar pipeline** — local database, fetched data or user upload; four interchangeable
+  routes (a built-in **panel method**, **XFOIL**, **NeuralFoil** prediction, or **parametric SU2 RANS
+  CFD**); **Viterna–Corrigan extrapolation to ±180°** so the solver never walks off the end of a table
+  at start-up or low tip-speed ratio.
+- **Parametric CFD polar generation in SU2** — sweeps a section through incidence and assembles a
+  RANS polar, with the **meshing automated** so a whole polar comes from one command instead of a
+  hand-built case per angle of attack. Cases are driven from Python, checked for convergence before
+  their forces are accepted, and enter BEM through the same interface as every other polar source —
+  which is what makes an XFOIL-versus-RANS fidelity comparison possible inside one tool. Grid
+  sensitivity and the comparison plots are not published yet, so no accuracy claim is made for this
+  route.
 - **Preliminary blade design** — chord and twist distributions from the **Schmitz** optimum-rotor
   relations, with 3D blade visualisation to catch geometry that won't manufacture.
 - **Differential-evolution optimisation** — derivative-free search suits the non-smooth objective
