@@ -19,7 +19,7 @@ Positioning used consistently across the site, the CV and the LinkedIn copy:
 > possible continuation into a PhD.**
 
 Riyah's validation is quoted as **C<sub>P</sub> RMSE 0.028 (MEXICO)** and **0.038 (NREL UAE Phase VI)**
-against experimental data, with the app **deployed on Streamlit Community Cloud**. If you later want
+against experimental data, delivered through a **bespoke HTML/CSS front end**. If you later want
 the app URL public, add it in two places: `projects/riyah.html` → Access callout, and
 `projects/riyah-hawt-design/README.md` → Access.
 
@@ -126,7 +126,7 @@ The CV content matches `Haithem_Benaida_Resume.pdf`; that PDF is **not** committ
 
 ## 7. Housekeeping
 
-- **Never commit** API keys, `.env` files, Streamlit secrets or confidential team material.
+- **Never commit** API keys, `.env` files, app secrets or confidential team material.
   `.gitignore` already covers the common cases.
 - **Solver output stays out of Git** (`*.cas.h5`, `*.dat.h5`, `*.trn`, `*.out` are ignored). Keep large
   meshes and result files in external storage and link to them.
