@@ -60,9 +60,9 @@
     });
   }
 
-  /* Low-amplitude image parallax, limited to the opening workshop photograph. */
+  /* Low-amplitude parallax on the real CAD model image; off for reduced motion. */
   var hero = document.querySelector('.bodywork-hero');
-  var heroPhoto = document.querySelector('.bodywork-hero-photo img');
+  var heroPhoto = document.querySelector('.bw-hero-cad img');
   if (hero && heroPhoto && !reduceMotion) {
     var visible = true, frame = 0;
     if ('IntersectionObserver' in window) {
