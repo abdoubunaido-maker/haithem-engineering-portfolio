@@ -942,3 +942,139 @@ body { isolation: isolate; }
   .formula-page .formula-derivation:not([open]) > :not(summary) { display: block !important; }
   .formula-page .formula-derivation summary { display: none; }
 }
+
+/* Immersive report gallery: one continuous plot stage, no per-plot card frames. */
+.aero-deck {
+  position: relative;
+  isolation: isolate;
+  margin: clamp(2rem, 4vw, 3.5rem) 0 1.4rem;
+  padding: clamp(1.15rem, 3vw, 2.1rem) 0 .9rem;
+  border-block: 1px solid var(--line-soft);
+  overflow: hidden;
+  background:
+    radial-gradient(ellipse at 78% 35%, color-mix(in srgb, var(--accent-2) 8%, transparent), transparent 52%),
+    linear-gradient(100deg, transparent 0%, color-mix(in srgb, var(--bg) 18%, transparent) 55%, transparent 100%);
+}
+.aero-deck-heading { position: relative; z-index: 2; max-width: 760px; margin-bottom: .6rem; }
+.aero-deck-heading h3 { margin: .65rem 0 .45rem; font-size: clamp(1.3rem, 2.4vw, 1.9rem); }
+.aero-deck-heading p { max-width: 66ch; margin: 0; color: var(--muted); font-size: .92rem; }
+.aero-deck-viewport { overflow: hidden; touch-action: pan-y pinch-zoom; outline-offset: 5px; }
+.aero-deck-track { display: flex; width: 100%; transition: transform .62s cubic-bezier(.2,.72,.18,1); will-change: transform; }
+.aero-slide {
+  position: relative;
+  isolation: isolate;
+  display: grid;
+  grid-template-columns: minmax(210px, .75fr) minmax(0, 1.5fr);
+  align-items: center;
+  gap: clamp(1rem, 3vw, 2.5rem);
+  flex: 0 0 100%;
+  min-width: 0;
+  min-height: 340px;
+  padding: 1.35rem clamp(.3rem, 1vw, .8rem) 1.55rem;
+}
+.aero-slide::before {
+  content: "";
+  position: absolute;
+  z-index: -1;
+  pointer-events: none;
+  inset: 0 -3% 0 auto;
+  width: 64%;
+  background-position: center right;
+  background-repeat: no-repeat;
+  background-size: contain;
+  opacity: .12;
+  -webkit-mask-image: radial-gradient(ellipse 66% 62% at 62% 49%, #000 8%, transparent 84%);
+  mask-image: radial-gradient(ellipse 66% 62% at 62% 49%, #000 8%, transparent 84%);
+  mix-blend-mode: multiply;
+}
+.aero-slide[data-scene="drag"]::before { background-image: url("../formula-student/cad-yellow-cutout.png"); }
+.aero-slide[data-scene="corner"]::before { background-image: url("../formula-student/cad-dark-cutout.png"); }
+.aero-slide[data-scene="airfoil"]::before { background-image: url("../formula-student/s1223-profile.png"); }
+.aero-slide[data-scene="flow"]::before { background-image: url("../formula-student/rear-wing-pressure-3d.png"); opacity: .10; }
+.aero-slide[data-scene="vehicle"]::before { background-image: url("../formula-student/car-wings-pressure-3d.png"); opacity: .10; }
+.aero-slide[data-scene="lap"]::before { background-image: url("../formula-student/cad-yellow-cutout.png"); opacity: .09; }
+[data-theme="dark"] .aero-slide::before { mix-blend-mode: screen; opacity: .15; }
+.aero-slide-copy { max-width: 33ch; padding: .2rem 0; }
+.aero-slide-index { display: block; margin-bottom: .75rem; color: var(--accent-2); font: 650 .68rem/1.4 var(--mono); letter-spacing: .11em; }
+.aero-slide-copy h4 { margin: 0 0 .65rem; max-width: 18ch; font-size: clamp(1.3rem, 2.25vw, 1.9rem); line-height: 1.12; }
+.aero-slide-copy p { margin: 0 0 .9rem; color: var(--muted); font-size: .9rem; line-height: 1.58; }
+.aero-source { display: block; color: var(--muted-2); font: 550 .65rem/1.5 var(--mono); letter-spacing: .045em; }
+.aero-slide-plot { position: relative; min-width: 0; padding: .3rem 0; }
+.aero-slide-plot::before {
+  content: "";
+  position: absolute;
+  z-index: -1;
+  inset: 4% -2%;
+  pointer-events: none;
+  background: radial-gradient(ellipse at 50% 52%, color-mix(in srgb, var(--bg) 56%, transparent), transparent 72%);
+}
+.aero-slide .chart { overflow: visible; }
+.aero-slide .chart text { font-size: 10.5px; }
+.aero-slide .chart .axis-label { font-size: 10px; }
+.aero-slide .chart-legend { justify-content: center; margin-top: -.05rem; }
+.aero-deck-controls { display: flex; align-items: center; gap: 1rem; width: min(100%, 270px); margin: .1rem 0 0 auto; }
+.aero-arrow {
+  display: grid;
+  place-items: center;
+  flex: 0 0 34px;
+  width: 34px;
+  height: 34px;
+  padding: 0;
+  border: 1px solid var(--line);
+  border-radius: 50%;
+  background: transparent;
+  color: var(--muted);
+  cursor: pointer;
+  transition: color .2s ease, border-color .2s ease, transform .2s ease;
+}
+.aero-arrow:hover { color: var(--accent); border-color: var(--accent); transform: translateY(-1px); }
+.aero-arrow svg { width: 17px; height: 17px; fill: none; stroke: currentColor; stroke-width: 1.7; stroke-linecap: round; stroke-linejoin: round; }
+.aero-deck-navigation { display: flex; align-items: center; gap: 7px; margin-left: auto; }
+.aero-step { width: 7px; height: 7px; padding: 0; border: 0; border-radius: 9px; background: var(--muted-2); opacity: .48; cursor: pointer; transition: width .25s ease, opacity .25s ease, background .25s ease; }
+.aero-step.is-active { width: 28px; background: var(--accent); opacity: 1; }
+.aero-deck-status { min-width: 48px; color: var(--muted-2); font: 600 .7rem/1 var(--mono); text-align: center; }
+.aero-deck-status span { opacity: .45; padding-inline: 2px; }
+@media (max-width: 760px) {
+  .aero-slide { grid-template-columns: minmax(0, 1fr); gap: .6rem; min-height: 0; padding-block: 1rem 1.25rem; }
+  .aero-slide-copy { max-width: 62ch; }
+  .aero-slide-copy h4 { max-width: 25ch; }
+  .aero-slide-plot { width: 100%; }
+  .aero-slide::before { inset: 8% -12% auto auto; width: 88%; height: 55%; opacity: .08; }
+  .aero-deck-controls { margin-top: .5rem; }
+}
+@media (prefers-reduced-motion: reduce) {
+  .aero-deck-track, .aero-arrow, .aero-step { transition: none !important; }
+}
+@media print {
+  .aero-deck { overflow: visible; background: none; }
+  .aero-deck-viewport { overflow: visible; }
+  .aero-deck-track { display: block; transform: none !important; }
+  .aero-slide { display: grid !important; page-break-inside: avoid; border-bottom: 1px solid #bbb; }
+  .aero-slide::before { display: none; }
+  .aero-deck-controls { display: none; }
+}
+.aero-slide-visual { position: relative; min-width: 0; width: 100%; }
+.aero-slide-visual figure { margin: 0; }
+.aero-slide-visual img {
+  display: block;
+  width: 100%;
+  max-height: 350px;
+  object-fit: contain;
+  mix-blend-mode: multiply;
+}
+.aero-slide-visual figcaption {
+  margin-top: .25rem;
+  color: var(--muted-2);
+  font: 550 .66rem/1.45 var(--mono);
+  letter-spacing: .025em;
+  text-align: right;
+}
+.aero-slide-visual-flow img { max-height: 390px; }
+[data-theme="dark"] .aero-slide-visual img { mix-blend-mode: normal; }
+@media (max-width: 760px) {
+  .aero-slide-visual img { max-height: 290px; }
+  .aero-slide-visual-flow img { max-height: 320px; }
+}
+@media print {
+  .aero-slide-visual img { mix-blend-mode: normal; }
+}

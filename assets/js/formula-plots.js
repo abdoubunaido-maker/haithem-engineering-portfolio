@@ -128,6 +128,98 @@
     });
   }
 
+  function drawTradeoff() {
+    var svg = document.getElementById('fsAeroTradeoffPlot');
+    var note = document.getElementById('fsAeroTradeoffLegend');
+    if (!svg || !note) return;
+    var W = 620, H = 320, m = { l: 58, r: 24, t: 18, b: 54 };
+    var iw = W - m.l - m.r, ih = H - m.t - m.b;
+    var x = function (v) { return m.l + (v - 0.5) / 1.4 * iw; };
+    var y = function (v) { return m.t + ih - v / 3.7 * ih; };
+    var rows = [
+      { name: 'Baseline', cd: 0.645, cl: 0.005, lap: '86.71 s', color: colors[0], dx: 10, dy: -12, anchor: 'start' },
+      { name: 'Wings', cd: 1.73, cl: 2.69, lap: '85.06 s', color: colors[1], dx: -10, dy: 18, anchor: 'end' },
+      { name: 'Full package', cd: 1.70, cl: 3.35, lap: '84.59 s', color: colors[4], dx: -10, dy: -13, anchor: 'end' }
+    ];
+    while (svg.firstChild) svg.removeChild(svg.firstChild);
+    svg.setAttribute('viewBox', '0 0 ' + W + ' ' + H);
+    svg.setAttribute('aria-labelledby', 'fsAeroTradeoffPlot-title fsAeroTradeoffPlot-desc');
+    svg.appendChild(node('title', { id: 'fsAeroTradeoffPlot-title' }, 'Full-vehicle drag/downforce trade-off from CFD'));
+    svg.appendChild(node('desc', { id: 'fsAeroTradeoffPlot-desc' }, 'Three exact coefficient pairs from report Table 10, plotted as discrete points. Labels show the OptimumLap times from Table 12.'));
+    [0, 0.5, 1, 1.5, 2, 2.5, 3, 3.5].forEach(function (v) {
+      var yy = y(v);
+      svg.appendChild(node('line', { x1: m.l, y1: yy, x2: W - m.r, y2: yy, class: 'grid-line' }));
+      svg.appendChild(node('text', { x: m.l - 9, y: yy + 4, 'text-anchor': 'end' }, String(v)));
+    });
+    [0.6, 0.8, 1, 1.2, 1.4, 1.6, 1.8].forEach(function (v) {
+      var xx = x(v);
+      svg.appendChild(node('line', { x1: xx, y1: m.t, x2: xx, y2: m.t + ih, class: 'grid-line' }));
+      svg.appendChild(node('text', { x: xx, y: m.t + ih + 18, 'text-anchor': 'middle' }, v.toFixed(1)));
+    });
+    svg.appendChild(node('line', { x1: m.l, y1: m.t + ih, x2: W - m.r, y2: m.t + ih, class: 'axis-line' }));
+    svg.appendChild(node('line', { x1: m.l, y1: m.t, x2: m.l, y2: m.t + ih, class: 'axis-line' }));
+    svg.appendChild(node('text', { x: m.l + iw / 2, y: H - 7, 'text-anchor': 'middle', class: 'axis-label' }, 'Drag coefficient, C_D [-]'));
+    svg.appendChild(node('text', { x: 13, y: m.t + ih / 2, 'text-anchor': 'middle', class: 'axis-label', transform: 'rotate(-90 13 ' + (m.t + ih / 2) + ')' }, 'Downforce coefficient, C_L [-]'));
+    rows.forEach(function (r) {
+      var xx = x(r.cd), yy = y(r.cl);
+      var point = node('circle', { cx: xx, cy: yy, r: 5.5, fill: r.color, stroke: 'var(--bg)', 'stroke-width': 2 });
+      point.appendChild(node('title', {}, r.name + ': C_D = ' + r.cd + ', C_L = ' + r.cl + ', simulated lap ' + r.lap));
+      svg.appendChild(point);
+      svg.appendChild(node('text', { x: xx + r.dx, y: yy + r.dy, 'text-anchor': r.anchor, class: 'bar-label' }, r.name + ' · ' + r.lap));
+    });
+    note.textContent = 'Exact CFD coefficient pairs · labels show simulated lap time';
+  }
+
+  function initCarousel() {
+    var root = document.getElementById('aeroStory');
+    var viewport = document.getElementById('aeroStoryViewport');
+    var track = document.getElementById('aeroStoryTrack');
+    if (!root || !viewport || !track) return;
+    var slides = Array.prototype.slice.call(track.querySelectorAll('.aero-slide'));
+    var dots = Array.prototype.slice.call(root.querySelectorAll('[data-aero-slide]'));
+    var status = document.getElementById('aeroStoryStatus');
+    var index = 0, startX = null;
+
+    function show(next) {
+      index = (next + slides.length) % slides.length;
+      track.style.transform = 'translate3d(-' + (index * 100) + '%,0,0)';
+      slides.forEach(function (slide, i) {
+        var hidden = i !== index;
+        slide.setAttribute('aria-hidden', String(hidden));
+        slide.inert = hidden;
+      });
+      dots.forEach(function (dot, i) {
+        var active = i === index;
+        dot.classList.toggle('is-active', active);
+        if (active) dot.setAttribute('aria-current', 'true');
+        else dot.removeAttribute('aria-current');
+      });
+      if (status) status.textContent = String(index + 1).padStart(2, '0') + ' / ' + String(slides.length).padStart(2, '0');
+    }
+
+    var prev = document.getElementById('aeroStoryPrev');
+    var next = document.getElementById('aeroStoryNext');
+    if (prev) prev.addEventListener('click', function () { show(index - 1); });
+    if (next) next.addEventListener('click', function () { show(index + 1); });
+    dots.forEach(function (dot) { dot.addEventListener('click', function () { show(Number(dot.getAttribute('data-aero-slide'))); }); });
+    viewport.addEventListener('keydown', function (event) {
+      if (event.key === 'ArrowRight') { event.preventDefault(); show(index + 1); }
+      if (event.key === 'ArrowLeft') { event.preventDefault(); show(index - 1); }
+    });
+    viewport.addEventListener('pointerdown', function (event) {
+      if (event.target.closest('button')) return;
+      startX = event.clientX;
+    });
+    viewport.addEventListener('pointerup', function (event) {
+      if (startX == null) return;
+      var delta = event.clientX - startX;
+      startX = null;
+      if (Math.abs(delta) > 48) show(index + (delta < 0 ? 1 : -1));
+    });
+    viewport.addEventListener('pointercancel', function () { startX = null; });
+    show(0);
+  }
+
   function drawAll() {
     draw('fsAccelerationPlot', 'fsAccelerationLegend', {
       data: 'acceleration', xMin: 0, xMax: 14, yMin: 0, yMax: 35,
@@ -146,8 +238,10 @@
       label: function (key) { return 'C_L = ' + key; }
     });
     drawLateral();
+    drawTradeoff();
   }
 
+  initCarousel();
   drawAll();
   document.addEventListener('hb:theme', drawAll);
 })();
