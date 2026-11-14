@@ -1122,3 +1122,21 @@ body { isolation: isolate; }
   .aero-deck-navigation .aero-step { padding-inline: .5rem; font-size: .62rem; }
   .aero-deck-status { min-width: 42px; }
 }
+
+/* Riyah's supplied app mark replaces the hand-drawn rotor schematic in its hero. */
+.riyah-page .riyah-logo-figure { background: #000; }
+.riyah-page .riyah-logo-figure::before { display: none; }
+.riyah-page .riyah-logo-figure img {
+  display: block;
+  width: 100%;
+  height: clamp(240px, 31vw, 340px);
+  min-height: 0;
+  aspect-ratio: 16 / 9;
+  object-fit: cover;
+  object-position: center 48%;
+  background: #000;
+}
+.riyah-page .riyah-logo-figure figcaption { background: var(--panel); }
+@media (max-width: 760px) {
+  .riyah-page .riyah-logo-figure img { height: clamp(205px, 56vw, 300px); aspect-ratio: 16 / 9; }
+}

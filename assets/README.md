@@ -10,6 +10,7 @@ assets/
 ├── css/site.css          # Design system: tokens, components, dark/light themes, print styles
 ├── js/site.js            # Theme toggle, figure lightbox, TOC scroll-spy, SVG charts
 ├── formula-student/      # 38 original figures from the Formula Student aerodynamics report
+├── riyah/                # Supplied Riyah application logo
 └── rocketry/
     ├── study-1/          # Study 1 only — 3 mm core, 500/500/240 g/m² glass
     └── study-2/          # Study 2 only — 2 mm core, 240 g/m² glass
