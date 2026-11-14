@@ -1078,3 +1078,47 @@ body { isolation: isolate; }
 @media print {
   .aero-slide-visual img { mix-blend-mode: normal; }
 }
+
+/* Keep the two core forces visible together, with labelled navigation in view. */
+.aero-slide-model-pair {
+  grid-template-columns: minmax(0, 1fr);
+  align-items: start;
+  gap: .35rem;
+  min-height: 0;
+}
+.aero-slide-model-pair .aero-slide-copy { max-width: 78ch; }
+.aero-model-pair { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: clamp(.8rem, 2vw, 1.7rem); align-items: start; }
+.aero-model-pair .aero-slide-plot { min-width: 0; padding: .2rem 0; }
+.aero-plot-title { margin: 0 0 .15rem; color: var(--muted); font: 600 .7rem/1.35 var(--mono); letter-spacing: .035em; text-align: center; }
+.aero-model-pair .chart text { font-size: 9px; }
+.aero-model-pair .chart .axis-label { font-size: 9px; }
+.aero-deck-controls { width: 100%; margin: .85rem 0 .25rem; gap: .65rem; }
+.aero-deck-navigation { flex: 1 1 auto; min-width: 0; justify-content: center; gap: .35rem; margin-left: 0; }
+.aero-deck-navigation .aero-step {
+  flex: 0 0 auto;
+  width: auto;
+  height: 30px;
+  padding: 0 .65rem;
+  border: 1px solid var(--line);
+  border-radius: 999px;
+  background: transparent;
+  color: var(--muted);
+  font: 600 .66rem/1 var(--mono);
+  white-space: nowrap;
+  opacity: .8;
+}
+.aero-deck-navigation .aero-step.is-active {
+  width: auto;
+  border-color: color-mix(in srgb, var(--accent) 55%, var(--line));
+  background: color-mix(in srgb, var(--accent) 10%, transparent);
+  color: var(--accent);
+  opacity: 1;
+}
+@media (max-width: 760px) {
+  .aero-model-pair { grid-template-columns: minmax(0, 1fr); gap: 1rem; }
+  .aero-model-pair .aero-slide-plot { max-width: 560px; margin-inline: auto; width: 100%; }
+  .aero-deck-controls { gap: .4rem; }
+  .aero-deck-navigation { justify-content: flex-start; overflow-x: auto; scrollbar-width: thin; }
+  .aero-deck-navigation .aero-step { padding-inline: .5rem; font-size: .62rem; }
+  .aero-deck-status { min-width: 42px; }
+}
