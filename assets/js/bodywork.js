@@ -48,18 +48,6 @@
     });
   }
 
-  /* Separate and rejoin the mould halves; mounting points remain schematic. */
-  var mouldDiagram = document.getElementById('mouldDiagram');
-  var mouldToggle = document.getElementById('mouldSplitToggle');
-  if (mouldDiagram && mouldToggle) {
-    mouldToggle.addEventListener('click', function () {
-      var separated = mouldDiagram.getAttribute('data-state') !== 'separated';
-      mouldDiagram.setAttribute('data-state', separated ? 'separated' : 'joined');
-      mouldToggle.setAttribute('aria-pressed', String(separated));
-      mouldToggle.textContent = separated ? 'Rejoin the mould halves' : 'Separate the mould halves';
-    });
-  }
-
   /* Low-amplitude parallax on the real CAD model image; off for reduced motion. */
   var hero = document.querySelector('.bodywork-hero');
   var heroPhoto = document.querySelector('.bw-hero-cad img');
