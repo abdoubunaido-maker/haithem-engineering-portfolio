@@ -39,32 +39,34 @@
 
 <nav class="bodywork-stage-nav" aria-label="Bodywork manufacturing stages" id="bodyworkStageNav">
   <div class="bodywork-stage-nav-inner">
-    <a href="#surface" data-stage-link="surface"><span>01</span> Digital surface</a>
-    <a href="#decision" data-stage-link="decision"><span>02</span> The decision</a>
+    <a href="#surface" data-stage-link="surface"><span>01</span> Surface model</a>
+    <a href="#decision" data-stage-link="decision"><span>02</span> Buck strategy</a>
     <a href="#buck" data-stage-link="buck"><span>03</span> Sectional buck</a>
-    <a href="#cutting" data-stage-link="cutting"><span>04</span> Laser &amp; assembly</a>
+    <a href="#cutting" data-stage-link="cutting"><span>04</span> Laser &amp; fit</a>
     <a href="#plug" data-stage-link="plug"><span>05</span> Positive plug</a>
-    <a href="#mould" data-stage-link="mould"><span>06</span> Composite mould</a>
+    <a href="#mould" data-stage-link="mould"><span>06</span> Female mould</a>
     <a href="#outcome" data-stage-link="outcome"><span>07</span> Vehicle</a>
   </div>
 </nav>
 
 <header class="bodywork-hero">
-  <div class="bodywork-hero-photo" aria-hidden="true">
-    <img src="../assets/formula-bodywork/02-buck-foam-infill.webp" alt="" width="1280" height="960" fetchpriority="high" decoding="async">
-  </div>
-  <div class="bodywork-hero-shade" aria-hidden="true"></div>
-  <div class="wrap bodywork-hero-content">
-    <div class="bodywork-kicker"><span>ENP RACING TEAM</span><i></i> FORMULA STUDENT <i></i> BODYWORK ENGINEERING</div>
-    <h1>From digital<br>surface to <em>physical form.</em></h1>
-    <p class="bodywork-hero-lede">I developed a manufacturing route for the Formula Student bodywork: translating SolidWorks surfaces into a modular sectional buck, a positive plug, a female mould and the composite shell fitted to the car.</p>
-    <div class="bodywork-hero-actions">
-      <a class="btn btn-primary" href="#decision">The engineering decision <span aria-hidden="true">↓</span></a>
-      <a class="bodywork-text-link" href="formula-student.html">Aerodynamic design study <span aria-hidden="true">↗</span></a>
+  <div class="wrap bodywork-hero-layout">
+    <div class="bodywork-hero-content">
+      <div class="bodywork-kicker"><span>ENP RACING TEAM</span><i></i> FORMULA STUDENT <i></i> BODYWORK ENGINEERING</div>
+      <h1>From digital<br>surface to <em>physical form.</em></h1>
+      <p class="bodywork-hero-lede">I independently conceived the sectional buck as the bridge between complex SolidWorks bodywork and a full-size tool. This case follows that decision through first fit, positive plug, segmented female mould and finished shell.</p>
+      <div class="bodywork-hero-actions">
+        <a class="btn btn-primary" href="#decision">The engineering decision <span aria-hidden="true">↓</span></a>
+        <a class="bodywork-text-link" href="formula-student.html">Aerodynamic design study <span aria-hidden="true">↗</span></a>
+      </div>
     </div>
+    <figure class="bw-hero-cad">
+      <div class="figure-media"><img src="../assets/formula-bodywork/08-sectional-buck-cad.webp" alt="Author-supplied CAD view of the sectional buck, with repeated transverse profiles connected by longitudinal members." width="927" height="632" fetchpriority="high" decoding="async"></div>
+      <figcaption><span>BUCK GEOMETRY / CAD</span> Project model showing how the digital form was decomposed into ribs and longitudinal references. This is authentic project geometry, not a dimensioned manufacturing drawing.</figcaption>
+    </figure>
     <div class="bodywork-hero-bottom">
       <span>DESIGN STRATEGY · TOOLING · COMPOSITES</span>
-      <span>Actual workshop photographs · conceptual diagrams labelled</span>
+      <span>Project CAD and workshop photographs · schematic diagrams labelled</span>
     </div>
   </div>
 </header>
@@ -74,15 +76,15 @@
     <div class="wrap bodywork-intro-grid">
       <div>
         <div class="eyebrow">THE MANUFACTURING ARGUMENT</div>
-        <h2>The body was only real when we could make it.</h2>
+        <h2>A surface became a structure, then a tool.</h2>
       </div>
-      <p>Complex surface geometry had to become a manufacturable object with the workshop tools available. The turning point was a custom wooden buck: transverse sections carried the shape, longitudinal splines connected them, and a three-part layout made laser cutting and assembly practical.</p>
+      <p>The engineering problem was to preserve a continuous outer surface through several very different representations: CAD faces, discrete cut profiles, a hand-faired positive and a negative tool. This record explains the decisions that connected those representations—and distinguishes documented project facts from geometry or process data that were not supplied.</p>
     </div>
     <div class="wrap bodywork-spec-strip" aria-label="Documented project facts">
       <div><b>20+</b><span>transverse sections</span></div>
       <div><b>10+</b><span>longitudinal splines</span></div>
-      <div><b>03</b><span>modular buck assemblies</span></div>
-      <div><b>04</b><span>glass-fibre layers in mould layup</span></div>
+      <div><b>03</b><span>laser-compatible assemblies</span></div>
+      <div><b>04</b><span>glass-fibre mould layers</span></div>
       <div><b>02</b><span>female-mould sections</span></div>
     </div>
   </section>
@@ -91,39 +93,41 @@
     <div class="wrap">
       <div class="bw-chapter-heading">
         <span class="bw-chapter-number">01</span>
-        <div><div class="eyebrow">DIGITAL SURFACE DEVELOPMENT</div><h2>Chassis first. Surface architecture around it.</h2></div>
+        <div><div class="eyebrow">SURFACE MODELLING &amp; VEHICLE PACKAGE</div><h2>Define the outer shape in the context it has to fit.</h2></div>
       </div>
       <div class="bw-surface-grid">
         <div class="bw-copy">
-          <p class="bw-lead">The SolidWorks bodywork began on the existing chassis. Its exterior had to reconcile three requirements that pull in different directions: aerodynamic intent, a coherent vehicle form, and manufacturability.</p>
-          <p>Surface modelling provided the freedom to develop changing curvature and transitions over the vehicle architecture. The body was not treated as an isolated styling skin: every surface had to sit over the chassis and ultimately be reproducible as a physical tool.</p>
+          <p class="bw-lead">The SolidWorks bodywork was developed over the existing chassis, so the exterior could be considered as part of the vehicle package rather than as an isolated styling surface.</p>
+          <p>Surface modelling is useful for automotive forms because curvature can change continuously across a panel and transition between neighbouring patches. Tangent continuity keeps adjoining faces aligned; curvature continuity controls how quickly that tangent changes. Both matter when judging whether a surface reads as fair and when creating a positive master that can be shaped without abrupt steps.</p>
+          <p>Working over the chassis also makes the relationship between the proposed outer skin and the underlying vehicle visible during design. It provides a way to check package interfaces before committing the exterior to a physical buck. For aerodynamics, the external contour is the flow boundary: sudden geometric changes can create unfavourable local flow behaviour, so surface continuity is an engineering consideration as well as a visual one.</p>
           <div class="bw-principles">
-            <div><span>01</span><b>Aerodynamic intent</b><small>Shape the external flow path.</small></div>
-            <div><span>02</span><b>Vehicle integration</b><small>Develop over the available chassis.</small></div>
-            <div><span>03</span><b>Manufacturing logic</b><small>Plan for a surface that can be built.</small></div>
+            <div><span>01</span><b>Control curvature</b><small>Manage transitions between adjacent surface regions.</small></div>
+            <div><span>02</span><b>Design in context</b><small>Relate the outer surface to the chassis package.</small></div>
+            <div><span>03</span><b>Plan the tool path</b><small>Carry the digital envelope into a buildable positive.</small></div>
           </div>
         </div>
         <figure class="bw-photo bw-photo-cad">
-          <div class="figure-media"><img src="../assets/formula-student/cad-yellow-cutout.png" alt="SolidWorks full-vehicle CAD render from the Formula Student project, showing yellow body and aerodynamic surfaces integrated with the dark chassis." width="800" height="700" loading="lazy" decoding="async"></div>
-          <figcaption><span>01 / DIGITAL VEHICLE MODEL</span> Author-supplied SolidWorks vehicle render. The image shows package integration; the native surface patches and CAD section-plane definitions were not supplied.</figcaption>
+          <div class="figure-media"><img src="../assets/formula-student/cad-yellow-cutout.png" alt="SolidWorks full-vehicle CAD render from the Formula Student project, showing the yellow body and aerodynamic surfaces integrated with the chassis." width="800" height="700" loading="lazy" decoding="async"></div>
+          <figcaption><span>VEHICLE PACKAGE / SOLIDWORKS</span> The supplied render shows the body and aerodynamic package in vehicle context. It does not expose individual surface patches, continuity settings or measured clearances.</figcaption>
         </figure>
       </div>
-      <div class="bw-surface-note"><span class="bw-note-mark">!</span><p><strong>Evidence boundary.</strong> No native SolidWorks bodywork files or section-plane screenshots were included with this page request. The vehicle render is authentic project imagery; the diagrams below explain the manufacturing principle and are explicitly illustrative, not reconstructed CAD geometry.</p></div>
+      <div class="bw-surface-note"><span class="bw-note-mark">!</span><p><strong>Geometry boundary.</strong> The full-vehicle render is authentic project imagery; no native body-surface file, continuity analysis or package dimensions were supplied. The buck CAD view above documents the physical decomposition, not the quality or measurement of the original skin.</p></div>
     </div>
   </section>
 
   <section class="bw-decision" id="decision" data-stage="decision">
     <div class="bw-decision-image">
-      <img src="../assets/formula-bodywork/02-buck-foam-infill.webp" alt="The full-length sectional buck with foam infill, showing repeated transverse profiles and connecting longitudinal members." width="1280" height="960" loading="lazy" decoding="async">
+      <img src="../assets/formula-bodywork/01-buck-first-assembly.webp" alt="Cut transverse profile pieces arranged in sequence beside a person for scale, before they were assembled into the full buck." width="960" height="1280" loading="lazy" decoding="async">
     </div>
     <div class="bw-decision-content">
-      <div class="eyebrow">02 · THE TURNING POINT</div>
-      <p class="bw-decision-pretitle">A manufacturing problem needed an engineered answer.</p>
+      <div class="eyebrow">02 · AN INDEPENDENT ENGINEERING DECISION</div>
+      <p class="bw-decision-pretitle">No ready-made tool. No guarantee the decomposition would fit.</p>
       <blockquote>“One of the boldest engineering decisions I’ve made.”</blockquote>
-      <p class="bw-decision-statement">I independently conceived the sectional wooden buck as a way to reproduce the digital bodywork with the equipment and resources available.</p>
-      <p>I worked out how to decompose the surface into transverse profiles, connect those profiles with longitudinal splines, split the structure into manufacturable assemblies and prepare it for laser cutting. The idea carried a real risk: if the sections, references or assembly logic were wrong, the full structure could fail to represent the intended form.</p>
+      <p class="bw-decision-statement">I independently conceived the sectional wooden buck and developed the strategy behind it: deriving profiles from the CAD body, linking them with longitudinal splines, dividing the build for the laser cutter and preparing the cutting set.</p>
+      <p>The decision converted abstract surface geometry into a sequence of parts with physical interfaces. It meant taking responsibility for how the model would be sampled, how the pieces would register and how the full-length structure could be produced with the available equipment. There was no prior fit result to rely on.</p>
+      <p>For me, the milestone was choosing a reasoned path through uncertainty, then allowing the physical assembly to test that judgement. The successful fit strengthened my confidence in the approach—not a claim that the final surface had been metrologically verified.</p>
       <p class="bw-decision-proof">The complete buck fitted on its first assembly—without corrective modifications.</p>
-      <small class="bw-boundary">My ownership was the concept and engineering strategy. This is not a claim that I personally performed every workshop operation.</small>
+      <small class="bw-boundary">The profile photo shows the cut sections before assembly, not the first-fit moment. I owned the concept and engineering strategy; the subsequent workshop operations were collaborative.</small>
     </div>
   </section>
 
@@ -131,23 +135,28 @@
     <div class="wrap">
       <div class="bw-chapter-heading">
         <span class="bw-chapter-number">03</span>
-        <div><div class="eyebrow">SECTIONAL BUCK ENGINEERING</div><h2>Sections set the shape. Splines carry it between them.</h2></div>
+        <div><div class="eyebrow">CAD DECOMPOSITION / SECTIONAL BUCK</div><h2>Sample the surface; let the framework carry it.</h2></div>
       </div>
       <div class="bw-two-col-intro">
-        <p class="bw-lead">The buck converted a continuous three-dimensional surface into a framework that could be cut, handled and assembled.</p>
-        <p>Transverse planes were positioned along the CAD body to define local profiles. Those profiles became the principal cross-sectional references. Longitudinal splines connected them along the body contours, maintaining continuity and guiding later surface shaping.</p>
+        <p class="bw-lead">For a two-dimensional laser-cut workflow, a continuous three-dimensional skin had to be represented as a sequence of transverse profiles connected by longitudinal guides.</p>
+        <p>Each transverse profile is a local slice through the CAD body. Together, the slices define the changing cross-section along the length; the longitudinal splines pass through corresponding points and provide intermediate references between stations. They help a hand-shaped surface follow the intended flow of the model instead of becoming a collection of unrelated ribs.</p>
+      </div>
+      <div class="bw-geometry-notes">
+        <article><span>SECTION PITCH</span><p>Closer stations capture faster changes in curvature and reduce the amount of shape interpolation required between profiles. They also increase the number of parts and assembly interfaces. The project used more than twenty sections; their exact spacing was not supplied.</p></article>
+        <article><span>LONGITUDINAL CONTROL</span><p>More than ten splines linked the transverse references. Their role was to carry the contour between sections and give the later manual shaping process a continuous guide along the body.</p></article>
+        <article><span>MODEL → PHYSICAL DATUMS</span><p>The profiles are not a surface skin: they form a skeletal reference. The buck becomes the physical bridge between CAD station geometry and the continuous positive plug built over it.</p></article>
       </div>
       <div class="bw-diagram-shell">
-        <div class="bw-diagram-topline"><span>CONCEPTUAL SECTIONAL-BUCK DIAGRAM</span><span>ILLUSTRATIVE · NOT TO SCALE · NOT CAD-DERIVED</span></div>
+        <div class="bw-diagram-topline"><span>SECTION / SPLINE RELATIONSHIP</span><span>EXPLANATORY SCHEMATIC · NOT PROJECT DIMENSIONS</span></div>
         <div class="bw-diagram-layout">
           <div class="bw-diagram-controls" role="group" aria-label="Highlight components of the sectional buck diagram">
-            <button type="button" data-buck-mode="assembled" aria-pressed="true">Assembled view</button>
-            <button type="button" data-buck-mode="sections" aria-pressed="false">Transverse sections</button>
-            <button type="button" data-buck-mode="splines" aria-pressed="false">Longitudinal splines</button>
+            <button type="button" data-buck-mode="assembled" aria-pressed="true">Framework</button>
+            <button type="button" data-buck-mode="sections" aria-pressed="false">Sections</button>
+            <button type="button" data-buck-mode="splines" aria-pressed="false">Splines</button>
           </div>
           <svg class="bw-technical-svg buck-diagram" id="buckDiagram" data-mode="assembled" viewBox="0 0 900 450" role="img" aria-labelledby="buckDiagramTitle buckDiagramDesc">
-            <title id="buckDiagramTitle">Illustrative sectional wooden buck with cross-sections and longitudinal splines</title>
-            <desc id="buckDiagramDesc">A dimensionless schematic showing representative transverse profile frames spaced along a long body and connected by longitudinal splines. It does not reproduce the project's exact CAD geometry or coordinate system.</desc>
+            <title id="buckDiagramTitle">Conceptual transverse profiles connected by longitudinal splines</title>
+            <desc id="buckDiagramDesc">Dimensionless explanatory drawing showing section planes sampled along a body and several spline paths linking corresponding contour points. It explains the principle, not the project's exact CAD geometry or station spacing.</desc>
             <defs><linearGradient id="buckGlow" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#8bdde0" stop-opacity=".26"/><stop offset="1" stop-color="#8bdde0" stop-opacity=".03"/></linearGradient></defs>
             <path d="M92 360 C235 330 392 332 804 354" fill="none" stroke="var(--bw-grid)" stroke-width="1" stroke-dasharray="4 8"/>
             <g class="bw-ribs" data-buck-layer="sections" fill="url(#buckGlow)" stroke="var(--bw-cyan)" stroke-width="2">
@@ -170,19 +179,15 @@
               <path d="M185 156v214M269 166v197M352 171v185M435 176v176M519 176v176M602 171v185M685 166v197M768 156v214"/>
             </g>
             <g fill="var(--bw-type)" font-family="var(--bw-mono)" font-size="12" letter-spacing="1.2">
-              <text x="115" y="70">TRANSVERSE PROFILES</text><path d="M238 75 L265 132" stroke="var(--bw-cyan)" fill="none"/>
-              <text x="575" y="70">LONGITUDINAL SPLINES</text><path d="M705 78 L673 192" stroke="var(--bw-amber)" fill="none"/>
-              <text x="370" y="416" fill="var(--bw-dim)">REPRESENTATIVE STATIONS · SPACING / SHAPE NOT TO SCALE</text>
+              <text x="115" y="70">TRANSVERSE PROFILE STATIONS</text><path d="M275 75 L285 147" stroke="var(--bw-cyan)" fill="none"/>
+              <text x="585" y="70">LONGITUDINAL SPLINE PATHS</text><path d="M715 78 L673 192" stroke="var(--bw-amber)" fill="none"/>
+              <text x="370" y="416" fill="var(--bw-dim)">SPACING AND PROFILE SHAPE NOT TO SCALE</text>
             </g>
           </svg>
         </div>
-        <div class="bw-diagram-legend"><span><i class="legend-cyan"></i>Transverse profile / section plane</span><span><i class="legend-amber"></i>Longitudinal spline</span><span><i class="legend-gray"></i>Reference structure</span></div>
+        <div class="bw-diagram-legend"><span><i class="legend-cyan"></i>Transverse profile</span><span><i class="legend-amber"></i>Longitudinal spline</span><span><i class="legend-gray"></i>Station reference</span></div>
       </div>
-      <div class="bw-note-row"><span>NO COORDINATE AXES SHOWN</span><p>The source CAD plane orientation and station locations were not supplied, so the sketch deliberately avoids assigning an X/Y/Z convention or dimensions.</p></div>
-      <figure class="bw-photo bw-photo-wide">
-        <div class="figure-media"><img src="../assets/formula-bodywork/02-buck-foam-infill.webp" alt="Workshop photograph of the bodywork framework at a later build stage, with repeated transverse profiles and a long continuous structure visible." width="1280" height="960" loading="lazy" decoding="async"></div>
-        <figcaption><span>PHYSICAL FRAMEWORK / WORKSHOP RECORD</span> The photographed assembly shows the repeated sectional logic at full scale. The illustration above is explanatory, not a tracing of this structure.</figcaption>
-      </figure>
+      <div class="bw-note-row"><span>CAD EVIDENCE</span><p>The supplied CAD view is the project model; the interactive drawing is only an explanatory abstraction. No native section coordinates, pitch values or dimensions are published here.</p></div>
     </div>
   </section>
 
@@ -190,48 +195,28 @@
     <div class="wrap">
       <div class="bw-chapter-heading">
         <span class="bw-chapter-number">04</span>
-        <div><div class="eyebrow">LASER CUTTING &amp; MODULARIZATION</div><h2>Design to the machine you have.</h2></div>
+        <div><div class="eyebrow">LASER-CUTTING CONSTRAINT / MODULARIZATION</div><h2>Keep the designed form; change how it is manufactured.</h2></div>
       </div>
       <div class="bw-cutting-grid">
         <div class="bw-copy">
-          <p class="bw-lead">The complete buck exceeded the working dimensions of the available laser cutter. Rather than compromise the overall form, I divided the structure into three manufacturable assemblies and planned to join them after cutting.</p>
-          <p>The transverse profiles and splines were prepared as PDF drawings for the laser-cutting workflow. The profile geometry defined the cross-sections; the longitudinal members tied the modules into a continuous framework.</p>
-          <div class="bw-stats-inline">
-            <div><b>&gt;20</b><span>transverse sections</span></div>
-            <div><b>&gt;10</b><span>longitudinal splines</span></div>
-            <div><b>3</b><span>assemblies</span></div>
-          </div>
-          <p class="bw-small-note">No source PDF cutting templates, native CAD files, bed dimensions or tolerances were supplied. The three-part diagram is therefore schematic; it does not imply module lengths or cut settings.</p>
+          <p class="bw-lead">The complete buck was longer than the available laser cutter’s working dimensions. I divided the framework into three assemblies so its components could be cut within that constraint and joined into the full-length structure.</p>
+          <p>The section profiles and longitudinal members were prepared as PDF cutting drawings. This was manufacturing-oriented design: the machine envelope changed the production sequence, not the intended bodywork geometry. Each profile had to retain its station identity and orientation, and each module had to preserve the correspondence between its ends and the neighbouring assembly.</p>
+          <p>That registration is what allows the separate cuts to become one continuous buck. If a profile is reversed, assigned to the wrong station or loses its relationship to the spline layout, the error propagates into the framework and then into the positive surface built over it.</p>
+          <p class="bw-small-note">The source PDFs, cutter-bed dimensions and cutting tolerances were not supplied. The diagrams therefore show only the three-part strategy—not module lengths, join details or machine settings.</p>
         </div>
-        <div class="bw-module-graphic" aria-label="Schematic of the buck divided into three assemblies">
-          <div class="bw-graphic-label">MODULARIZATION / SCHEMATIC</div>
+        <div class="bw-module-graphic" aria-label="Schematic showing the buck split into three laser-compatible assemblies">
+          <div class="bw-graphic-label">THREE-ASSEMBLY CUTTING STRATEGY / SCHEMATIC</div>
           <svg class="bw-technical-svg" viewBox="0 0 700 270" role="img" aria-labelledby="moduleTitle moduleDesc">
-            <title id="moduleTitle">Three modular sections of the sectional buck</title>
-            <desc id="moduleDesc">Three linked schematic segments illustrate how the long buck was split to fit the available laser-cutting workflow. No segment lengths are represented.</desc>
+            <title id="moduleTitle">Buck divided into three manufacturable assemblies</title>
+            <desc id="moduleDesc">Three schematic portions of a long framework are linked in sequence to illustrate modularization for the available laser cutter. Relative lengths and joining details are not shown.</desc>
             <path d="M40 187 C188 145 388 148 655 183" fill="none" stroke="var(--bw-grid)" stroke-width="1" stroke-dasharray="5 7"/>
-            <g class="module-piece">
-              <path d="M58 155 C65 122 88 100 112 100 C136 100 159 122 166 155 L160 195 L64 195 Z"/>
-              <path d="M76 195 C89 166 135 166 151 195M82 120 L143 120M74 151 L153 151"/>
-              <text x="78" y="236">ASSEMBLY 01</text>
-            </g>
-            <g class="module-piece">
-              <path d="M266 155 C273 122 296 100 320 100 C344 100 367 122 374 155 L368 195 L272 195 Z"/>
-              <path d="M284 195 C297 166 343 166 359 195M282 120 L351 120M274 151 L363 151"/>
-              <text x="286" y="236">ASSEMBLY 02</text>
-            </g>
-            <g class="module-piece">
-              <path d="M474 155 C481 122 504 100 528 100 C552 100 575 122 582 155 L576 195 L480 195 Z"/>
-              <path d="M492 195 C505 166 551 166 567 195M492 120 L559 120M482 151 L571 151"/>
-              <text x="494" y="236">ASSEMBLY 03</text>
-            </g>
+            <g class="module-piece"><path d="M58 155 C65 122 88 100 112 100 C136 100 159 122 166 155 L160 195 L64 195 Z"/><path d="M76 195 C89 166 135 166 151 195M82 120 L143 120M74 151 L153 151"/><text x="78" y="236">ASSEMBLY 01</text></g>
+            <g class="module-piece"><path d="M266 155 C273 122 296 100 320 100 C344 100 367 122 374 155 L368 195 L272 195 Z"/><path d="M284 195 C297 166 343 166 359 195M282 120 L351 120M274 151 L363 151"/><text x="286" y="236">ASSEMBLY 02</text></g>
+            <g class="module-piece"><path d="M474 155 C481 122 504 100 528 100 C552 100 575 122 582 155 L576 195 L480 195 Z"/><path d="M492 195 C505 166 551 166 567 195M492 120 L559 120M482 151 L571 151"/><text x="494" y="236">ASSEMBLY 03</text></g>
             <path d="M180 147h65m-9-8 9 8-9 8M388 147h65m-9-8 9 8-9 8" fill="none" stroke="var(--bw-amber)" stroke-width="2"/>
           </svg>
-          <p>SolidWorks model → profile extraction → PDF preparation → laser-cut parts → three-part assembly.</p>
+          <p>Profile extraction → PDF cutting set → three laser-compatible assemblies → full-length framework.</p>
         </div>
-      </div>
-      <div class="bw-photo-pair">
-        <figure class="bw-photo"><div class="figure-media"><img src="../assets/formula-bodywork/01-buck-first-assembly.webp" alt="Repeated wooden transverse profiles laid out in sequence beside a person for scale." width="960" height="1280" loading="lazy" decoding="async"></div><figcaption><span>PROFILE SET / SCALE REFERENCE</span> Cut transverse sections arranged in sequence before they were brought together into the buck.</figcaption></figure>
-        <figure class="bw-photo"><div class="figure-media"><img src="../assets/formula-bodywork/02-buck-foam-infill.webp" alt="Full-length buck framework with foam blocks fitted between the transverse profiles." width="1280" height="960" loading="lazy" decoding="async"></div><figcaption><span>FRAMEWORK WITH FOAM INFILL</span> The workshop photograph shows the continuous sectional structure at a later build stage.</figcaption></figure>
       </div>
     </div>
   </section>
@@ -241,55 +226,60 @@
       <div class="bw-assembly-copy">
         <div class="bw-chapter-heading">
           <span class="bw-chapter-number">05</span>
-          <div><div class="eyebrow">FIRST ASSEMBLY</div><h2>The digital decomposition held together.</h2></div>
+          <div><div class="eyebrow">FIRST ASSEMBLY / DESIGN VALIDATION</div><h2>The fit check tested the whole chain.</h2></div>
         </div>
-        <p>The cut profiles and longitudinal references were brought together into the full framework. On the first complete assembly, the sections and connecting members fitted as intended. No corrective modifications were required.</p>
-        <p class="bw-assembly-callout">First fit.<br><em>No rework.</em></p>
-        <p>This is the proof point at the centre of the story: the sectional-buck concept did not remain a CAD proposal. Its geometry and assembly strategy translated into a physical structure.</p>
-        <a class="bw-inline-link" href="#decision">Return to the original decision <span aria-hidden="true">↑</span></a>
+        <p class="bw-assembly-callout">First fit.<br><em>No corrective modifications.</em></p>
+        <p>Once the profiles had been extracted from the CAD model, prepared for laser cutting and assembled with the longitudinal members, the first complete fit became a practical check of the design strategy. The profile shapes, station order, orientation and interfaces all had to agree well enough for the framework to close into one structure.</p>
+        <p>The successful assembly showed that the digital decomposition and manufacturing preparation translated into compatible physical parts. It was meaningful validation of the buck’s assembly logic—not a metrology report, a quantified surface-error assessment or a claim of a measured tolerance.</p>
+        <p class="bw-assembly-observation"><span>WHY IT MATTERED</span> A mismatch would have forced rework before the foam and plaster stage. A first-fit structure let the team move on to shaping the positive form.</p>
       </div>
-      <figure class="bw-photo bw-photo-human-scale">
-        <div class="figure-media"><img src="../assets/formula-bodywork/02-buck-foam-infill.webp" alt="Full-length wooden sectional buck with foam infill, supported in the workshop." width="1280" height="960" loading="lazy" decoding="async"></div>
-        <figcaption><span>POST-ASSEMBLY FOAM INFILL</span> This later-stage photograph shows the full-length framework after the first-fit assembly milestone.</figcaption>
+      <figure class="bw-photo bw-photo-assembly">
+        <div class="figure-media"><img src="../assets/formula-bodywork/02-buck-foam-infill.webp" alt="The assembled full-length sectional buck after foam blocks were fitted between its transverse profiles." width="1280" height="960" loading="lazy" decoding="async"></div>
+        <figcaption><span>BUCK AFTER FIRST-FIT / FOAM-INFILL STAGE</span> This later workshop photograph documents the assembled framework with infill. It is not a photograph of the initial fit check itself.</figcaption>
       </figure>
     </div>
   </section>
 
-  <section class="bw-chapter" id="plug" data-stage="plug">
+  <section class="bw-chapter bw-chapter-plug" id="plug" data-stage="plug">
     <div class="wrap">
       <div class="bw-chapter-heading">
         <span class="bw-chapter-number">06</span>
-        <div><div class="eyebrow">FOAM INFILL → POSITIVE PLUG</div><h2>A lightweight volume, shaped against engineered references.</h2></div>
+        <div><div class="eyebrow">FOAM INFILL → POSITIVE PLUG</div><h2>The buck is a skeleton; the plug is the continuous master.</h2></div>
       </div>
       <div class="bw-two-col-intro">
-        <p class="bw-lead">The open framework established the principal geometry; the spaces between sections still needed a continuous surface.</p>
-        <p>Foam was placed between the wooden profiles to fill those gaps. It was deliberately left below the target external contour so plaster could be added and shaped manually. The wooden sections acted as checkpoints; the splines gave a continuous guide between them.</p>
+        <p class="bw-lead">The wooden framework established discrete shape references. To create a continuous positive surface, the spaces between those references were filled and manually faired.</p>
+        <p>The materials had distinct jobs: the wooden profiles fixed the section geometry, foam filled the volume between them, and plaster provided a workable allowance for shaping. The foam was deliberately left inside the target outer contour. That offset reserved material for manual fairing rather than letting the foam define the finished surface too early.</p>
       </div>
       <div class="bw-plug-grid">
         <div class="bw-diagram-shell bw-cross-section-shell">
-          <div class="bw-diagram-topline"><span>PLUG-BUILD CROSS-SECTION</span><span>ILLUSTRATIVE · NOT TO SCALE</span></div>
+          <div class="bw-diagram-topline"><span>BUCK → FOAM → PLASTER → POSITIVE</span><span>ILLUSTRATIVE SECTION · NO DIMENSIONS</span></div>
           <svg class="bw-technical-svg bw-cross-section" viewBox="0 0 620 390" role="img" aria-labelledby="plugSectionTitle plugSectionDesc">
-            <title id="plugSectionTitle">Cross-section of the sectional buck, foam infill and plaster allowance</title>
-            <desc id="plugSectionDesc">A conceptual cross-section shows a wooden profile, foam filling between profiles, plaster allowance outside the foam and the target bodywork contour. Not dimensioned.</desc>
+            <title id="plugSectionTitle">Material roles in the positive plug build-up</title>
+            <desc id="plugSectionDesc">Illustrative cross-section showing wooden profile references, foam infill held inside the target surface and plaster allowance outside the foam. It is not dimensioned and does not reproduce project geometry.</desc>
             <path d="M130 300 C105 255 125 166 190 118 C248 75 371 76 430 122 C495 174 514 257 484 302" fill="none" stroke="var(--bw-amber)" stroke-width="2" stroke-dasharray="7 6"/>
             <path d="M158 300 C138 258 154 181 207 139 C258 100 362 101 412 143 C465 187 482 258 460 300 Z" fill="rgba(120,216,221,.15)" stroke="var(--bw-cyan)" stroke-width="2"/>
             <path d="M118 304 L150 304 C134 250 152 176 203 134 L185 115 C121 164 101 254 118 304 Z" fill="rgba(216,174,111,.26)" stroke="var(--bw-wood)" stroke-width="3"/>
             <path d="M462 304 L492 304 C518 254 498 166 432 115 L412 137 C466 181 482 258 462 304 Z" fill="rgba(216,174,111,.26)" stroke="var(--bw-wood)" stroke-width="3"/>
             <g font-family="var(--bw-mono)" font-size="12" fill="var(--bw-type)">
-              <text x="26" y="84">TARGET OUTER CONTOUR</text><path d="M190 90 L229 126" fill="none" stroke="var(--bw-dim)"/>
+              <text x="26" y="84">TARGET PLUG CONTOUR</text><path d="M194 90 L229 126" fill="none" stroke="var(--bw-dim)"/>
               <text x="410" y="82">PLASTER ALLOWANCE</text><path d="M478 91 L450 135" fill="none" stroke="var(--bw-amber)"/>
-              <text x="25" y="350">WOODEN SECTION</text><path d="M157 340 L175 300" fill="none" stroke="var(--bw-wood)"/>
+              <text x="25" y="350">WOODEN PROFILE</text><path d="M157 340 L175 300" fill="none" stroke="var(--bw-wood)"/>
               <text x="392" y="350">FOAM INFILL</text><path d="M420 336 L405 281" fill="none" stroke="var(--bw-cyan)"/>
             </g>
           </svg>
-          <p class="bw-diagram-caption">Material roles are shown in section; no allowance thickness or component dimensions are implied.</p>
+          <p class="bw-diagram-caption">The sections and splines are references in the build; the finished plug is a continuous positive surface, not the open buck.</p>
         </div>
-        <div class="bw-plug-photo-stack">
-          <figure class="bw-photo"><div class="figure-media"><img src="../assets/formula-bodywork/04-positive-plug-shaping.webp" alt="Manual surface work on the positive bodywork form in the workshop." width="960" height="1280" loading="lazy" decoding="async"></div><figcaption><span>MANUAL SURFACE DEVELOPMENT</span> Workshop photograph during positive-form shaping.</figcaption></figure>
-          <figure class="bw-photo"><div class="figure-media"><img src="../assets/formula-bodywork/05-plug-surface-development.webp" alt="Longitudinal positive bodywork form after substantial manual surface shaping." width="960" height="1280" loading="lazy" decoding="async"></div><figcaption><span>POSITIVE MASTER / SURFACE STAGE</span> The long surface form that carries the bodywork geometry toward mould preparation.</figcaption></figure>
+        <div class="bw-plug-copy">
+          <h3>From station checks to a fair surface</h3>
+          <p>During manual development, the exposed wood gave repeatable section checkpoints. The longitudinal splines carried a continuous guide between them, helping the shaping process maintain the intended form along the length instead of forming flats between ribs.</p>
+          <p>As plaster was shaped back toward the target contour, the result changed category: the buck was the open structural framework; the positive plug was the continuous master surface used to create the female tool.</p>
+          <div class="bw-material-key"><div><i class="wood"></i><b>Wood</b><span>section references</span></div><div><i class="foam"></i><b>Foam</b><span>infill volume</span></div><div><i class="plaster"></i><b>Plaster</b><span>shaping allowance</span></div></div>
         </div>
       </div>
-      <div class="bw-material-key"><div><i class="wood"></i><b>Wood</b><span>geometric reference</span></div><div><i class="foam"></i><b>Foam</b><span>gap-filling volume</span></div><div><i class="plaster"></i><b>Plaster</b><span>material for manual shaping</span></div></div>
+      <div class="bw-plug-photo-stack">
+        <figure class="bw-photo"><div class="figure-media"><img src="../assets/formula-bodywork/09-positive-plug-workshop.webp" alt="A full-length pale positive form being worked on by team members in a dark workshop." width="960" height="1280" loading="lazy" decoding="async"></div><figcaption><span>FULL-SCALE SURFACE WORK</span> Newly supplied workshop photograph showing the team working around the long positive form. The image documents collaborative work, not an individual attribution.</figcaption></figure>
+        <figure class="bw-photo"><div class="figure-media"><img src="../assets/formula-bodywork/06-full-size-bodywork-mould.webp" alt="A long shaped positive bodywork form resting on workshop stands, with guide lines visible on its surface." width="960" height="1280" loading="lazy" decoding="async"></div><figcaption><span>POSITIVE FORM / TOOLING PREPARATION</span> The shaped master is shown separately from the buck. The image is the positive surface, not one of the female-mould halves.</figcaption></figure>
+      </div>
     </div>
   </section>
 
@@ -297,52 +287,61 @@
     <div class="wrap">
       <div class="bw-chapter-heading">
         <span class="bw-chapter-number">07</span>
-        <div><div class="eyebrow">FEMALE MOULD · GLASS-FIBRE LAYUP</div><h2>Capture the positive form, then build the tool.</h2></div>
+        <div><div class="eyebrow">FEMALE MOULD / GLASS-FIBRE LAMINATE</div><h2>Build the negative tool over the positive master.</h2></div>
       </div>
       <div class="bw-two-col-intro">
-        <p class="bw-lead">Once the positive plug was shaped and surface-prepared, glass fibre was laid over it to create the female mould.</p>
-        <p>The documented layup has four layers: one 100 g/m² layer for conformance, followed by three 300 g/m² reinforcement layers. No resin chemistry, fibre orientation, vacuum process or curing conditions are claimed here.</p>
+        <p class="bw-lead">A female mould is the negative counterpart of the plug: its working face follows the plug’s exterior so a composite body laid into the tool can reproduce that designed surface.</p>
+        <p>The documented mould laminate began with one 100 g/m² glass-fibre layer for conformance, then added three 300 g/m² reinforcement layers. The light first ply is suited to following compound curvature and retaining surface detail; the heavier subsequent plies build the tool skin and contribute to its stiffness and structural integrity. No stiffness value or finished-tool measurement was supplied.</p>
       </div>
       <div class="bw-laminate-layout">
         <div class="bw-laminate-controls">
-          <div class="bw-diagram-topline"><span>FOUR-LAYER MOULD LAYUP</span><span>SCHEMATIC CROSS-SECTION</span></div>
+          <div class="bw-diagram-topline"><span>DOCUMENTED MOULD LAYUP</span><span>FOUR PLIES · SCHEMATIC SECTION</span></div>
           <svg class="bw-technical-svg bw-laminate-diagram" id="laminateDiagram" data-exploded="true" viewBox="0 0 700 470" role="img" aria-labelledby="laminateTitle laminateDesc">
-            <title id="laminateTitle">Exploded view of the four documented glass-fibre mould layers</title>
-            <desc id="laminateDesc">A schematic shows the positive plug, one 100 grams per square metre conformability layer, and three 300 grams per square metre reinforcement layers. The drawing does not specify fibre direction, resin, or process conditions.</desc>
+            <title id="laminateTitle">One 100 grams per square metre layer and three 300 grams per square metre reinforcement layers</title>
+            <desc id="laminateDesc">Schematic section through the positive plug and four mould plies. The first 100 grams per square metre layer conforms to the surface; three 300 grams per square metre layers build the reinforced mould skin. Fibre direction, resin, and process parameters are not shown.</desc>
             <path class="plug-profile" d="M118 364 C151 310 184 201 249 153 C299 118 390 118 441 153 C507 198 545 310 580 364 L580 390 L118 390 Z"/>
-            <g class="laminate-layer layer-100"><path d="M105 346 C145 294 177 182 243 133 C298 92 392 92 447 133 C513 181 551 294 593 346"/><text x="475" y="123">100 g/m² · CONFORMABILITY</text></g>
-            <g class="laminate-layer layer-300 layer-a"><path d="M100 331 C140 280 171 169 237 121 C296 78 394 78 453 121 C519 168 558 280 598 331"/><text x="479" y="173">300 g/m² · REINFORCEMENT 01</text></g>
-            <g class="laminate-layer layer-300 layer-b"><path d="M95 317 C135 265 166 155 231 108 C294 64 396 64 459 108 C524 154 563 265 603 317"/><text x="480" y="224">300 g/m² · REINFORCEMENT 02</text></g>
-            <g class="laminate-layer layer-300 layer-c"><path d="M90 303 C130 251 160 143 225 95 C291 49 399 49 465 95 C530 142 570 251 608 303"/><text x="480" y="275">300 g/m² · REINFORCEMENT 03</text></g>
-            <text x="126" y="424" class="bw-svg-label">POSITIVE PLUG</text>
-            <path d="M187 414 L224 378" stroke="var(--bw-dim)" fill="none"/>
+            <g class="laminate-layer layer-100"><path d="M105 346 C145 294 177 182 243 133 C298 92 392 92 447 133 C513 181 551 294 593 346"/><text x="475" y="123">100 g/m² · CONFORM</text></g>
+            <g class="laminate-layer layer-300 layer-a"><path d="M100 331 C140 280 171 169 237 121 C296 78 394 78 453 121 C519 168 558 280 598 331"/><text x="479" y="173">300 g/m² · PLY 01</text></g>
+            <g class="laminate-layer layer-300 layer-b"><path d="M95 317 C135 265 166 155 231 108 C294 64 396 64 459 108 C524 154 563 265 603 317"/><text x="480" y="224">300 g/m² · PLY 02</text></g>
+            <g class="laminate-layer layer-300 layer-c"><path d="M90 303 C130 251 160 143 225 95 C291 49 399 49 465 95 C530 142 570 251 608 303"/><text x="480" y="275">300 g/m² · PLY 03</text></g>
+            <text x="126" y="424" class="bw-svg-label">POSITIVE PLUG / MASTER</text>
+            <path d="M230 414 L252 380" stroke="var(--bw-dim)" fill="none"/>
           </svg>
-          <div class="bw-laminate-action"><button class="bw-diagram-button" id="laminateToggle" type="button" aria-pressed="true">Stack the layers</button><span>Exploded spacing is illustrative only.</span></div>
+          <div class="bw-laminate-action"><button class="bw-diagram-button" id="laminateToggle" type="button" aria-pressed="true">Stack the layers</button><span>Layer spacing is illustrative, not thickness to scale.</span></div>
         </div>
-        <figure class="bw-photo bw-photo-layup">
-          <div class="figure-media"><img src="../assets/formula-bodywork/03-composite-layup.webp" alt="Glass-fibre/resin work being applied over the large bodywork form in the workshop." width="960" height="1280" loading="lazy" decoding="async"></div>
-          <figcaption><span>COMPOSITE TOOLING WORK</span> Actual workshop photograph from the mould-making stage. The schematic specifies the documented layer weights; no fibre orientation is inferred from this image.</figcaption>
-        </figure>
+        <div class="bw-laminate-explanation">
+          <h3>Why the first ply is different</h3>
+          <p>The 100 g/m² layer is the conforming layer nearest the plug. Its lighter areal weight allows it to follow compound curvature more readily than a heavier reinforcement ply, helping the mould reproduce the master’s local shape.</p>
+          <h3>Then build the tool skin</h3>
+          <p>Three 300 g/m² plies follow as reinforcement. Building the laminate progressively from the detail layer outwards is intended to retain contact with the plug while the tool skin gains thickness and stiffness. The supplied record does not state fibre orientation, resin chemistry, vacuum use or cure conditions; none are inferred here.</p>
+          <p class="bw-small-note">A bridging gap at the plug would transfer a shape error into the negative tool. Maintaining conformity through the laminate build is therefore the controlling geometric requirement, not a claimed measured result.</p>
+        </div>
       </div>
+      <figure class="bw-photo bw-photo-layup">
+        <div class="figure-media"><img src="../assets/formula-bodywork/10-glass-fibre-layup-detail.webp" alt="Two team members applying glass-fibre reinforcement over the green-tinted bodywork form in the workshop." width="960" height="1280" loading="lazy" decoding="async"></div>
+        <figcaption><span>GLASS-FIBRE LAYUP / NEW WORKSHOP DETAIL</span> The supplied close view shows material being worked over the tool surface. The layer weights are documented separately; no fibre orientation or process conditions are inferred from the photograph.</figcaption>
+      </figure>
       <div class="bw-mould-split">
-        <div class="bw-mould-split-copy"><div class="eyebrow">TOOLING DECISION / TWO-PART LAYOUT</div><h3>Two mould sections. Mounting points along the split.</h3><p>The female mould was divided into two sections, with mounting points along the separation line where the halves meet.</p><p>The exact split orientation is not assigned from the photographs. This diagram communicates the two-part principle only.</p><button class="bw-diagram-button" id="mouldSplitToggle" type="button" aria-pressed="false">Separate the mould halves</button></div>
+        <div class="bw-mould-split-copy">
+          <div class="eyebrow">TWO-PART TOOL / RELEASE &amp; REASSEMBLY</div>
+          <h3>Split the tool where it can be released and brought back together.</h3>
+          <p>A one-piece negative can trap a positive form or make access to the part difficult when the geometry wraps around itself. Dividing the female mould into two sections creates a release path and makes each half more accessible to handle.</p>
+          <p>Mounting points along the separation line provide the means to bring the two sections back together in their working relationship. The split direction and exact mounting layout are not established by the supplied photographs, so the diagram communicates only the documented two-part principle.</p>
+          <button class="bw-diagram-button" id="mouldSplitToggle" type="button" aria-pressed="false">Separate the mould halves</button>
+        </div>
         <div class="bw-diagram-shell bw-mould-diagram-shell">
-          <div class="bw-diagram-topline"><span>SEGMENTED FEMALE MOULD</span><span>ILLUSTRATIVE · SPLIT DIRECTION NOT TO SCALE</span></div>
+          <div class="bw-diagram-topline"><span>SEGMENTED FEMALE MOULD</span><span>ILLUSTRATIVE · NOT TO PROJECT GEOMETRY</span></div>
           <svg class="bw-technical-svg bw-mould-diagram" id="mouldDiagram" data-state="joined" viewBox="0 0 720 340" role="img" aria-labelledby="mouldTitle mouldDesc">
-            <title id="mouldTitle">Two-part female mould with reassembly mounting points</title>
-            <desc id="mouldDesc">Conceptual pair of female-mould halves meeting at a separation line, with joining points shown schematically. No split direction, dimensions, or exact mounting layout is represented.</desc>
+            <title id="mouldTitle">Two female-mould sections meeting at a mounting line</title>
+            <desc id="mouldDesc">A conceptual pair of mould sections separated along a line with mounting points shown schematically. It does not represent the actual split direction, dimensions, or mounting layout.</desc>
             <g class="mould-half mould-left"><path d="M82 258 C110 206 145 118 221 84 C268 63 316 71 354 105 L354 277 L82 277 Z"/><path class="mould-lip" d="M354 105 L354 277"/></g>
             <g class="mould-half mould-right"><path d="M354 105 C393 71 443 63 490 84 C565 118 600 206 628 258 L628 277 L354 277 Z"/><path class="mould-lip" d="M354 105 L354 277"/></g>
             <g class="mount-points"><circle cx="354" cy="132" r="9"/><circle cx="354" cy="190" r="9"/><circle cx="354" cy="248" r="9"/></g>
             <text x="110" y="314" class="bw-svg-label">MOULD HALF A</text><text x="492" y="314" class="bw-svg-label">MOULD HALF B</text>
-            <text x="300" y="47" class="bw-svg-label">SEPARATION / REASSEMBLY LINE</text>
+            <text x="300" y="47" class="bw-svg-label">SEPARATION / MOUNTING LINE</text>
           </svg>
         </div>
       </div>
-      <figure class="bw-photo bw-photo-wide bw-photo-tool">
-        <div class="figure-media"><img src="../assets/formula-bodywork/06-full-size-bodywork-mould.webp" alt="Full-length shaped bodywork form supported on workshop stands, with guide lines visible across its surface." width="960" height="1280" loading="lazy" decoding="async"></div>
-        <figcaption><span>FULL-LENGTH BODYWORK FORM</span> Workshop photograph of the shaped form. It does not show the two female-mould halves; their split and mounting points above are schematic.</figcaption>
-      </figure>
     </div>
   </section>
 
@@ -350,36 +349,21 @@
     <div class="wrap">
       <div class="bw-chapter-heading">
         <span class="bw-chapter-number">08</span>
-        <div><div class="eyebrow">FINAL COMPOSITE BODYWORK</div><h2>From tooling to the car.</h2></div>
+        <div><div class="eyebrow">FINAL COMPOSITE BODYWORK</div><h2>Transfer the designed surface into a part, then to the vehicle.</h2></div>
       </div>
       <div class="bw-outcome-intro">
-        <p class="bw-lead">The female mould became the route to the final glass-fibre bodywork, which was finished and integrated onto the Formula Student vehicle.</p>
-        <p>This closes the manufacturing chain documented here: digital surface → sectional buck → positive plug → female mould → composite bodywork → vehicle integration. The supplied event photograph shows the finished shell displayed separately, rather than an on-car installation.</p>
+        <p class="bw-lead">The female mould carries the negative of the plug; a composite body formed against its working face returns to the intended positive exterior.</p>
+        <p>The completed bodywork was finished and integrated onto the Formula Student vehicle. The supplied event photograph documents the red body shell displayed separately, not the installation on a complete chassis. No detailed trim, joining or fit-up procedure was supplied, so those operations are not reconstructed here.</p>
       </div>
       <figure class="bw-final-figure">
         <div class="figure-media"><img src="../assets/formula-bodywork/07-formula-student-car.webp" alt="Finished red Formula Student bodywork shell displayed separately at an event paddock; the chassis and running gear are not visible." width="1205" height="1600" loading="lazy" decoding="async"></div>
-        <figcaption><span>ENP RACING TEAM / FINISHED BODYWORK</span> The completed bodywork shell on display at an event. This photograph documents the shell, not the installation on a complete vehicle or an aerodynamic result.</figcaption>
+        <figcaption><span>COMPLETED BODYWORK / EVENT DISPLAY</span> The finished shell shows the physical exterior produced by the tooling route. It is not evidence of a measured aerodynamic result or an on-car installation photograph.</figcaption>
       </figure>
-      <div class="bw-closing-line"><span class="eyebrow">THE CENTRAL IDEA</span><p>I did not just design a Formula Student body. <em>I developed a route to bring that design into reality.</em></p><a class="btn" href="formula-student.html">Continue to aerodynamic analysis <span aria-hidden="true">↗</span></a></div>
+      <div class="bw-closing-line"><span class="eyebrow">CASE STUDY CONTINUES</span><p>For aerodynamic design decisions and simulation evidence, read the companion study.</p><a class="btn" href="formula-student.html">Open the aero case study <span aria-hidden="true">↗</span></a></div>
     </div>
   </section>
 
-  <section class="bw-workflow" aria-labelledby="workflow-title" id="workflow">
-    <div class="wrap">
-      <div class="eyebrow">THE COMPLETE MANUFACTURING THREAD</div>
-      <h2 id="workflow-title">One geometry. A chain of engineering decisions.</h2>
-      <div class="bw-workflow-track">
-        <a href="#surface"><span>01</span><b>SolidWorks<br>surface</b></a>
-        <a href="#buck"><span>02</span><b>Section<br>extraction</b></a>
-        <a href="#cutting"><span>03</span><b>PDF &amp;<br>laser cutting</b></a>
-        <a href="#assembly"><span>04</span><b>Wooden<br>buck</b></a>
-        <a href="#plug"><span>05</span><b>Foam +<br>positive plug</b></a>
-        <a href="#mould"><span>06</span><b>Female<br>mould</b></a>
-        <a href="#outcome"><span>07</span><b>Composite<br>bodywork</b></a>
-      </div>
-      <p class="bw-workflow-footnote">Process sequence and materials stated from the project record; geometry, dimensions and manufacturing settings not supplied are intentionally omitted.</p>
-    </div>
-  </section>
+
 </main>
 
 <footer class="footer">
