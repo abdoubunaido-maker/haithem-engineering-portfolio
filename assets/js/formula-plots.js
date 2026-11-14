@@ -57,7 +57,7 @@
       if (!pts.length) return;
       var d = pts.map(function (p, j) { return (j ? 'L' : 'M') + x(p[0]).toFixed(2) + ' ' + y(p[1]).toFixed(2); }).join(' ');
       var path = node('path', {
-        d: d, fill: 'none', stroke: colors[i % colors.length],
+        d: d, fill: 'none', stroke: colors[i % colors.length], pathLength: 1,
         'stroke-width': 2.25, 'stroke-linecap': 'round', 'stroke-linejoin': 'round',
         'vector-effect': 'non-scaling-stroke'
       });

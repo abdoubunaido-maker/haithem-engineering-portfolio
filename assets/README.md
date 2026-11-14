@@ -7,9 +7,10 @@ its project page, and include units and simulation conditions where available.
 
 ```text
 assets/
+├── aerospace/            # Optimized conceptual flow-field artwork for the landing-page atmosphere
 ├── css/site.css          # Design system: tokens, components, dark/light themes, print styles
 ├── js/site.js            # Theme toggle, figure lightbox, TOC scroll-spy, SVG charts
-├── formula-student/      # 38 original figures from the Formula Student aerodynamics report
+├── formula-student/      # Original figures from the Formula Student aerodynamics report
 ├── riyah/                # Supplied Riyah application logo
 └── rocketry/
     ├── study-1/          # Study 1 only — 3 mm core, 500/500/240 g/m² glass
@@ -18,6 +19,7 @@ assets/
 
 ## Figure conventions
 
+- `aerospace/rnd-flow-hero.webp` is generated atmospheric concept art for the home-page opening, not an engineering result or a visualization from a project.
 - **Rocketry images are separated by source report.** Do not move or mix figures across the two
   project pages — they come from different rocket models with different layups and load cases.
 - **Formula Student figures** are extracted from the author's own analyses in the project report:
