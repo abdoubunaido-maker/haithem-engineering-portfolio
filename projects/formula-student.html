@@ -236,23 +236,113 @@
           <span class="eq-body">μ<sub>f</sub> ( <i>m g</i> + ½ ρ <i>C<sub>L</sub>A v</i><sub>max</sub><sup>2</sup> ) = <span class="frac"><span><i>m v</i><sub>max</sub><sup>2</sup></span><span><i>r</i></span></span>; &nbsp; <i>v</i><sub>max</sub> = √<span class="sqrt"><span class="frac"><span>μ<sub>f</sub><i>m g</i></span><span><span class="frac"><span><i>m</i></span><span><i>r</i></span></span> − ½ μ<sub>f</sub>ρ<i>C<sub>L</sub>A</i></span></span></span></span>
           <span class="eq-num">Report (9–10)</span>
         </div>
-        <div class="fig-pair analytical-plots">
-          <figure class="figure">
-            <div class="analytical-plot">
-              <svg id="fsAccelerationPlot" class="chart" role="img" aria-label="Approximate digitized velocity versus time curves for drag areas from 0.5 to 2.5 square metres, from report Figure 15."></svg>
-              <div id="fsAccelerationLegend" class="chart-legend" aria-label="Drag-area series"></div>
+        <div class="aero-deck" id="aeroStory" role="region" aria-roledescription="carousel" aria-label="Formula Student aerodynamic plot story">
+          <div class="aero-deck-heading">
+            <div class="eyebrow">Analysis gallery · selected results from 53 pages</div>
+            <h3>Follow the load—from drag budget to lap time</h3>
+            <p>Six views across the report: straight-line response, cornering, airfoil performance, three-dimensional flow, full-car coefficients, and lap outcome. Swipe or drag, or use the arrows and left/right keys.</p>
+          </div>
+          <div class="aero-deck-viewport" id="aeroStoryViewport" tabindex="0" aria-label="Plot slides; use left and right arrow keys to navigate">
+            <div class="aero-deck-track" id="aeroStoryTrack">
+              <article class="aero-slide" data-scene="drag" role="group" aria-roledescription="slide" aria-label="1 of 5: drag and acceleration">
+                <div class="aero-slide-copy">
+                  <span class="aero-slide-index">01 / 05 · LONGITUDINAL MODEL</span>
+                  <h4>Drag steals time on the straight</h4>
+                  <p>At constant engine power, increasing <i>C<sub>D</sub>A</i> bends the velocity curve down. The plotted series span 0.5–2.5 m²; only the highest-drag case settles below the 120 km/h cap.</p>
+                  <span class="aero-source">Report Fig. 15 · approximate digitization</span>
+                </div>
+                <div class="aero-slide-plot">
+                  <svg id="fsAccelerationPlot" class="chart" role="img" aria-label="Approximate digitized velocity versus time curves for drag areas from 0.5 to 2.5 square metres, from report Figure 15."></svg>
+                  <div id="fsAccelerationLegend" class="chart-legend" aria-label="Drag-area series"></div>
+                </div>
+              </article>
+              <article class="aero-slide" data-scene="corner" role="group" aria-roledescription="slide" aria-label="2 of 5: downforce and cornering speed" aria-hidden="true" inert>
+                <div class="aero-slide-copy">
+                  <span class="aero-slide-index">02 / 05 · CORNERING MODEL</span>
+                  <h4>Downforce buys speed where the lap is made</h4>
+                  <p>The friction balance adds aerodynamic normal load, so the gain grows with speed and corner radius. Curves show the report’s <i>C<sub>L</sub></i> sweep from 0 to 3.5.</p>
+                  <span class="aero-source">Report Fig. 16 · approximate digitization</span>
+                </div>
+                <div class="aero-slide-plot">
+                  <svg id="fsCorneringPlot" class="chart" role="img" aria-label="Approximate digitized maximum cornering speed versus corner radius for downforce coefficients from zero to 3.5, from report Figure 16."></svg>
+                  <div id="fsCorneringLegend" class="chart-legend" aria-label="Downforce-coefficient series"></div>
+                </div>
+              </article>
+              <article class="aero-slide" data-scene="airfoil" role="group" aria-roledescription="slide" aria-label="3 of 5: S1223 airfoil lift curve" aria-hidden="true" inert>
+                <div class="aero-slide-copy">
+                  <span class="aero-slide-index">03 / 05 · AIRFOIL SCREENING</span>
+                  <h4>From section shape to lift curve</h4>
+                  <p>The S1223 was retained as a starting point after XFOIL screening at Re = 300,000. The five panel-count traces nearly coincide; the report’s exact peak-lift summary is tabulated in the screening section.</p>
+                  <span class="aero-source">Report Fig. 21 · original analysis plot; raw polars not supplied</span>
+                </div>
+                <div class="aero-slide-visual">
+                  <figure>
+                    <img src="../assets/formula-student/xfoil-s1223-cl.png" alt="Original XFOIL coefficient-of-lift versus angle-of-attack plot for S1223 at five panel counts, N = 160–300." loading="lazy" decoding="async">
+                    <figcaption>S1223 · lift coefficient by angle of attack · N = 160–300</figcaption>
+                  </figure>
+                </div>
+              </article>
+              <article class="aero-slide" data-scene="flow" role="group" aria-roledescription="slide" aria-label="4 of 5: isolated rear-wing flow visualization" aria-hidden="true" inert>
+                <div class="aero-slide-copy">
+                  <span class="aero-slide-index">04 / 05 · THREE-DIMENSIONAL CFD</span>
+                  <h4>Where the wing sheds its wake</h4>
+                  <p>The isolated-wing study resolves the three-dimensional tip vortex and wake. This is a source CFD visualization—not a new computed result—and complements the tabulated coefficient comparisons later in the report.</p>
+                  <span class="aero-source">Own CFD visualization · isolated-wing study</span>
+                </div>
+                <div class="aero-slide-visual aero-slide-visual-flow">
+                  <figure>
+                    <img src="../assets/formula-student/rear-wing-streamlines.png" alt="Three-dimensional CFD streamlines around the isolated rear wing, coloured by velocity magnitude and showing the tip vortex and wake." loading="lazy" decoding="async">
+                    <figcaption>Isolated rear wing · streamlines coloured by velocity magnitude</figcaption>
+                  </figure>
+                </div>
+              </article>
+              <article class="aero-slide" data-scene="vehicle" role="group" aria-roledescription="slide" aria-label="5 of 6: full-vehicle drag and downforce" aria-hidden="true" inert>
+                <div class="aero-slide-copy">
+                  <span class="aero-slide-index">05 / 06 · FULL-VEHICLE CFD + LAP SIMULATION</span>
+                  <h4>More load. No added drag.</h4>
+                  <p>From wings to the full package, CFD moves the car from <i>C<sub>L</sub></i> 2.69 to 3.35 while <i>C<sub>D</sub></i> changes from 1.73 to 1.70. The labels pair each CFD point with its simulated lap time.</p>
+                  <span class="aero-source">Report Tables 10–12 · coefficients exact; lateral readings excluded here</span>
+                </div>
+                <div class="aero-slide-plot">
+                  <svg id="fsAeroTradeoffPlot" class="chart" role="img" aria-label="Exact full-vehicle CFD points comparing drag coefficient and downforce coefficient, labeled with their simulated lap times."></svg>
+                  <div id="fsAeroTradeoffLegend" class="chart-legend" aria-label="Full-vehicle configurations"></div>
+                </div>
+              </article>
+              <article class="aero-slide" data-scene="lap" role="group" aria-roledescription="slide" aria-label="6 of 6: simulated lap outcome" aria-hidden="true" inert>
+                <div class="aero-slide-copy">
+                  <span class="aero-slide-index">06 / 06 · LAP-SIMULATOR OUTCOME</span>
+                  <h4>Downforce pays back in the fast corners</h4>
+                  <p>The lap traces nearly meet in slow corners, then separate through medium and fast turns. The full package records 84.59 s—2.12 s quicker than baseline in the report’s idealized model.</p>
+                  <span class="aero-source">Report Fig. 33 · original OptimumLap output; not a track test</span>
+                </div>
+                <div class="aero-slide-visual aero-slide-visual-lap">
+                  <figure>
+                    <img src="../assets/formula-student/lap-speed-trace.png" alt="OptimumLap simulated speed versus distance traces for baseline, wings, and full package configurations along the Formula Student Germany 2012 endurance track." loading="lazy" decoding="async">
+                    <figcaption>Simulated speed versus distance · FSG 2012 endurance reference</figcaption>
+                  </figure>
+                </div>
+              </article>
             </div>
-            <figcaption><span class="fig-num">Fig 2</span>Constant-power acceleration model. Higher <i>C<sub>D</sub>A</i> delays acceleration; the extreme 2.5 m² case has a lower terminal speed.</figcaption>
-          </figure>
-          <figure class="figure">
-            <div class="analytical-plot">
-              <svg id="fsCorneringPlot" class="chart" role="img" aria-label="Approximate digitized maximum cornering speed versus corner radius for downforce coefficients from zero to 3.5, from report Figure 16."></svg>
-              <div id="fsCorneringLegend" class="chart-legend" aria-label="Downforce-coefficient series"></div>
+          </div>
+          <div class="aero-deck-controls">
+            <button class="aero-arrow" id="aeroStoryPrev" type="button" aria-label="Previous plot">
+              <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M19 12H5m7 7-7-7 7-7"/></svg>
+            </button>
+            <div class="aero-deck-navigation" role="group" aria-label="Choose plot slide">
+              <button class="aero-step is-active" type="button" data-aero-slide="0" aria-label="Show drag and acceleration plot" aria-current="true"></button>
+              <button class="aero-step" type="button" data-aero-slide="1" aria-label="Show downforce and cornering plot"></button>
+              <button class="aero-step" type="button" data-aero-slide="2" aria-label="Show S1223 airfoil plot"></button>
+              <button class="aero-step" type="button" data-aero-slide="3" aria-label="Show three-dimensional flow visualization"></button>
+              <button class="aero-step" type="button" data-aero-slide="4" aria-label="Show full-vehicle trade-off plot"></button>
+              <button class="aero-step" type="button" data-aero-slide="5" aria-label="Show simulated lap result"></button>
             </div>
-            <figcaption><span class="fig-num">Fig 3</span>Analytical cornering-speed relation. Increasing positive downforce coefficient raises achievable speed with corner radius.</figcaption>
-          </figure>
+            <output class="aero-deck-status" id="aeroStoryStatus" aria-live="polite">01 / 06</output>
+            <button class="aero-arrow" id="aeroStoryNext" type="button" aria-label="Next plot">
+              <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M5 12h14m-7-7 7 7-7 7"/></svg>
+            </button>
+          </div>
         </div>
-        <p class="plot-provenance muted">Both vector plots are approximate traces digitized from report Figures 15–16. The report does not state all parameters used to generate the curves; no missing model inputs have been inferred or supplied here.</p>
+        <p class="plot-provenance muted">Figures 15–16 are approximate traces digitized from the report. The source does not state all curve inputs, so no missing model parameters have been inferred. The vehicle-level points use the exact CFD coefficients in Table 10; their lap times are simulation outputs from Table 12 with the rounded inputs in Table 11.</p>
 
         <h3>Rear wing first, front wing to balance</h3>
         <p>
