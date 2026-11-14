@@ -109,11 +109,12 @@
         <div class="callout warn">
           <span class="callout-title">Read this first</span>
           <p class="mb-0">
-            This is a <strong>theoretical study of the design process</strong>. Every value on this page
-            comes from simulation. There is no wind-tunnel or on-track validation, and the full-car
-            geometry used components that were not yet in their final form. The results are meaningful
-            as <em>relative comparisons between configurations run under identical assumptions</em> —
-            not as predictions of competition performance.
+            This is a <strong>theoretical study of the design process</strong>. All aerodynamic and lap-time
+            results come from simulation; rulebook limits and literature/reference values are inputs, not
+            simulation outputs. There is no wind-tunnel or on-track validation, and the full-car geometry
+            used components that were not yet in their final form. The results are meaningful as
+            <em>relative comparisons between configurations run under identical assumptions</em> — not as
+            predictions of competition performance.
           </p>
         </div>
       </section>
@@ -156,6 +157,14 @@
         <div class="eyebrow">03 · Strategy</div>
         <h2 style="margin-top:.55rem">Step 1 — how much drag can we afford?</h2>
         <p>
+          The report expresses pressure differences through the pressure coefficient, then integrates
+          those loads over the reference area. Here <i>C<sub>L</sub></i> is taken as positive for downforce.
+        </p>
+        <div class="eq">
+          <span class="eq-body"><i>q</i> = ½ ρ <i>v</i><sup>2</sup>, &nbsp; <i>p</i> = <i>C<sub>p</sub>q</i>, &nbsp; <i>L</i> = <i>C<sub>L</sub>qA</i>, &nbsp; <i>D</i> = <i>C<sub>D</sub>qA</i></span>
+          <span class="eq-num">Report (1–3)</span>
+        </div>
+        <p>
           Power absorbed by drag grows with the cube of speed. With air density
           ρ = 1.225 kg/m³ and <span class="v">P</span> in kW:
         </p>
@@ -169,6 +178,16 @@
           drag area from comparable cars (C<sub>D</sub> = 0.83, A = 0.9 m², 2003 Monash FS) at the
           track's typical maximum of 120 km/h (33.3 m/s), the power left over for drag-inducing devices is:
         </p>
+        <div class="table-wrap">
+          <table>
+            <caption>Comparable Formula Student baseline data (source report Table 2).</caption>
+            <thead><tr><th>Reference car</th><th class="num">C<sub>D</sub></th><th class="num">Frontal area [m²]</th></tr></thead>
+            <tbody>
+              <tr class="best"><td>2003 Monash FS · used for the budget</td><td class="num">0.83</td><td class="num">0.90</td></tr>
+              <tr><td>2014 Huddersfield FS</td><td class="num">0.71</td><td class="num">0.89</td></tr>
+            </tbody>
+          </table>
+        </div>
         <div class="eq">
           <span class="eq-body"><i>P<sub>s</sub></i> = <i>P<sub>E</sub></i> − <span class="frac"><span><i>C<sub>D</sub> A v</i><sup>3</sup></span><span>1633</span></span> = <strong>28.382 kW</strong></span>
           <span class="eq-num">Eq. 2</span>
@@ -199,19 +218,41 @@
           tyre friction against centripetal demand gives the cornering speed as a function of downforce:
         </p>
         <div class="eq">
-          <span class="eq-body"><i>v</i><sub>max</sub> = √<span class="sqrt"><span class="frac"><span>μ<sub>f</sub> <i>m g</i></span><span><span class="frac"><span><i>m</i></span><span><i>r</i></span></span> − ½ μ<sub>f</sub> ρ <i>C<sub>L</sub> A</i></span></span></span></span>
-          <span class="eq-num">Eq. 4</span>
+          <span class="eq-body"><i>a</i> = <span class="frac"><span>d<i>v</i></span><span>d<i>t</i></span></span> = <span class="frac"><span><i>F<sub>M</sub></i> − ½ ρ <i>C<sub>D</sub>A v</i><sup>2</sup></span><span><i>m</i></span></span>, &nbsp; <i>P</i> = <i>F<sub>M</sub>v</i>, &nbsp; <i>k</i> = ½ ρ <i>C<sub>D</sub>A</i></span>
+          <span class="eq-num">Report (5–6)</span>
         </div>
-        <div class="fig-pair">
+        <details class="formula-derivation">
+          <summary>Full constant-power time-to-speed relation (report Eqs. 6–8)</summary>
+          <p>Rearranging the constant-power model gives the integral below. Define <i>v</i><sub>∞</sub> = (<i>P</i>/<i>k</i>)<sup>1/3</sup>, <i>s</i> = <i>v</i>/<i>v</i><sub>∞</sub>, and <i>s</i><sub>0</sub> = <i>v</i><sub>0</sub>/<i>v</i><sub>∞</sub>:</p>
+          <div class="eq equation-wide">
+            <span class="eq-body">d<i>t</i> = <span class="frac"><span><i>m v</i></span><span><i>P</i> − <i>k v</i><sup>3</sup></span></span>d<i>v</i>; &nbsp; <i>T</i> = <span class="frac"><span><i>m</i></span><span><i>k v</i><sub>∞</sub></span></span> ∫<sub><i>s</i><sub>0</sub></sub><sup><i>s</i></sup> <span class="frac"><span>σ dσ</span><span>1 − σ<sup>3</sup></span></span></span>
+          </div>
+          <div class="eq equation-wide">
+            <span class="eq-body"><i>T</i> = <span class="frac"><span><i>m</i></span><span>3<i>k v</i><sub>∞</sub></span></span> [ −ln <span class="frac"><span>1 − <i>s</i></span><span>1 − <i>s</i><sub>0</sub></span></span> + ½ ln <span class="frac"><span>1 + <i>s</i> + <i>s</i><sup>2</sup></span><span>1 + <i>s</i><sub>0</sub> + <i>s</i><sub>0</sub><sup>2</sup></span></span> − √3 ( arctan <span class="frac"><span>2<i>s</i> + 1</span><span>√3</span></span> − arctan <span class="frac"><span>2<i>s</i><sub>0</sub> + 1</span><span>√3</span></span> ) ]</span>
+          </div>
+          <p class="muted mb-0">The report notes that this constant-power model omits tyre slip and gear changes; the plotted curves are indicative, not a vehicle-performance prediction.</p>
+        </details>
+        <div class="eq">
+          <span class="eq-body">μ<sub>f</sub> ( <i>m g</i> + ½ ρ <i>C<sub>L</sub>A v</i><sub>max</sub><sup>2</sup> ) = <span class="frac"><span><i>m v</i><sub>max</sub><sup>2</sup></span><span><i>r</i></span></span>; &nbsp; <i>v</i><sub>max</sub> = √<span class="sqrt"><span class="frac"><span>μ<sub>f</sub><i>m g</i></span><span><span class="frac"><span><i>m</i></span><span><i>r</i></span></span> − ½ μ<sub>f</sub>ρ<i>C<sub>L</sub>A</i></span></span></span></span>
+          <span class="eq-num">Report (9–10)</span>
+        </div>
+        <div class="fig-pair analytical-plots">
           <figure class="figure">
-            <div class="figure-media dark-bg"><img src="../assets/formula-student/acceleration-vs-drag.png" alt="Velocity against time curves for several drag areas, showing that extra drag barely changes acceleration in the Formula Student speed range." loading="lazy" decoding="async"></div>
-            <figcaption><span class="fig-num">Fig 2</span>Acceleration is almost insensitive to drag across the FSAE speed range. Only an extreme C<sub>D</sub>A = 2.5 m² meaningfully caps top speed.</figcaption>
+            <div class="analytical-plot">
+              <svg id="fsAccelerationPlot" class="chart" role="img" aria-label="Approximate digitized velocity versus time curves for drag areas from 0.5 to 2.5 square metres, from report Figure 15."></svg>
+              <div id="fsAccelerationLegend" class="chart-legend" aria-label="Drag-area series"></div>
+            </div>
+            <figcaption><span class="fig-num">Fig 2</span>Constant-power acceleration model. Higher <i>C<sub>D</sub>A</i> delays acceleration; the extreme 2.5 m² case has a lower terminal speed.</figcaption>
           </figure>
           <figure class="figure">
-            <div class="figure-media dark-bg"><img src="../assets/formula-student/cornering-speed.png" alt="Maximum cornering speed against corner radius for a range of downforce coefficients, showing higher downforce raises corner speed." loading="lazy" decoding="async"></div>
-            <figcaption><span class="fig-num">Fig 3</span>Cornering speed rises steadily with downforce coefficient across typical FSAE corner radii — the benefit the package is buying.</figcaption>
+            <div class="analytical-plot">
+              <svg id="fsCorneringPlot" class="chart" role="img" aria-label="Approximate digitized maximum cornering speed versus corner radius for downforce coefficients from zero to 3.5, from report Figure 16."></svg>
+              <div id="fsCorneringLegend" class="chart-legend" aria-label="Downforce-coefficient series"></div>
+            </div>
+            <figcaption><span class="fig-num">Fig 3</span>Analytical cornering-speed relation. Increasing positive downforce coefficient raises achievable speed with corner radius.</figcaption>
           </figure>
         </div>
+        <p class="plot-provenance muted">Both vector plots are approximate traces digitized from report Figures 15–16. The report does not state all parameters used to generate the curves; no missing model inputs have been inferred or supplied here.</p>
 
         <h3>Rear wing first, front wing to balance</h3>
         <p>
@@ -296,7 +337,8 @@
             over-predict lift and delay separation, and its thin trailing edge is both a manufacturing
             risk and a poor partner for a slotted multi-element assembly. It was kept as a
             <em>starting point</em> for 2D CFD and later customisation — a good example of not letting a
-            cheap tool make the final decision.
+            cheap tool make the final decision. The detailed method describes an AoA sweep of −4° to 20°;
+            Appendix Table 15 instead lists 0° to 20°. This page follows the detailed method-section range.
           </p>
         </div>
       </section>
@@ -355,16 +397,16 @@
             <span><i style="background:var(--danger)"></i>c = 350 mm</span>
             <span><i style="background:var(--accent-2)"></i>c = 400 mm</span>
             <span><i style="background:var(--accent)"></i>c = 450 mm</span>
-            <span><i style="background:transparent;border:1.5px dashed var(--accent)"></i>carried forward to 3D</span>
+            <span><i style="background:transparent;border:1.5px dashed var(--accent)"></i>450 mm config 2 · slot-sweep baseline</span>
           </div>
           <p id="scatterTip" class="muted" style="font-size:.84rem;margin:12px 0 0;min-height:2.6em">
-            The 450 mm chord dominates the upper-right region: more downforce <em>and</em> better efficiency.
+            At 450 mm, configuration 3 gives the highest downforce (378.9 N), while configuration 1 gives the highest lift-to-drag ratio (35.4). Configuration 2 is the baseline for the follow-up slot-gap sweep.
           </p>
         </div>
 
         <h3>What the sweep showed</h3>
         <ol>
-          <li><strong>Downforce scales with mainplane chord</strong> — 450 mm was best on both force and efficiency.</li>
+          <li><strong>The 450 mm mainplane was carried forward.</strong> Configuration 3 gave the highest load (378.9 N); configuration 1 gave the highest efficiency (C<sub>L</sub>/C<sub>D</sub> = 35.4). Configuration 2 was the baseline for the slot-gap/overlap sweep.</li>
           <li><strong>The mainplane carries 75–80% of the load.</strong> The first flap contributes little and the second almost nothing at small chords; the flaps only develop real suction peaks at c = 450 mm.</li>
           <li><strong>α<sub>F1</sub> = 25° is the limit.</strong> Beyond it the first flap separates early: downforce falls and drag rises.</li>
           <li><strong>Weak flap suction peaks indicated a choked slot jet</strong> — the slot was not feeding enough high-energy flow to the downstream element.</li>
@@ -409,7 +451,7 @@
             Configs 15–17 are a pitch-stability check: ±2° on the main element brackets the ride-height
             variation the car will see. Peak downforce (16) and peak efficiency (17) are different
             configurations — the choice between them is a vehicle-level decision, not a wing-level one.
-            2D values are per-unit-span section results and are not directly comparable to 3D forces.
+            These are 2D section-level outputs, reported in N by the source; no reference span is stated, so they are not whole-wing loads and must not be compared directly with the 3D vehicle forces.
           </div>
         </div>
 
@@ -748,14 +790,17 @@
           <figcaption><span class="fig-num">Fig 33</span>Speed along the lap — black: baseline, red: wings, blue: full package. The traces separate in the medium and fast corners and coincide in the slowest ones.</figcaption>
         </figure>
         <figure class="figure">
-          <div class="figure-media"><img src="../assets/formula-student/lap-lateral-accel.png" alt="Maximum lateral acceleration plotted against downforce coefficient for the three simulated configurations." loading="lazy" decoding="async"></div>
-          <figcaption><span class="fig-num">Fig 34</span>Peak lateral acceleration rises from ≈14.7 m/s² (1.5 g) to ≈17.0 m/s² — about +16%.</figcaption>
+          <div class="analytical-plot">
+            <svg id="fsLateralPlot" class="chart" role="img" aria-label="Three approximate maximum lateral acceleration values plotted against the rounded downforce coefficients entered into OptimumLap."></svg>
+            <div id="fsLateralLegend" class="chart-legend" aria-label="Vehicle configurations"></div>
+          </div>
+          <figcaption><span class="fig-num">Fig 34</span>Maximum lateral acceleration versus simulator downforce coefficient. The coefficients are the rounded Table 11 inputs; accelerations (≈14.7, 16.6 and 17.0 m/s²) are approximate readings from the OptimumLap plot in Table 12/Figure 61. Vertical scale begins at 14 m/s².</figcaption>
         </figure>
 
         <h3>Three findings</h3>
         <ol>
           <li><strong>The package works.</strong> Wings gain 1.65 s; the underbody devices add 0.47 s more, for 2.12 s (2.4%) total.</li>
-          <li><strong>The gain is in the corners.</strong> Below ~28 km/h the traces coincide — downforce grows with v², so it does nothing in the slowest turns. In medium and fast corners the aero cars carry 2–3 km/h more.</li>
+          <li><strong>The gain is in the corners.</strong> Below ~28 km/h the traces nearly coincide — downforce grows with v², so it contributes little in the slowest turns. In medium and fast corners the aero cars carry 2–3 km/h more.</li>
           <li><strong>The drag penalty never appears.</strong> All three reach the same 110 km/h ceiling on both straights, despite ~2.7× the drag coefficient.</li>
         </ol>
         <p>
@@ -902,5 +947,6 @@
 </footer>
 
 <script src="../assets/js/site.js"></script>
+<script src="../assets/js/formula-plots.js"></script>
 </body>
 </html>

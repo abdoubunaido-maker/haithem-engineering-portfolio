@@ -7,10 +7,11 @@
 
 **[→ Web case study with interactive charts](../formula-student.html)** · **[→ Back to portfolio](../../README.md)**
 
-> **Scope.** This is a **theoretical study of the design process**. Every value below comes from
-> simulation. There is **no wind-tunnel or on-track validation**, and the full-car geometry used
-> components that were not yet final. Results are meaningful as *relative comparisons between
-> configurations run under identical assumptions* — not as predictions of competition performance.
+> **Scope.** This is a **theoretical study of the design process**. Aerodynamic and lap-time results
+> below come from simulation; rulebook limits and literature/reference values are inputs, not simulation
+> outputs. There is **no wind-tunnel or on-track validation**, and the full-car geometry used components
+> that were not yet final. Results are meaningful as *relative comparisons between configurations run
+> under identical assumptions* — not as predictions of competition performance.
 
 ---
 
@@ -219,7 +220,7 @@ side effect: an intrinsic coupling that had to be accounted for.*
 
 ### What the sweep showed
 
-1. **Downforce scales with mainplane chord** — 450 mm best on both force and efficiency.
+1. **The 450 mm mainplane was carried forward.** Configuration 3 gave the highest load (378.9 N); configuration 1 gave the highest efficiency (`C_L/C_D = 35.4`). Configuration 2 was the baseline for the slot-gap/overlap sweep.
 2. **The mainplane carries 75–80% of the load.** The first flap contributes little and the second
    almost nothing at small chords; real flap suction peaks only appear at c = 450 mm.
 3. **α<sub>F1</sub> = 25° is the limit.** Beyond it the first flap separates early: downforce falls,
@@ -259,7 +260,7 @@ gain was expected to matter more in 3D.
 
 Configs 15–17 bracket ±2° of main-element pitch to represent ride-height variation. Peak downforce
 (16) and peak efficiency (17) are *different* configurations — choosing between them is a
-vehicle-level decision. 2D values are per-unit-span section results, not comparable to 3D forces.
+vehicle-level decision. The report labels these 2D section outputs in N but does not state a reference span; they are not whole-wing loads and must not be compared directly with 3D vehicle forces.
 
 > **Data integrity note.** In the source report, Table 6 configuration 9 repeats the values of
 > Table 5 configuration 9 (297.3 N, C<sub>L</sub> = 4.740, C<sub>L</sub>/C<sub>D</sub> = 21.1). It is
@@ -494,7 +495,7 @@ medium and fast corners and coincide in the slowest ones.*
 
 1. **The package works.** Wings gain 1.65 s; underbody devices add 0.47 s more → **2.12 s (2.4%)**.
 2. **The gain is in the corners.** Below ~28 km/h the traces coincide — downforce grows with v², so it
-   does nothing in the slowest turns. In medium and fast corners the aero cars carry 2–3 km/h more.
+   contributes little in the slowest turns. In medium and fast corners the aero cars carry 2–3 km/h more.
 3. **The drag penalty never appears.** All three reach the same 110 km/h ceiling on both straights,
    despite ~2.7× the drag coefficient.
 
@@ -575,3 +576,37 @@ sharing.
 development and report described here are my own contribution.
 
 **[→ Web case study](../formula-student.html)** · **[→ Riyah](../riyah-hawt-design/README.md)** · **[→ Portfolio](../../README.md)**
+
+---
+
+## Source-data and reconstruction notes
+
+The public case study uses the 53-page report as the source of its equations, numerical tables and
+own-analysis figures; the report PDF itself is not included. Values below distinguish reported CFD
+outputs from rounded simulator inputs and from readings digitized from plotted results.
+
+### Equation/model register
+
+| Report equations | Relationship represented | Treatment in the case study |
+|---|---|---|
+| (1)–(3) | Pressure coefficient and lift/drag force from dynamic pressure | Shown together using `q = ½ρv²` and the report's coefficient-area definitions. |
+| (4) | Front/rear-force-weighted centre of pressure | Shown beside the rear-wing-first/front-wing-balance method. |
+| (5)–(8) | Constant-power longitudinal acceleration; differential, integral and closed-form time-to-speed | Force balance is visible; the full dimensionless integral and antiderivative are available in the expandable derivation on the web page. The model omits tyre slip and gear changes, as the report states. |
+| (9)–(10) | Tyre-friction/centripetal-force balance and maximum cornering speed with downforce | Balance and solved speed relation are shown next to the associated plot. `C_L` is positive for downforce, matching the report's convention. |
+| (11)–(14) | Drag power, sacrificial power budget and rear-wing drag-area limit | Preserved as numerical relationships: ρ = 1.225 kg/m³, 45.32 kW at the wheels, 28.382 kW available and `C_D,R A_R = 1.25 m²` at 120 km/h. |
+| (15) | Reynolds number `Re = Uc/ν` | Preserved with the report's example: 16 m/s, c = 0.4 m, ν = 1.4207×10⁻⁵ m²/s, `Re ≈ 4.5×10⁵`. |
+| (16) | Aspect-ratio scaling `C_L ∝ 1/(1 + 2/AR)` | Shown as a qualitative proportionality, not an absolute lift prediction. |
+| (17) | Hoerner effective-aspect-ratio estimate with endplate height and span | Shown as `AR_eff = AR_actual (1 + 1.9 h/b)`. |
+
+### Data and figure provenance
+
+- **Comparable baseline cars (report Table 2):** 2003 Monash FS (`C_D = 0.83`, frontal area 0.90 m²), used in the power budget, and 2014 Huddersfield FS (`C_D = 0.71`, 0.89 m²). Both values are reproduced in the web case study.
+- **2D Fluent design space:** 27 rows from report Tables 4–6 are transcribed into the interactive SVG scatter plot. Coordinates are table values, not digitized. Table 6, configuration 9 duplicates Table 5, configuration 9 in the source (297.3 N downforce, `C_L = 4.740`, `C_L/C_D = 21.1`); the site flags rather than silently edits it. The follow-up slot sweep and pitch checks (report Tables 7–8) are shown separately.
+- **XFOIL:** the report gives selected peak coefficients in Table 3 and curves as figures, but no underlying polar files. The original analysis plots are retained rather than presenting digitized traces as numerical polars. The written method describes an AoA sweep of −4° to 20°; Appendix Table 15 instead says 0° to 20°. The case study uses the detailed method-section range and does not claim to resolve that source inconsistency.
+- **Analytical Figure 15:** the vector curve traces on the web page are approximate digitizations of the report figure, traced from the source PNG in `assets/formula-student/` and mapped to the displayed axes. Its plotted `C_D A` series are visible, but the source does not state every mass/power input used for those curves. The case study therefore does not claim to regenerate the model numerically.
+- **Analytical Figure 16:** the vector traces are approximate digitizations of the report figure, traced from the source PNG in `assets/formula-student/` and mapped to the displayed axes. The plotted `C_L` series are visible, but the figure's mass, tyre friction coefficient and reference area are not stated. No values for those inputs are invented.
+- **Full-vehicle CFD vs. lap-simulator inputs:** report Table 10 records CFD coefficients as baseline `(C_L 0.005, C_D 0.645)`, wings `(2.69, 1.73)`, and full package `(3.35, 1.70)`. Table 11 separately lists rounded inputs entered into OptimumLap: baseline `(0.006, 0.65)`, wings `(2.70, 1.73)`, full package `(3.35, 1.71)`. The case study preserves that distinction rather than forcing the values to match.
+- **Lap-time outputs:** lap times and gains are transcribed from report Table 12 (86.71 s, 85.06 s, 84.59 s; gains 1.65 s and 2.12 s). Peak lateral accelerations (≈14.7, 16.6, 17.0 m/s²) are explicitly approximate in the report. The web SVG plots those three discrete values against the rounded `C_L` inputs; it does not imply a continuous fitted relationship.
+- **Lap speed trace:** the report provides a plotted trace, not its numerical distance/speed series. The original plot remains a source figure; no interpolated full-lap data are claimed.
+- **Figure inventory:** Figure 13's workflow is shown; representative own-study plots/visuals from Figures 18–37 (XFOIL, 2D CFD, pressure/velocity fields and custom sections), 39, 41–56 and 58 (endplate/CAD, meshes, 3D and vehicle CFD, structure, underbody geometry and flow field) are retained in the case study. Tables 4–9 provide exact 2D/3D results where available. Figure 57's force-coefficient convergence history has no numerical sample series and is not reconstructed. Literature-review plots/illustrations (including Figures 17, 38 and 40) are third-party and not republished. Figure 59 is track context; Figure 60 is retained as the original lap-speed plot; Figure 61 is replaced by the three table-backed discrete points described above.
+- **Simulation scope:** CFD and lap-time results are simulations without wind-tunnel or track validation. The report itself lists non-final full-car geometry, generic powertrain and constant-friction tyres, omitted aero-device mass, and unseparated diffuser/wall effects as limitations.

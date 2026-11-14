@@ -175,7 +175,7 @@
      Source: report Tables 10 and 12 (CFD coefficients, OptimumLap lap times).
      ====================================================================== */
   var FS_CONFIGS = [
-    { name: 'Baseline',  cl: 0.005, cd: 0.645, ld: 0.00, lap: 86.71, lat: 14.7 },
+    { name: 'Baseline',  cl: 0.005, cd: 0.645, ld: null, lap: 86.71, lat: 14.7 },
     { name: 'Wings',     cl: 2.69,  cd: 1.73,  ld: 1.56, lap: 85.06, lat: 16.6 },
     { name: 'Full aero', cl: 3.35,  cd: 1.70,  ld: 1.97, lap: 84.59, lat: 17.0 }
   ];
@@ -210,9 +210,14 @@
       var colors = [css('--muted-2'), css('--accent-2'), css('--accent')];
       FS_CONFIGS.forEach(function (c, i) {
         var v = c[m.key];
-        var h = Math.max(1.5, ih * (v - lo) / (hi - lo));
         var x = padL + bw * i + bw * 0.24;
         var w = bw * 0.52;
+        if (v == null) {
+          fsChart.appendChild(s('text', { x: x + w / 2, y: padT + ih - 9, 'text-anchor': 'middle', class: 'bar-label' }, '—'));
+          fsChart.appendChild(s('text', { x: x + w / 2, y: padT + ih + 18, 'text-anchor': 'middle' }, c.name));
+          return;
+        }
+        var h = Math.max(1.5, ih * (v - lo) / (hi - lo));
         var y = padT + ih - h;
         var r = s('rect', { x: x, y: y, width: w, height: h, rx: 5, fill: colors[i], opacity: .92 });
         r.appendChild(s('title', null, c.name + ': ' + m.fmt(v) + m.unit));
@@ -227,7 +232,7 @@
         var texts = {
           cl: 'Downforce rises from essentially zero to C_L = 3.35. The underbody devices add about 25% on top of the wings.',
           cd: 'The wings cost a large drag penalty (0.645 \u2192 1.73). The underbody devices then add downforce at essentially no extra drag.',
-          ld: 'Efficiency improves from 1.56 to 1.97 once the side diffusers and underbody walls are fitted \u2014 the cheaper place to find downforce.',
+          ld: 'The report does not give a meaningful baseline ratio because baseline lift is near zero. With wings it is 1.56; the full package reaches 1.97.',
           lap: 'OptimumLap, FSG 2012 endurance. Total gain 2.12 s (2.4%). Bars are truncated at 80 s to make the differences visible.'
         };
         note.textContent = texts[fsMetric];
@@ -312,7 +317,7 @@
         scatter.appendChild(s('line', { x1: X(gx), y1: padT, x2: X(gx), y2: padT + ih, class: 'grid-line' }));
         scatter.appendChild(s('text', { x: X(gx), y: padT + ih + 17, 'text-anchor': 'middle' }, String(gx)));
       }
-      scatter.appendChild(s('text', { x: padL + iw / 2, y: H - 8, 'text-anchor': 'middle', class: 'axis-label' }, 'Downforce per unit span [N]'));
+      scatter.appendChild(s('text', { x: padL + iw / 2, y: H - 8, 'text-anchor': 'middle', class: 'axis-label' }, 'Downforce [N, report units]'));
       scatter.appendChild(s('text', { x: 12, y: padT + ih / 2, class: 'axis-label', transform: 'rotate(-90 12 ' + (padT + ih / 2) + ')', 'text-anchor': 'middle' }, 'C_L / C_D'));
       scatter.appendChild(s('line', { x1: padL, y1: padT + ih, x2: W - padR, y2: padT + ih, class: 'axis-line' }));
       scatter.appendChild(s('line', { x1: padL, y1: padT, x2: padL, y2: padT + ih, class: 'axis-line' }));
@@ -346,8 +351,8 @@
         scatter.appendChild(c);
       });
 
-      var best = RUNS.filter(function (r) { return r.chord === 450 && r.cfg === 3; })[0];
-      scatter.appendChild(s('circle', { cx: X(best.down), cy: Y(best.ld), r: 11, fill: 'none', stroke: css('--accent'), 'stroke-width': 1.5, 'stroke-dasharray': '3 3' }));
+      var slotSweepStart = RUNS.filter(function (r) { return r.chord === 450 && r.cfg === 2; })[0];
+      scatter.appendChild(s('circle', { cx: X(slotSweepStart.down), cy: Y(slotSweepStart.ld), r: 11, fill: 'none', stroke: css('--accent'), 'stroke-width': 1.5, 'stroke-dasharray': '3 3' }));
     }
 
     document.querySelectorAll('[data-chord]').forEach(function (b) {
