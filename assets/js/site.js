@@ -416,7 +416,7 @@
           var av = aMax * i / 200;
           d += (i ? 'L' : 'M') + X(av).toFixed(2) + ' ' + Y(fn(av)).toFixed(2) + ' ';
         }
-        mom.appendChild(s('path', { d: d, fill: 'none', stroke: color, 'stroke-width': 2.2, 'stroke-linejoin': 'round' }));
+        mom.appendChild(s('path', { d: d, fill: 'none', stroke: color, pathLength: 1, 'stroke-width': 2.2, 'stroke-linejoin': 'round' }));
       }
       path(ct, css('--accent-2'));
       path(cp, css('--accent'));
@@ -441,6 +441,76 @@
     if (slider) slider.addEventListener('input', drawMom);
     drawMom();
     document.addEventListener('hb:theme', drawMom);
+  }
+
+  /* ---------------- Motion system: section reveals + reading progress ---------------- */
+  var motionOK = !window.matchMedia || !window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+  var revealTargets = Array.prototype.slice.call(document.querySelectorAll(
+    '.section-head, .metric, .project, .card, .figure, .table-wrap, .callout, .aero-deck, .timeline li'
+  ));
+  if (motionOK && 'IntersectionObserver' in window && revealTargets.length) {
+    document.documentElement.classList.add('motion-enabled');
+    revealTargets.forEach(function (el, i) {
+      el.classList.add('motion-reveal');
+      el.style.setProperty('--reveal-delay', Math.min(i % 5, 4) * 70 + 'ms');
+    });
+    var revealObserver = new IntersectionObserver(function (entries, observer) {
+      entries.forEach(function (entry) {
+        if (!entry.isIntersecting) return;
+        entry.target.classList.add('is-visible');
+        observer.unobserve(entry.target);
+      });
+    }, { rootMargin: '0px 0px -8% 0px', threshold: 0.08 });
+    revealTargets.forEach(function (el) { revealObserver.observe(el); });
+  }
+  if (motionOK && 'IntersectionObserver' in window) {
+    var chartObserver = new IntersectionObserver(function (entries, observer) {
+      entries.forEach(function (entry) {
+        if (!entry.isIntersecting) return;
+        entry.target.classList.add('is-in-view');
+        observer.unobserve(entry.target);
+      });
+    }, { rootMargin: '0px 0px -6% 0px', threshold: 0.15 });
+    document.querySelectorAll('svg.chart').forEach(function (chart) { chartObserver.observe(chart); });
+  } else {
+    document.querySelectorAll('svg.chart').forEach(function (chart) { chart.classList.add('is-in-view'); });
+  }
+
+  var meter = document.createElement('div');
+  meter.className = 'scroll-meter';
+  meter.setAttribute('aria-hidden', 'true');
+  meter.innerHTML = '<span></span>';
+  document.body.appendChild(meter);
+  var meterFill = meter.firstElementChild;
+  var meterFrame = 0;
+  function updateReadingProgress() {
+    if (meterFrame) return;
+    meterFrame = window.requestAnimationFrame(function () {
+      meterFrame = 0;
+      var max = document.documentElement.scrollHeight - window.innerHeight;
+      var value = max > 0 ? Math.max(0, Math.min(1, window.scrollY / max)) : 0;
+      meterFill.style.transform = 'scaleX(' + value + ')';
+    });
+  }
+  window.addEventListener('scroll', updateReadingProgress, { passive: true });
+  window.addEventListener('resize', updateReadingProgress, { passive: true });
+  updateReadingProgress();
+
+  /* A low-amplitude pointer field lends the landing image a little depth. */
+  var homeHero = document.querySelector('.hero-home');
+  if (homeHero && motionOK && window.matchMedia && window.matchMedia('(hover: hover) and (pointer: fine)').matches) {
+    var pointerFrame = 0, pointerX = 50, pointerY = 50;
+    homeHero.addEventListener('pointermove', function (event) {
+      var rect = homeHero.getBoundingClientRect();
+      pointerX = ((event.clientX - rect.left) / rect.width) * 100;
+      pointerY = ((event.clientY - rect.top) / rect.height) * 100;
+      if (pointerFrame) return;
+      pointerFrame = window.requestAnimationFrame(function () {
+        pointerFrame = 0;
+        homeHero.style.setProperty('--pointer-x', pointerX.toFixed(1) + '%');
+        homeHero.style.setProperty('--pointer-y', pointerY.toFixed(1) + '%');
+      });
+    }, { passive: true });
   }
 
   /* ---------------- Footer year ---------------- */
